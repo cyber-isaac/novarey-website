@@ -6,6 +6,7 @@ import VideoHero from '../components/VideoHero';
 import ParticleBackground from '../components/ParticleBackground';
 import Logo from '../components/Logo';
 import Button from '../components/Button';
+import ProjectRequestForm from '../components/ProjectRequestForm';
 
 const CASE_STUDIES = [
     {
@@ -49,18 +50,7 @@ const PROCESS_STEPS = [
     }
 ];
 
-const TESTIMONIALS = [
-    {
-        quote: 'Isaac turns complex missions into clean, deployable systems. Fast, clear, and relentless.',
-        name: 'Operations Lead',
-        org: 'Defense Tech Startup'
-    },
-    {
-        quote: 'Our branding and UX jumped from scrappy to premium in weeks. The process is elite.',
-        name: 'Founder',
-        org: 'AI SaaS Company'
-    }
-];
+
 
 const WHAT_I_DO = [
     {
@@ -366,19 +356,6 @@ const Dashboard = () => {
                         </div>
                     </section>
 
-                    <section className="animate-on-scroll">
-                        <div className="flex items-center gap-4 mb-6">
-                            <h2 className="text-lg font-semibold text-white tracking-tight">Trusted By Builders</h2>
-                            <div className="h-px bg-white/10 flex-1 ml-4"></div>
-                        </div>
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                            {['ALPHA LABS', 'NOVA SYSTEMS', 'TACTICAL AI', 'VECTOR OPS'].map((logo) => (
-                                <div key={logo} className="rounded-2xl border border-[var(--border-1)] bg-[var(--surface-2)] p-6 text-center text-xs font-mono text-[var(--text-3)] uppercase tracking-[0.3em]">
-                                    {logo}
-                                </div>
-                            ))}
-                        </div>
-                    </section>
 
                     <section className="animate-on-scroll">
                         <div className="flex items-center gap-4 mb-6">
@@ -399,29 +376,6 @@ const Dashboard = () => {
                         </div>
                     </section>
 
-                    <section className="animate-on-scroll">
-                        <div className="flex items-center gap-4 mb-6">
-                            <h2 className="text-lg font-semibold text-white tracking-tight">Active Experiments</h2>
-                            <div className="h-px bg-white/10 flex-1 ml-4"></div>
-                        </div>
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                            <div className="rounded-2xl border border-[var(--border-1)] bg-[var(--surface-2)] p-6">
-                                <div className="text-[10px] font-mono text-emerald-400 uppercase tracking-widest">Prototype</div>
-                                <h3 className="text-xl font-bold text-[var(--text-1)] mt-2">Narrative OS</h3>
-                                <p className="text-sm text-[var(--text-3)] mt-2">An AI layer that turns research into interactive story maps.</p>
-                            </div>
-                            <div className="rounded-2xl border border-[var(--border-1)] bg-[var(--surface-2)] p-6">
-                                <div className="text-[10px] font-mono text-sky-400 uppercase tracking-widest">Build</div>
-                                <h3 className="text-xl font-bold text-[var(--text-1)] mt-2">Artifact Forge</h3>
-                                <p className="text-sm text-[var(--text-3)] mt-2">Generative system for producing assets, UI kits, and branded visuals.</p>
-                            </div>
-                            <div className="rounded-2xl border border-[var(--border-1)] bg-[var(--surface-2)] p-6">
-                                <div className="text-[10px] font-mono text-purple-400 uppercase tracking-widest">Research</div>
-                                <h3 className="text-xl font-bold text-[var(--text-1)] mt-2">Ops Intelligence</h3>
-                                <p className="text-sm text-[var(--text-3)] mt-2">Signal analysis for startups, labs, and complex workflows.</p>
-                            </div>
-                        </div>
-                    </section>
 
                     <section className="animate-on-scroll">
                         <div className="flex items-center gap-4 mb-6">
@@ -522,40 +476,11 @@ const Dashboard = () => {
                         </div>
                     </section>
 
-                    <section className="animate-on-scroll">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            {TESTIMONIALS.map((item) => (
-                                <div key={item.name} className="rounded-3xl border border-[var(--border-1)] bg-[var(--surface-2)] p-8">
-                                    <div className="flex items-center gap-2 text-orange-400 text-[10px] font-mono uppercase tracking-widest">
-                                        <Sparkles className="w-4 h-4" />
-                                        Client Intel
-                                    </div>
-                                    <p className="text-lg text-[var(--text-1)] mt-4 leading-relaxed">{item.quote}</p>
-                                    <div className="mt-6 text-sm text-[var(--text-3)] font-mono uppercase tracking-widest">
-                                        {item.name} // {item.org}
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </section>
 
                     <section className="animate-on-scroll">
-                        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 border border-[var(--border-1)] rounded-3xl p-8 bg-[var(--surface-2)]">
-                            <div>
-                                <div className="text-[10px] font-mono text-[var(--text-3)] uppercase tracking-widest">NovaRey Ventures</div>
-                                <h3 className="text-2xl md:text-3xl font-bold text-[var(--text-1)] mt-2">Building custom AI products and digital systems.</h3>
-                                <p className="text-sm text-[var(--text-3)] mt-2 max-w-xl">If you need a partner for strategy, design, or engineering, let's build something original.</p>
-                            </div>
-                            <Button
-                                as={Link}
-                                to="/contact"
-                                icon={ArrowRight}
-                                className="uppercase italic font-black tracking-widest text-xs"
-                            >
-                                Start a Project
-                            </Button>
-                        </div>
+                        <ProjectRequestForm />
                     </section>
+
 
                 </div>
             </div>

@@ -203,73 +203,29 @@ const Portfolio = () => {
                 height="85vh"
             />
 
-            {/* Primary Portfolio Layout */}
-            <section
-                onMouseMove={handleSpotlightMove}
-                onMouseLeave={(event) => {
-                    event.currentTarget.style.setProperty('--mouse-x', '50%');
-                    event.currentTarget.style.setProperty('--mouse-y', '15%');
-                }}
-                className="spotlight-group overflow-hidden relative rounded-[32px] ring-1 ring-white/10 bg-[#0B0B0F] mx-6 md:mx-8 mt-6 animate-on-scroll"
-                style={{ '--mouse-x': '50%', '--mouse-y': '15%' }}
-            >
-                <div className="absolute inset-0">
-                    <img
-                        src="/mebannerport.png"
-                        alt="Hero background"
-                        className="w-full h-full object-cover opacity-45 grayscale"
-                        style={{ maskImage: 'linear-gradient(transparent, black 25%, black 100%, transparent)' }}
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/50 to-transparent"></div>
-                </div>
-
-                <div className="spotlight-content relative z-10 px-8 md:px-12 lg:px-16 py-10 min-h-[560px] flex flex-col justify-between">
-                    <nav className="flex flex-wrap items-center justify-between gap-6 text-xs font-mono uppercase tracking-widest text-white/60">
-                        <div className="flex items-center gap-4">
-                            <div className="inline-flex items-center justify-center w-10 h-10 bg-white/10 rounded border border-white/10 text-white font-bold tracking-tight">
-                                NV
-                            </div>
-                            <span className="hidden md:inline text-white/40">Novarey Ventures</span>
-                            <div className="hidden md:flex items-center gap-6 ml-6 text-white/40">
-                                <a href="#portfolio-operations" className="hover:text-white transition-colors">Operations</a>
-                                <a href="#portfolio-about" className="hover:text-white transition-colors">Intel</a>
-                                <a href="#portfolio-expertise" className="hover:text-white transition-colors">Capabilities</a>
-                            </div>
+            {/* Navigation Bar with Links */}
+            <section className="mx-6 md:mx-8 mt-6 animate-on-scroll">
+                <nav className="flex flex-wrap items-center justify-between gap-6 text-xs font-mono uppercase tracking-widest text-white/60 px-8 py-4 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-xl">
+                    <div className="flex items-center gap-4">
+                        <div className="inline-flex items-center justify-center w-10 h-10 bg-white/10 rounded border border-white/10 text-white font-bold tracking-tight">
+                            NV
                         </div>
-                        <Button
-                            as={Link}
-                            to="/contact"
-                            icon={Shield}
-                            className="uppercase italic font-black tracking-widest text-[10px]"
-                        >
-                            Initiate Comms
-                        </Button>
-                    </nav>
-
-                    <div>
-                        <div className="flex flex-wrap items-center gap-3 text-xs font-mono uppercase tracking-widest text-white/60">
-                            <span className="px-3 py-1 rounded-full bg-white/5 border border-white/10">Generalist Designer</span>
-                            <span className="flex items-center gap-2">
-                                <Radio className="w-4 h-4 text-emerald-400" />
-                                Mission Ready
-                            </span>
-                        </div>
-
-                        <h1 className="mt-8 text-5xl md:text-7xl xl:text-8xl font-semibold tracking-tight text-white leading-[0.92]">
-                            Isaac <span className="text-white/50 font-serif italic">Reyes</span>
-                        </h1>
-                        <p className="mt-6 text-lg text-white/70 max-w-2xl leading-relaxed">
-                            The Generalist Designer. Merging Special Operations discipline with advanced design workflows,
-                            AI automation, and motion graphics.
-                        </p>
-                        <div className="mt-8 flex flex-wrap items-center gap-5">
-                            <div className="flex items-center gap-3 text-white/60 text-xs font-mono uppercase tracking-[0.25em]">
-                                <Sparkles className="w-4 h-4 text-emerald-400" />
-                                AI-augmented design systems
-                            </div>
+                        <span className="hidden md:inline text-white/40">Novarey Ventures</span>
+                        <div className="hidden md:flex items-center gap-6 ml-6 text-white/40">
+                            <a href="#portfolio-operations" className="hover:text-white transition-colors">Operations</a>
+                            <a href="#portfolio-about" className="hover:text-white transition-colors">Intel</a>
+                            <a href="#portfolio-expertise" className="hover:text-white transition-colors">Capabilities</a>
                         </div>
                     </div>
-                </div>
+                    <Button
+                        as={Link}
+                        to="/contact"
+                        icon={Shield}
+                        className="uppercase italic font-black tracking-widest text-[10px]"
+                    >
+                        Initiate Comms
+                    </Button>
+                </nav>
             </section>
 
             <section
@@ -317,7 +273,7 @@ const Portfolio = () => {
                         <div className="lg:col-span-1 rounded-3xl overflow-hidden relative min-h-[360px] border border-white/10">
                             <div className="absolute inset-0 bg-emerald-900/20 mix-blend-overlay"></div>
                             <img
-                                src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/e95bbfe6-01df-4204-9400-aaa01d8b6a3f_1600w.png"
+                                src="/me.png"
                                 alt="Portrait"
                                 className="absolute inset-0 w-full h-full object-cover grayscale contrast-125"
                             />

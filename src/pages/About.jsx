@@ -19,7 +19,7 @@ import DesignStudio from '../components/DesignStudio';
 import ParticleBackground from '../components/ParticleBackground';
 import AuraBackground from '../components/AuraBackground';
 import Button from '../components/Button';
-import GlobePins from '../components/GlobePins';
+import GlobeExtruded from '../components/GlobeExtruded';
 import GlitchReveal from '../components/GlitchReveal';
 
 const TOOLSTACK = [
@@ -178,36 +178,52 @@ const About = () => {
                 </div>
             </section>
 
-            {/* Globe Pins */}
-            <section className="max-w-6xl mx-auto py-12 animate-on-scroll">
-                <div className="grid grid-cols-1 lg:grid-cols-[1.05fr_0.95fr] gap-10 items-center">
-                    <div className="space-y-6">
-                        <div className="text-[10px] font-mono uppercase tracking-widest text-white/50">
-                            Field Map
+
+            {/* Globe - Places I've Been */}
+            <section className="w-full py-16 animate-on-scroll">
+                <div className="max-w-7xl mx-auto px-4 md:px-8">
+                    <div className="flex flex-col lg:flex-row gap-10 items-start">
+                        <div className="lg:w-1/3 space-y-6">
+                            <div className="text-sm font-mono uppercase tracking-widest text-orange-400">
+                                Field Map // Deployment History
+                            </div>
+                            <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-white uppercase italic">
+                                Places I've Been
+                            </h2>
+                            <p className="text-lg text-slate-400 leading-relaxed">
+                                A living map of countries that shaped my perspective through military deployments, training missions, and field experience.
+                            </p>
+                            <div className="space-y-4">
+                                <div>
+                                    <div className="text-xs font-mono uppercase tracking-widest text-red-400 mb-2">⚔ Operated</div>
+                                    <div className="flex flex-wrap gap-2 text-xs font-mono">
+                                        {['Cambodia', 'Philippines', 'Singapore', 'Thailand', 'Qatar', 'Afghanistan', 'Japan', 'Kuwait', 'Uzbekistan', 'Jordan', 'South Korea', 'Myanmar'].map((country) => (
+                                            <span key={country} className="px-3 py-1.5 rounded-full border border-red-500/30 bg-red-500/10 text-red-400">
+                                                {country}
+                                            </span>
+                                        ))}
+                                    </div>
+                                </div>
+                                <div>
+                                    <div className="text-xs font-mono uppercase tracking-widest text-orange-400 mb-2">✓ Visited</div>
+                                    <div className="flex flex-wrap gap-2 text-xs font-mono">
+                                        {['United States', 'Mexico', 'Canada'].map((country) => (
+                                            <span key={country} className="px-3 py-1.5 rounded-full border border-orange-500/30 bg-orange-500/10 text-orange-400">
+                                                {country}
+                                            </span>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <h2 className="text-3xl md:text-4xl font-black text-white uppercase italic">
-                            Places I have been
-                        </h2>
-                        <p className="text-slate-400 leading-relaxed max-w-2xl">
-                            A living map of locations that shaped my perspective and field experience.
-                            Pins highlight current known stops and will expand over time.
-                        </p>
-                        <div className="flex flex-wrap gap-3 text-xs font-mono text-slate-400">
-                            {['Boerne, TX', 'Lacey, WA'].map((place) => (
-                                <span key={place} className="px-3 py-1 rounded-full border border-white/10 bg-white/5">
-                                    {place}
-                                </span>
-                            ))}
-                        </div>
-                    </div>
-                    <div className="relative h-[360px] md:h-[420px] rounded-3xl border border-white/10 bg-white/5 overflow-hidden">
-                        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(99,102,241,0.2),transparent_55%)]"></div>
-                        <div className="absolute inset-0">
-                            <GlobePins />
+                        <div className="lg:w-2/3 relative h-[450px] md:h-[550px] rounded-3xl border border-white/10 bg-transparent overflow-hidden">
+                            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,50,50,0.15),transparent_60%)]"></div>
+                            <GlobeExtruded />
                         </div>
                     </div>
                 </div>
             </section>
+
 
             {/* Stats */}
             <section className="max-w-6xl mx-auto py-16 animate-on-scroll">
