@@ -41,9 +41,10 @@ const ParallaxHero = ({
                 style={{ y: bgY, scale: bgScale }}
             >
                 <div
-                    className="absolute inset-0 bg-cover bg-center"
+                    className="absolute inset-0 bg-contain bg-no-repeat bg-right-bottom md:bg-right"
                     style={{ backgroundImage: `url(${backgroundImage})` }}
                 />
+                <div className="absolute inset-0 bg-gradient-to-r from-[#0D0C12] via-[#0D0C12]/70 to-transparent" />
                 <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black" />
             </motion.div>
 

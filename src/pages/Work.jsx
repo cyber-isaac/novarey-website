@@ -3,6 +3,7 @@ import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import ParticleBackground from '../components/ParticleBackground';
 import Button from '../components/Button';
+import AppFlow from '../components/AppFlow';
 
 const SECTION_LINKS = [
     { id: 'apps', label: 'Apps + Tools' },
@@ -13,29 +14,8 @@ const SECTION_LINKS = [
     { id: 'plans', label: 'Plans + Roadmap' },
 ];
 
-const APPS = [
-    {
-        id: 'app-1',
-        title: 'Command Console',
-        subtitle: 'AI Ops Toolkit',
-        image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2400&auto=format&fit=crop',
-        description: 'Multi-agent interface for managing research, briefs, and automation.',
-    },
-    {
-        id: 'app-2',
-        title: 'Signal Pipeline',
-        subtitle: 'Workflow Engine',
-        image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2400&auto=format&fit=crop',
-        description: 'Intake → triage → execution dashboards for high-velocity teams.',
-    },
-    {
-        id: 'app-3',
-        title: 'Artifact Forge',
-        subtitle: 'Generative Studio',
-        image: 'https://images.unsplash.com/photo-1489515217757-5fd1be406fef?q=80&w=2400&auto=format&fit=crop',
-        description: 'AI-powered system for producing visuals, assets, and UI blocks.',
-    },
-];
+// Apps section placeholder (content removed for animated group replacement)
+
 
 const DESIGN_SYSTEMS = [
     {
@@ -211,17 +191,11 @@ const Work = () => {
                     <h2 className="text-xl font-bold text-white tracking-tight">Apps + Tools</h2>
                     <div className="h-px bg-white/10 flex-1"></div>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    {APPS.map((item) => (
-                        <div key={item.id} className="group rounded-2xl overflow-hidden border surface-panel-border surface-panel">
-                            <img src={item.image} alt={item.title} className="w-full h-56 object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
-                            <div className="p-6">
-                                <div className="text-[10px] font-mono text-slate-500 uppercase tracking-widest">{item.subtitle}</div>
-                                <h3 className="text-xl font-bold text-white mt-2">{item.title}</h3>
-                                <p className="text-sm text-slate-400 mt-2">{item.description}</p>
-                            </div>
-                        </div>
-                    ))}
+                <div className="relative border border-white/10 rounded-3xl bg-[#0D0C12]/50 backdrop-blur-sm overflow-hidden py-12">
+                    <AppFlow />
+                    <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-center pointer-events-none">
+                        <div className="text-[10px] font-mono text-orange-500/50 uppercase tracking-[0.3em]">Neural App Pipeline</div>
+                    </div>
                 </div>
             </section>
 
