@@ -7,30 +7,10 @@ import ParticleBackground from '../components/ParticleBackground';
 import Logo from '../components/Logo';
 import Button from '../components/Button';
 import ProjectRequestForm from '../components/ProjectRequestForm';
+import AIStudioBrief from '../components/AIStudioBrief';
+import { staggerContainer, fadeInUp, scaleUp } from '../lib/animations';
 
-const CASE_STUDIES = [
-    {
-        title: 'AI Command Console',
-        desc: 'Multi-agent orchestration UI for ops teams with real-time telemetry and mission controls.',
-        metric: '42% faster decision cycles',
-        tag: 'AI Product',
-        image: 'https://images.unsplash.com/photo-1523961131990-5ea7c61b2107?q=80&w=2400&auto=format&fit=crop'
-    },
-    {
-        title: 'Industry Marketing Flyer',
-        desc: 'Print + digital campaign kit with a production-ready style system and layout library.',
-        metric: '3x campaign turnaround',
-        tag: 'Marketing System',
-        image: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=2400&auto=format&fit=crop'
-    },
-    {
-        title: 'Skunkworks OS',
-        desc: 'Strategic design system with AI automation and rapid deployment tooling.',
-        metric: '60% faster deployment',
-        tag: 'System Design',
-        image: 'https://images.unsplash.com/photo-1489515217757-5fd1be406fef?q=80&w=2400&auto=format&fit=crop'
-    }
-];
+
 
 const PROCESS_STEPS = [
     {
@@ -197,11 +177,21 @@ const Dashboard = () => {
                                     A hybrid workflow: rapid ideation with AI, then refine with traditional craft for accuracy and clarity.
                                 </p>
                             </div>
-                            <div className="space-y-4">
+                            <motion.div
+                                className="space-y-4"
+                                variants={staggerContainer(0.1, 0.2)}
+                                initial="hidden"
+                                whileInView="visible"
+                                viewport={{ once: true, margin: "-100px" }}
+                            >
                                 {WHAT_I_DO.map((item) => (
-                                    <div key={item.title} className="storyline-step animate-on-scroll rounded-2xl border border-[var(--border-1)] bg-[var(--surface-2)] p-5 backdrop-blur-xl">
+                                    <motion.div
+                                        key={item.title}
+                                        variants={fadeInUp}
+                                        className="rounded-2xl border border-[var(--border-1)] bg-[var(--surface-2)] p-5 backdrop-blur-xl hover:border-[var(--page-accent)] transition-colors duration-500 group"
+                                    >
                                         <div className="flex items-start gap-4">
-                                            <div className="mt-1 h-10 w-10 rounded-xl bg-[var(--surface-3)] border border-[var(--border-1)] flex items-center justify-center text-[var(--text-1)]">
+                                            <div className="mt-1 h-10 w-10 rounded-xl bg-[var(--surface-3)] border border-[var(--border-1)] flex items-center justify-center text-[var(--text-1)] group-hover:bg-[var(--page-accent-soft)] group-hover:text-[var(--page-accent)] transition-colors duration-500">
                                                 <item.icon className="w-5 h-5" />
                                             </div>
                                             <div>
@@ -209,30 +199,40 @@ const Dashboard = () => {
                                                 <p className="text-sm text-[var(--text-3)] mt-2">{item.desc}</p>
                                             </div>
                                         </div>
-                                    </div>
+                                    </motion.div>
                                 ))}
-                            </div>
+                            </motion.div>
                         </div>
 
                         <div className="relative">
                             <div className="absolute left-5 top-2 bottom-2 w-px bg-[var(--border-1)] storyline-line"></div>
-                            <div className="space-y-6">
+                            <motion.div
+                                className="space-y-6"
+                                variants={staggerContainer(0.15, 0.4)}
+                                initial="hidden"
+                                whileInView="visible"
+                                viewport={{ once: true, margin: "-100px" }}
+                            >
                                 {WORKFLOW_STEPS.map((step, index) => (
-                                    <div key={step.title} className="storyline-step animate-on-scroll relative pl-14">
+                                    <motion.div
+                                        key={step.title}
+                                        variants={fadeInUp}
+                                        className="storyline-step relative pl-14 group"
+                                    >
                                         <div className="absolute left-0 top-1">
-                                            <div className="h-10 w-10 rounded-full border border-[var(--border-1)] bg-[var(--surface-4)] flex items-center justify-center text-[var(--text-1)]">
+                                            <div className="h-10 w-10 rounded-full border border-[var(--border-1)] bg-[var(--surface-4)] flex items-center justify-center text-[var(--text-1)] group-hover:border-[var(--page-accent)] group-hover:text-[var(--page-accent)] transition-colors duration-500 relative z-10">
                                                 <step.icon className="w-5 h-5" />
                                             </div>
                                         </div>
-                                        <div className="rounded-2xl border border-[var(--border-1)] bg-[var(--surface-2)] p-5 backdrop-blur-xl">
+                                        <div className="rounded-2xl border border-[var(--border-1)] bg-[var(--surface-2)] p-5 backdrop-blur-xl hover:border-[var(--page-accent)] transition-colors duration-500 relative">
                                             <div className="text-[10px] font-mono uppercase tracking-widest text-[var(--text-3)]">Step {index + 1}</div>
                                             <h4 className="text-lg font-semibold text-[var(--text-1)] mt-2">{step.title}</h4>
                                             <p className="text-sm text-[var(--text-3)] mt-2">{step.desc}</p>
-                                            <div className="mt-3 text-xs font-mono text-[var(--text-3)]">{step.tools}</div>
+                                            <div className="mt-3 text-xs font-mono text-[var(--page-accent)]/60 bg-[var(--page-accent-soft)]/5 px-2 py-1 rounded inline-block">{step.tools}</div>
                                         </div>
-                                    </div>
+                                    </motion.div>
                                 ))}
-                            </div>
+                            </motion.div>
                         </div>
                     </div>
                 </section>
@@ -245,116 +245,54 @@ const Dashboard = () => {
                             </h2>
                             <div className="h-px bg-[var(--border-1)] flex-1 ml-4"></div>
                         </div>
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                            <div className="group relative rounded-2xl bg-blue-500/10 border border-blue-500/30 p-6 hover:border-blue-300/60 transition-all">
+                        <motion.div
+                            variants={staggerContainer(0.1, 0.2)}
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true, margin: "-100px" }}
+                            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
+                        >
+                            <motion.div variants={fadeInUp} className="group relative rounded-2xl bg-blue-500/10 border border-blue-500/30 p-6 hover:border-blue-300/60 transition-all">
                                 <div className="flex items-center gap-3 mb-4 text-blue-400">
                                     <Brain className="w-5 h-5" />
                                     <span className="text-[10px] font-mono uppercase tracking-widest text-[var(--text-3)]">AI Apps</span>
                                 </div>
                                 <h3 className="text-xl font-bold text-[var(--text-1)] mb-2">Intelligent Products</h3>
                                 <p className="text-sm text-[var(--text-3)]">Custom AI tools, copilots, and interfaces designed for real workflows.</p>
-                            </div>
-                            <div className="group relative rounded-2xl bg-rose-500/10 border border-rose-500/30 p-6 hover:border-rose-300/60 transition-all">
+                            </motion.div>
+                            <motion.div variants={fadeInUp} className="group relative rounded-2xl bg-rose-500/10 border border-rose-500/30 p-6 hover:border-rose-300/60 transition-all">
                                 <div className="flex items-center gap-3 mb-4 text-rose-400">
                                     <Boxes className="w-5 h-5" />
                                     <span className="text-[10px] font-mono uppercase tracking-widest text-[var(--text-3)]">Systems</span>
                                 </div>
                                 <h3 className="text-xl font-bold text-[var(--text-1)] mb-2">Workflow Engineering</h3>
                                 <p className="text-sm text-[var(--text-3)]">Automation pipelines, data routing, and operational dashboards.</p>
-                            </div>
-                            <div className="group relative rounded-2xl bg-emerald-500/10 border border-emerald-500/30 p-6 hover:border-emerald-300/60 transition-all">
+                            </motion.div>
+                            <motion.div variants={fadeInUp} className="group relative rounded-2xl bg-emerald-500/10 border border-emerald-500/30 p-6 hover:border-emerald-300/60 transition-all">
                                 <div className="flex items-center gap-3 mb-4 text-emerald-400">
                                     <Wand2 className="w-5 h-5" />
                                     <span className="text-[10px] font-mono uppercase tracking-widest text-[var(--text-3)]">Generative</span>
                                 </div>
                                 <h3 className="text-xl font-bold text-[var(--text-1)] mb-2">AI Artifacts</h3>
                                 <p className="text-sm text-[var(--text-3)]">Visual experiments, motion systems, and generative brand assets.</p>
-                            </div>
-                            <div className="group relative rounded-2xl bg-[var(--surface-2)] border border-[var(--border-2)] p-6 hover:border-[var(--border-1)] transition-all">
+                            </motion.div>
+                            <motion.div variants={fadeInUp} className="group relative rounded-2xl bg-[var(--surface-2)] border border-[var(--border-2)] p-6 hover:border-[var(--border-1)] transition-all">
                                 <div className="flex items-center gap-3 mb-4 text-[var(--text-1)]">
                                     <PenTool className="w-5 h-5" />
                                     <span className="text-[10px] font-mono uppercase tracking-widest text-[var(--text-3)]">Craft</span>
                                 </div>
                                 <h3 className="text-xl font-bold text-[var(--text-1)] mb-2">Coded Interfaces</h3>
                                 <p className="text-sm text-[var(--text-3)]">Websites, components, and product UI built for speed and clarity.</p>
-                            </div>
-                        </div>
+                            </motion.div>
+                        </motion.div>
                     </section>
 
                     <section className="animate-on-scroll">
-                        <div className="flex items-center gap-4 mb-6">
-                            <h2 className="text-lg font-semibold text-[var(--text-1)] tracking-tight">Featured Systems & Builds</h2>
-                            <div className="h-px bg-[var(--border-1)] flex-1 ml-4"></div>
-                        </div>
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            <div className="group relative rounded-2xl overflow-hidden border border-[var(--border-1)] bg-[var(--surface-2)]">
-                                <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2400&auto=format&fit=crop" alt="AI Command Console" className="w-full h-56 object-cover opacity-80 group-hover:opacity-100 transition-opacity" loading="lazy" />
-                                <div className="p-6">
-                                    <div className="text-[10px] font-mono text-[var(--text-3)] uppercase tracking-widest">AI Application</div>
-                                    <h3 className="text-xl font-bold text-[var(--text-1)] mt-2">Command Console</h3>
-                                    <p className="text-sm text-[var(--text-3)] mt-2">Multi-agent orchestration UI for ops and research teams.</p>
-                                </div>
-                            </div>
-                            <div className="group relative rounded-2xl overflow-hidden border border-[var(--border-1)] bg-[var(--surface-2)]">
-                                <img src="https://images.unsplash.com/photo-1489515217757-5fd1be406fef?q=80&w=2400&auto=format&fit=crop" alt="Industry Marketing Flyer" className="w-full h-56 object-cover opacity-80 group-hover:opacity-100 transition-opacity" loading="lazy" />
-                                <div className="p-6">
-                                    <div className="text-[10px] font-mono text-[var(--text-3)] uppercase tracking-widest">Marketing Design</div>
-                                    <h3 className="text-xl font-bold text-[var(--text-1)] mt-2">Industry Marketing Flyer</h3>
-                                    <p className="text-sm text-[var(--text-3)] mt-2">Industrial brand flyer designed for web, print, and campaign rollouts.</p>
-                                </div>
-                            </div>
-                            <div className="group relative rounded-2xl overflow-hidden border border-[var(--border-1)] bg-[var(--surface-2)]">
-                                <img src="https://images.unsplash.com/photo-1489515217757-5fd1be406fef?q=80&w=2400&auto=format&fit=crop" alt="Generative Studio" className="w-full h-56 object-cover opacity-80 group-hover:opacity-100 transition-opacity" loading="lazy" />
-                                <div className="p-6">
-                                    <div className="text-[10px] font-mono text-[var(--text-3)] uppercase tracking-widest">Generative Art</div>
-                                    <h3 className="text-xl font-bold text-[var(--text-1)] mt-2">Lattice Series</h3>
-                                    <p className="text-sm text-[var(--text-3)] mt-2">AI-designed visuals for identity, motion, and product UI.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="mt-6 flex">
-                            <Button
-                                as={Link}
-                                to="/portfolio"
-                                icon={ArrowRight}
-                                className="uppercase italic font-black tracking-widest text-xs"
-                            >
-                                View the full portfolio
-                            </Button>
-                        </div>
+                        <AIStudioBrief />
                     </section>
 
-                    <section className="animate-on-scroll">
-                        <div className="flex items-center gap-4 mb-6">
-                            <h2 className="text-lg font-semibold text-white tracking-tight">Flagship Case Studies</h2>
-                            <div className="h-px bg-white/10 flex-1 ml-4"></div>
-                        </div>
-                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                            {CASE_STUDIES.map((study) => (
-                                <div key={study.title} className="group rounded-2xl border border-[var(--border-1)] bg-[var(--surface-2)] overflow-hidden">
-                                    <div className="relative">
-                                        <img src={study.image} alt={study.title} className="w-full h-48 object-cover opacity-80 group-hover:opacity-100 transition-opacity" loading="lazy" />
-                                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                                        <div className="absolute bottom-4 left-4 text-[10px] font-mono text-white/70 uppercase tracking-widest">
-                                            {study.tag}
-                                        </div>
-                                    </div>
-                                    <div className="p-6 space-y-4">
-                                        <div>
-                                            <h3 className="text-xl font-bold text-[var(--text-1)]">{study.title}</h3>
-                                            <p className="text-sm text-[var(--text-3)] mt-2">{study.desc}</p>
-                                        </div>
-                                        <div className="rounded-xl border border-[var(--border-1)] bg-[var(--surface-3)] px-4 py-3 text-sm text-[var(--text-1)]">
-                                            {study.metric}
-                                        </div>
-                                        <Button className="uppercase italic font-black tracking-widest text-xs">
-                                            View Case Study
-                                        </Button>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </section>
+
+
 
 
                     <section className="animate-on-scroll">

@@ -19,17 +19,6 @@ export const posts = [
                 <li>5lb Myco bags</li>
                 <li>Liquid culture (Lion's Mane)</li>
             </ul>
-            <h3>Procedure</h3>
-            <ol>
-                <li><strong>Substrate Prep:</strong> Mix 5 cups pellets, 1 cup bran, 6 cups water.</li>
-                <li><strong>Sterilization:</strong> Pressure cook at 15 PSI for 120 minutes.</li>
-                <li><strong>Inoculation:</strong> In front of a flow hood, inject 5cc of liquid culture.</li>
-                <li><strong>Incubation:</strong> Store at 75°F in darkness for 14-21 days.</li>
-            </ol>
-            <figure>
-                <img src="/homepage_whatido.png" alt="Lab station" />
-                <figcaption>Field notes archive snapshot.</figcaption>
-            </figure>
         `
     },
     {
@@ -45,40 +34,36 @@ export const posts = [
         contentHtml: `
             <h3>Executive Summary</h3>
             <p>The next frontier of AI isn't larger models, but smarter loops.</p>
-            <h3>Key Concepts</h3>
-            <ul>
-                <li><strong>ReAct Pattern:</strong> Synergizing reasoning and acting.</li>
-                <li><strong>Tool Use:</strong> Giving models access to APIs and calculators.</li>
-                <li><strong>Memory:</strong> Implementing long-term vector storage for context persistence.</li>
-            </ul>
-            <figure>
-                <video controls poster="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1600&auto=format&fit=crop">
-                    <source src="https://assets.mixkit.co/videos/preview/mixkit-software-developer-working-on-code-screen-in-light-4841-large.mp4" type="video/mp4" />
-                </video>
-                <figcaption>Agent loop simulation clip.</figcaption>
-            </figure>
         `
     },
     {
         id: "post-3",
-        title: "Custom Silent Server Array",
-        category: "diy",
-        date: "2024-09-15",
-        clearance: "UNCLASSIFIED",
-        size: "1.5 MB",
-        excerpt: "Declassified specs for the home server rack built into a sound-dampened mahogany cabinet.",
-        tags: ["DIY", "Hardware", "Build Log"],
-        coverImage: "https://images.unsplash.com/photo-1489515217757-5fd1be406fef?q=80&w=1600&auto=format&fit=crop",
+        title: "Geopolitical Implications of AI Sovereignty",
+        category: "geopolitics",
+        date: "2024-12-05",
+        clearance: "CONFIDENTIAL",
+        size: "2.1 MB",
+        excerpt: "Field notes on how localized AI infrastructure is becoming the new gold standard for national security.",
+        tags: ["Military", "Intelligence", "Policy"],
+        coverImage: "https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?q=80&w=1600&auto=format&fit=crop",
         contentHtml: `
             <h3>Overview</h3>
-            <p>Building a server rack that doesn't sound like a jet engine.</p>
-            <h3>Components</h3>
-            <ul>
-                <li>4x Raspberry Pi 5</li>
-                <li>1x 8-port PoE Switch</li>
-                <li>Acoustic foam padding (1-inch)</li>
-                <li>Noctua 120mm fans for exhaust</li>
-            </ul>
+            <p>Intelligence briefings on the intersection of machine learning and global power dynamics.</p>
+        `
+    },
+    {
+        id: "post-4",
+        title: "A.I. Enhanced Design Systems",
+        category: "design",
+        date: "2025-01-10",
+        clearance: "UNCLASSIFIED",
+        size: "8.5 MB",
+        excerpt: "Using generative tools to accelerate UI/UX workflows without sacrificing creative control.",
+        tags: ["Design", "AI Tools", "Graphic Design"],
+        coverImage: "https://images.unsplash.com/photo-1561070791-2526d30994b5?q=80&w=1600&auto=format&fit=crop",
+        contentHtml: `
+            <h3>Creative Logic</h3>
+            <p>A breakdown of the vector-to-synthetic pipeline used in the studio.</p>
         `
     }
 ];

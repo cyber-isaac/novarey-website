@@ -13,6 +13,8 @@ const UnifiedBackground = () => {
     const bloomPassRef = useRef(null);
     const cameraRef = useRef(null);
     const sceneRef = useRef(null);
+    const spotlight1Ref = useRef(null);
+    const spotlight2Ref = useRef(null);
     const scrollProgressRef = useRef(0);
     const [isReady, setIsReady] = useState(false);
     const location = useLocation();
@@ -57,17 +59,25 @@ const UnifiedBackground = () => {
         const ambientLight = new THREE.AmbientLight(0x20242b, 0.6);
         scene.add(ambientLight);
 
-        const spotlight1 = new THREE.SpotLight(0x1fb6ff, 35);
+        // Get initial accent color to avoid "orange flash"
+        const initialAccent = getComputedStyle(document.documentElement)
+            .getPropertyValue('--page-accent')
+            .trim() || '#1fb6ff';
+        const initialColor = new THREE.Color(initialAccent);
+
+        const spotlight1 = new THREE.SpotLight(initialColor, 35);
         spotlight1.position.set(6, 6, 6);
         spotlight1.angle = 0.25;
         spotlight1.penumbra = 0.6;
         scene.add(spotlight1);
+        spotlight1Ref.current = spotlight1;
 
-        const spotlight2 = new THREE.SpotLight(0xff8a4c, 20);
+        const spotlight2 = new THREE.SpotLight(initialColor, 20);
         spotlight2.position.set(-6, -4, 4);
         spotlight2.angle = 0.3;
         spotlight2.penumbra = 0.7;
         scene.add(spotlight2);
+        spotlight2Ref.current = spotlight2;
 
         // --- Particles ---
         const particlesGeometry = new THREE.BufferGeometry();
@@ -192,21 +202,33 @@ const UnifiedBackground = () => {
             const accent = getComputedStyle(document.documentElement)
                 .getPropertyValue('--page-accent')
                 .trim();
-            const targetColor = accent ? new THREE.Color(accent) : null;
+
+            // Special Override for 'About' page to get White Space particles
+            let targetColor;
+            if (location.pathname === '/about') {
+                targetColor = new THREE.Color(0xffffff); // Force White
+                // Force immediate update to clear any orange history
+                particlesMaterial.color.setHex(0xffffff);
+                if (spotlight1Ref.current) spotlight1Ref.current.color.setHex(0xffffff);
+                if (spotlight2Ref.current) spotlight2Ref.current.color.setHex(0xffffff);
+            } else {
+                targetColor = accent ? new THREE.Color(accent) : new THREE.Color('#3b82f6');
+                // Standard Lerp for other pages
+                particlesMaterial.color.lerp(targetColor, 0.2 + p * 0.6);
+                if (spotlight1Ref.current) spotlight1Ref.current.color.lerp(targetColor, 0.1);
+                if (spotlight2Ref.current) spotlight2Ref.current.color.lerp(targetColor, 0.1);
+            }
 
             particlesMesh.position.y = base.particleY + (target.particleY - base.particleY) * p;
             const scale = base.particleScale + (target.particleScale - base.particleScale) * p;
             particlesMesh.scale.set(scale, scale, scale);
-            particlesMaterial.opacity = base.opacity + (target.opacity - base.opacity) * p + Math.sin(time * 1.1) * 0.04;
-            if (targetColor) {
-                particlesMaterial.color.lerp(targetColor, 0.2 + p * 0.6);
-            } else {
-                particlesMaterial.color.setRGB(
-                    base.color.r + (target.color.r - base.color.r) * p,
-                    base.color.g + (target.color.g - base.color.g) * p,
-                    base.color.b + (target.color.b - base.color.b) * p
-                );
-            }
+
+            // Adjust opacity for About page specifically
+            let targetOpacity = target.opacity;
+            if (location.pathname === '/about') targetOpacity = 0.5; // Slightly clearer
+
+            particlesMaterial.opacity = base.opacity + (targetOpacity - base.opacity) * p + Math.sin(time * 1.1) * 0.04;
+
             camera.position.z = base.cameraZ + (target.cameraZ - base.cameraZ) * p;
             camera.rotation.z = base.cameraRotZ + (target.cameraRotZ - base.cameraRotZ) * p;
             scene.fog.density = base.fogDensity + (target.fogDensity - base.fogDensity) * p;

@@ -75,10 +75,10 @@ const Writing = () => {
                                 Focus Areas
                             </h4>
                             <div className="space-y-3 text-xs font-mono text-slate-400">
-                                <div className="rounded-xl border border-white/10 bg-black/30 px-3 py-2">AI Strategy</div>
-                                <div className="rounded-xl border border-white/10 bg-black/30 px-3 py-2">Interface Systems</div>
-                                <div className="rounded-xl border border-white/10 bg-black/30 px-3 py-2">Automation Ops</div>
-                                <div className="rounded-xl border border-white/10 bg-black/30 px-3 py-2">Design R&amp;D</div>
+                                <div className="rounded-xl border border-white/10 bg-black/30 px-3 py-2">Mycology & BioTech</div>
+                                <div className="rounded-xl border border-white/10 bg-black/30 px-3 py-2">Artificial Intelligence</div>
+                                <div className="rounded-xl border border-white/10 bg-black/30 px-3 py-2">Military & Geopolitics</div>
+                                <div className="rounded-xl border border-white/10 bg-black/30 px-3 py-2">A.I. Design Systems</div>
                             </div>
                         </div>
                     </aside>

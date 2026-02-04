@@ -1135,7 +1135,52 @@ p,
   animation: float-medium 4s ease-in-out infinite;
 }
 
-/* Gradient text */
+/* Cinematic Targeting HUD Animations */
+@keyframes scan {
+  0% {
+    top: 0%;
+    opacity: 0;
+  }
+
+  20% {
+    opacity: 1;
+  }
+
+  80% {
+    opacity: 1;
+  }
+
+  100% {
+    top: 100%;
+    opacity: 0;
+  }
+}
+
+@keyframes pulse-soft {
+
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+
+  50% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+}
+
+.animate-scan {
+  position: absolute;
+  animation: scan 3s linear infinite;
+  will-change: top, opacity;
+}
+
+.animate-pulse-soft {
+  animation: pulse-soft 2s ease-in-out infinite;
+}
+
+/* Gradient text - Cooling down */
 .gradient-text {
   background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
   -webkit-background-clip: text;
@@ -1143,9 +1188,9 @@ p,
   background-clip: text;
 }
 
-.gradient-text-warm {
-  background: linear-gradient(135deg, #fb923c 0%, #f97316 50%, #ea580c 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+.bg-grid {
+  background-image: linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 80px 80px;
+  background-attachment: fixed;
 }

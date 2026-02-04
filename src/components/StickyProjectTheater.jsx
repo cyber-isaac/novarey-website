@@ -1,5 +1,5 @@
-import React, { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import React from 'react';
+import { motion } from 'framer-motion';
 import { ArrowUpRight, Play } from 'lucide-react';
 import Button from './Button';
 
@@ -14,32 +14,25 @@ const StickyProjectTheater = ({ projects = [] }) => {
 };
 
 const ProjectSection = ({ project, index }) => {
-    const sectionRef = useRef(null);
-    const { scrollYProgress } = useScroll({
-        target: sectionRef,
-        offset: ['start end', 'end start'],
-    });
-
-    // Animation transforms
-    const imageScale = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0.8, 1, 1, 0.9]);
-    const imageOpacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
-    const contentY = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [100, 0, 0, -50]);
-    const contentOpacity = useTransform(scrollYProgress, [0, 0.25, 0.75, 1], [0, 1, 1, 0]);
+    // Simplified animation using whileInView instead of useScroll for reliability
+    // since the parent container is a custom scroll div.
 
     const isEven = index % 2 === 0;
 
     return (
         <section
-            ref={sectionRef}
-            className="min-h-screen flex items-center py-20 px-6 md:px-12 lg:px-20"
+            className="min-h-[80vh] flex items-center py-20 px-6 md:px-12 lg:px-20 relative border-b border-white/10 bg-white/[0.02]"
         >
-            <div className={`w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center ${isEven ? '' : 'lg:flex-row-reverse'}`}>
+            <div className={`w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center ${isEven ? '' : 'lg:flex-row-reverse'}`}>
                 {/* Image Side */}
                 <motion.div
                     className={`relative ${isEven ? 'lg:order-1' : 'lg:order-2'}`}
-                    style={{ scale: imageScale, opacity: imageOpacity }}
+                    initial={{ opacity: 0, x: isEven ? -50 : 50 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true, margin: "-100px" }}
+                    transition={{ duration: 0.8, ease: "easeOut" }}
                 >
-                    <div className="relative rounded-3xl overflow-hidden border border-white/10 bg-white/5 aspect-[4/3] group">
+                    <div className="relative rounded-3xl overflow-hidden border border-white/20 bg-white/5 aspect-video group shadow-2xl">
                         {project.video ? (
                             <video
                                 autoPlay
@@ -57,7 +50,7 @@ const ProjectSection = ({ project, index }) => {
                                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                             />
                         )}
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
 
                         {/* Play overlay for videos */}
                         {project.video && (
@@ -83,7 +76,10 @@ const ProjectSection = ({ project, index }) => {
                 {/* Content Side */}
                 <motion.div
                     className={`${isEven ? 'lg:order-2' : 'lg:order-1'}`}
-                    style={{ y: contentY, opacity: contentOpacity }}
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-100px" }}
+                    transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
                 >
                     <div className="space-y-6">
                         {/* Project number */}
@@ -92,7 +88,7 @@ const ProjectSection = ({ project, index }) => {
                         </div>
 
                         {/* Title */}
-                        <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-white uppercase italic tracking-tight leading-[0.95]">
+                        <h2 className="text-4xl md:text-5xl font-black text-white uppercase italic tracking-tight leading-[0.95]">
                             {project.title}
                         </h2>
 
@@ -117,7 +113,7 @@ const ProjectSection = ({ project, index }) => {
                         {project.metrics && (
                             <div className="grid grid-cols-2 md:grid-cols-3 gap-4 pt-4">
                                 {project.metrics.map((metric) => (
-                                    <div key={metric.label} className="p-4 rounded-2xl bg-white/5 border border-white/10">
+                                    <div key={metric.label} className="p-4 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm">
                                         <div className="text-2xl font-bold text-white">{metric.value}</div>
                                         <div className="text-xs font-mono text-white/50 uppercase tracking-widest mt-1">
                                             {metric.label}

@@ -5,7 +5,6 @@ import Dashboard from './pages/Dashboard';
 import Work from './pages/Work';
 import About from './pages/About';
 import Portfolio from './pages/Portfolio';
-import History from './pages/History';
 import IDrive from './pages/IDrive';
 import FileViewer from './pages/FileViewer';
 import AIStrategy from './pages/AIStrategy';
@@ -23,7 +22,6 @@ function App() {
                         <Route path="/work" element={<Work />} />
                         <Route path="/portfolio" element={<Portfolio />} />
                         <Route path="/about" element={<About />} />
-                        <Route path="/history" element={<History />} />
                         <Route path="/idrive" element={<IDrive />} />
                         <Route path="/idrive/:id" element={<FileViewer />} />
                         <Route path="/ai-strategy" element={<AIStrategy />} />

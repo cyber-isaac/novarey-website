@@ -27,32 +27,7 @@ const WEB_PROJECTS = [
     { id: 'web-3', title: 'Skunkworks OS', type: 'SaaS', url: 'skunkworks.ai' }
 ];
 
-const TIMELINE = [
-    {
-        entity: 'Novarey Ventures',
-        period: '2023 - Present',
-        role: 'Founder / Generalist Designer',
-        location: 'Remote / Global'
-    },
-    {
-        entity: 'Education',
-        period: '2019 - 2023',
-        role: 'B.A. Graphic Design & Media Arts',
-        location: 'USA'
-    },
-    {
-        entity: 'U.S. Army Special Forces',
-        period: '2005 - 2023',
-        role: 'Green Beret / 18 Series',
-        location: 'Global'
-    },
-    {
-        entity: 'Global Operations',
-        period: '2005 - 2023',
-        role: 'OEF-A / OEF-P / 7x JCETs',
-        location: 'AFG / PHL / Tier 1 Partners'
-    }
-];
+
 
 // Featured projects for the immersive sticky theater section
 const FEATURED_PROJECTS = [
@@ -443,64 +418,7 @@ const Portfolio = () => {
                 </div>
             </section>
 
-            <section
-                onMouseMove={handleSpotlightMove}
-                onMouseLeave={(event) => {
-                    event.currentTarget.style.setProperty('--mouse-x', '45%');
-                    event.currentTarget.style.setProperty('--mouse-y', '40%');
-                }}
-                className="spotlight-group overflow-hidden bg-gradient-to-br from-white/10 via-white/0 to-white/10 rounded-[32px] ring-1 ring-white/10 mx-6 md:mx-8 mt-10 animate-on-scroll"
-                style={{ '--mouse-x': '45%', '--mouse-y': '40%' }}
-            >
-                <div className="spotlight-content px-8 md:px-12 py-12" id="portfolio-expertise">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mb-10">
-                        <div>
-                            <h2 className="text-4xl md:text-5xl font-semibold tracking-tight text-white leading-[0.95]">
-                                Operational <span className="text-white/50 font-serif italic">Timeline</span>
-                            </h2>
-                            <div className="text-white/50 text-xs font-mono uppercase tracking-widest mt-4">
-                                // Career & Deployment History
-                            </div>
-                        </div>
-                        <div className="md:text-right">
-                            <div className="text-emerald-400 text-xs font-mono uppercase tracking-widest">03</div>
-                            <p className="text-white/70 text-lg max-w-sm ml-auto mt-3">
-                                From the mountains of Afghanistan to the cutting edge of Generative AI.
-                            </p>
-                        </div>
-                    </div>
 
-                    <div className="grid grid-cols-[1fr] md:grid-cols-[25%_20%_35%_20%] text-[10px] md:text-xs uppercase tracking-widest text-white/60 bg-white/90 text-black rounded-lg px-4 py-3">
-                        <span>Entity</span>
-                        <span className="hidden md:block">Period</span>
-                        <span>Role</span>
-                        <span className="hidden md:block text-right">Location</span>
-                    </div>
-
-                    <div className="mt-4 space-y-2">
-                        {TIMELINE.map((item) => (
-                            <div
-                                key={item.entity}
-                                className="group rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 transition-colors px-4 py-5"
-                            >
-                                <div className="flex flex-col md:grid md:grid-cols-[25%_20%_35%_20%] md:items-center gap-2 text-white">
-                                    <h3 className="text-lg md:text-xl font-semibold text-white group-hover:text-emerald-400 transition-colors">
-                                        {item.entity}
-                                    </h3>
-                                    <div className="text-sm text-white/50 font-mono hidden md:block">{item.period}</div>
-                                    <div className="text-sm md:text-base text-white/70">{item.role}</div>
-                                    <div className="text-sm text-white/50 uppercase tracking-wider md:text-right hidden md:block">
-                                        {item.location}
-                                    </div>
-                                </div>
-                                <div className="text-[10px] font-mono text-white/40 uppercase tracking-widest mt-2 md:hidden">
-                                    {item.period} // {item.location}
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </section>
 
             {/* Design Studio Feature */}
             <div className="mb-20">

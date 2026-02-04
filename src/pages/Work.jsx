@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import ParticleBackground from '../components/ParticleBackground';
 import Button from '../components/Button';
 import AppFlow from '../components/AppFlow';
+import { motion } from 'framer-motion';
+import { staggerContainer, fadeInUp } from '../lib/animations';
 
 const SECTION_LINKS = [
     { id: 'apps', label: 'Apps + Tools' },
@@ -205,9 +207,15 @@ const Work = () => {
                     <h2 className="text-xl font-bold text-white tracking-tight">Motion + Video</h2>
                     <div className="h-px bg-white/10 flex-1"></div>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <motion.div
+                    variants={staggerContainer(0.1)}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, margin: "-100px" }}
+                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+                >
                     {MOTION_VIDEOS.map((item) => (
-                        <div key={item.id} className="group rounded-2xl overflow-hidden border surface-panel-border surface-panel">
+                        <motion.div variants={fadeInUp} key={item.id} className="group rounded-2xl overflow-hidden border surface-panel-border surface-panel hover:border-orange-500/50 transition-colors duration-500">
                             <div className="relative" style={{ aspectRatio: '16/9' }}>
                                 <iframe
                                     loading="lazy"
@@ -229,9 +237,9 @@ const Work = () => {
                                     {item.tech}
                                 </div>
                             </div>
-                        </div>
+                        </motion.div>
                     ))}
-                </div>
+                </motion.div>
             </section>
 
             {/* Heritage Art */}
@@ -243,9 +251,15 @@ const Work = () => {
                 <p className="text-slate-400 text-sm max-w-2xl">
                     Personal artwork rooted in Special Forces culture, heritage, and brotherhood. Many of these designs are available as merchandise.
                 </p>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <motion.div
+                    variants={staggerContainer(0.1)}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, margin: "-100px" }}
+                    className="grid grid-cols-1 md:grid-cols-2 gap-6"
+                >
                     {HERITAGE_ART.map((item) => (
-                        <div key={item.id} className="group rounded-2xl overflow-hidden border surface-panel-border surface-panel">
+                        <motion.div variants={fadeInUp} key={item.id} className="group rounded-2xl overflow-hidden border surface-panel-border surface-panel hover:border-red-500/50 transition-colors duration-500">
                             <div className="relative bg-black/50" style={{ aspectRatio: '4/3' }}>
                                 <img
                                     src={item.image}
@@ -261,9 +275,9 @@ const Work = () => {
                                     {item.tools}
                                 </div>
                             </div>
-                        </div>
+                        </motion.div>
                     ))}
-                </div>
+                </motion.div>
             </section>
 
             {/* Design Systems */}
@@ -272,18 +286,24 @@ const Work = () => {
                     <h2 className="text-xl font-bold text-white tracking-tight">Design Systems</h2>
                     <div className="h-px bg-white/10 flex-1"></div>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <motion.div
+                    variants={staggerContainer(0.1)}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, margin: "-100px" }}
+                    className="grid grid-cols-1 md:grid-cols-3 gap-6"
+                >
                     {DESIGN_SYSTEMS.map((item) => (
-                        <div key={item.id} className="group rounded-2xl overflow-hidden border surface-panel-border surface-panel">
+                        <motion.div variants={fadeInUp} key={item.id} className="group rounded-2xl overflow-hidden border surface-panel-border surface-panel hover:border-blue-500/50 transition-colors duration-500">
                             <img src={item.image} alt={item.title} className="w-full h-56 object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
                             <div className="p-6">
                                 <div className="text-[10px] font-mono text-slate-500 uppercase tracking-widest">{item.subtitle}</div>
                                 <h3 className="text-xl font-bold text-white mt-2">{item.title}</h3>
                                 <p className="text-sm text-slate-400 mt-2">{item.description}</p>
                             </div>
-                        </div>
+                        </motion.div>
                     ))}
-                </div>
+                </motion.div>
             </section>
 
             {/* Merch */}
@@ -292,9 +312,15 @@ const Work = () => {
                     <h2 className="text-xl font-bold text-white tracking-tight">Merch + Drops</h2>
                     <div className="h-px bg-white/10 flex-1"></div>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <motion.div
+                    variants={staggerContainer(0.1)}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, margin: "-100px" }}
+                    className="grid grid-cols-1 md:grid-cols-3 gap-6"
+                >
                     {MERCH.map((item) => (
-                        <div key={item.id} className="group rounded-2xl overflow-hidden border surface-panel-border surface-panel">
+                        <motion.div variants={fadeInUp} key={item.id} className="group rounded-2xl overflow-hidden border surface-panel-border surface-panel hover:border-emerald-500/50 transition-colors duration-500">
                             <img src={item.image} alt={item.title} className="w-full h-56 object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
                             <div className="p-6">
                                 <div className="text-[10px] font-mono text-slate-500 uppercase tracking-widest">{item.subtitle}</div>
@@ -304,9 +330,9 @@ const Work = () => {
                                     {item.cta} <ArrowRight className="w-4 h-4" />
                                 </a>
                             </div>
-                        </div>
+                        </motion.div>
                     ))}
-                </div>
+                </motion.div>
             </section>
 
             {/* Plans */}
@@ -315,15 +341,21 @@ const Work = () => {
                     <h2 className="text-xl font-bold text-white tracking-tight">Plans + Roadmap</h2>
                     <div className="h-px bg-white/10 flex-1"></div>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <motion.div
+                    variants={staggerContainer(0.1)}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, margin: "-100px" }}
+                    className="grid grid-cols-1 md:grid-cols-3 gap-6"
+                >
                     {PLANS.map((item) => (
-                        <div key={item.id} className="rounded-2xl border surface-panel-border surface-panel-muted p-6">
+                        <motion.div variants={fadeInUp} key={item.id} className="rounded-2xl border surface-panel-border surface-panel-muted p-6 hover:border-white/30 transition-colors duration-500">
                             <div className="text-[10px] font-mono text-slate-500 uppercase tracking-widest">{item.subtitle}</div>
                             <h3 className="text-xl font-bold text-white mt-2">{item.title}</h3>
                             <p className="text-sm text-slate-400 mt-2">{item.description}</p>
-                        </div>
+                        </motion.div>
                     ))}
-                </div>
+                </motion.div>
             </section>
         </div>
     );

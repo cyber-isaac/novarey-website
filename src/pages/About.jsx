@@ -19,8 +19,17 @@ import DesignStudio from '../components/DesignStudio';
 import ParticleBackground from '../components/ParticleBackground';
 import AuraBackground from '../components/AuraBackground';
 import Button from '../components/Button';
-import GlobeExtruded from '../components/GlobeExtruded';
 import GlitchReveal from '../components/GlitchReveal';
+import MilitaryHistoryGlobe, { DESTINATIONS } from '../components/MilitaryHistoryGlobe';
+import { motion } from 'framer-motion';
+import { staggerContainer, fadeInUp } from '../lib/animations';
+
+const SKILLS = {
+    design: ['Visual Design', 'Brand Development', 'AI-Enhanced Design', 'Marketing Design', 'Cross Platform Design', 'Design Systems'],
+    technical: ['Adobe Creative Suite', 'Visual Studio Code', 'ChatGPT', 'Claude AI', 'MidJourney', 'RunwayML', 'BotPress'],
+    leadership: ['Project Management', 'Operations Leadership', 'Stakeholder Engagement', 'Team Leadership', 'Strategic Planning'],
+    certifications: ['PMP Certified', 'Cybersecurity', 'Special Forces', 'TS/SCI Clearance']
+};
 
 const TOOLSTACK = [
     'Adobe After Effects',
@@ -179,50 +188,7 @@ const About = () => {
             </section>
 
 
-            {/* Globe - Places I've Been */}
-            <section className="w-full py-16 animate-on-scroll">
-                <div className="max-w-7xl mx-auto px-4 md:px-8">
-                    <div className="flex flex-col lg:flex-row gap-10 items-start">
-                        <div className="lg:w-1/3 space-y-6">
-                            <div className="text-sm font-mono uppercase tracking-widest text-orange-400">
-                                Field Map // Deployment History
-                            </div>
-                            <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-white uppercase italic">
-                                Places I've Been
-                            </h2>
-                            <p className="text-lg text-slate-400 leading-relaxed">
-                                A living map of countries that shaped my perspective through military deployments, training missions, and field experience.
-                            </p>
-                            <div className="space-y-4">
-                                <div>
-                                    <div className="text-xs font-mono uppercase tracking-widest text-red-400 mb-2">⚔ Operated</div>
-                                    <div className="flex flex-wrap gap-2 text-xs font-mono">
-                                        {['Cambodia', 'Philippines', 'Singapore', 'Thailand', 'Qatar', 'Afghanistan', 'Japan', 'Kuwait', 'Uzbekistan', 'Jordan', 'South Korea', 'Myanmar'].map((country) => (
-                                            <span key={country} className="px-3 py-1.5 rounded-full border border-red-500/30 bg-red-500/10 text-red-400">
-                                                {country}
-                                            </span>
-                                        ))}
-                                    </div>
-                                </div>
-                                <div>
-                                    <div className="text-xs font-mono uppercase tracking-widest text-orange-400 mb-2">✓ Visited</div>
-                                    <div className="flex flex-wrap gap-2 text-xs font-mono">
-                                        {['United States', 'Mexico', 'Canada'].map((country) => (
-                                            <span key={country} className="px-3 py-1.5 rounded-full border border-orange-500/30 bg-orange-500/10 text-orange-400">
-                                                {country}
-                                            </span>
-                                        ))}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="lg:w-2/3 relative h-[450px] md:h-[550px] rounded-3xl border border-white/10 bg-transparent overflow-hidden">
-                            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,50,50,0.15),transparent_60%)]"></div>
-                            <GlobeExtruded />
-                        </div>
-                    </div>
-                </div>
-            </section>
+
 
 
             {/* Stats */}
@@ -230,7 +196,7 @@ const About = () => {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                     <div className="p-6 rounded-2xl bg-white/5 border border-white/10">
                         <Crosshair className="w-8 h-8 text-emerald-400 mb-4" />
-                        <h3 className="text-3xl font-bold text-white mb-1">12+ yrs</h3>
+                        <h3 className="text-3xl font-bold text-white mb-1">17.5 yrs</h3>
                         <p className="text-slate-500 text-sm uppercase tracking-wider">Special Forces Experience</p>
                     </div>
                     <div className="p-6 rounded-2xl bg-white/5 border border-white/10">
@@ -246,48 +212,164 @@ const About = () => {
                 </div>
             </section>
 
-            {/* Military + Design */}
-            <section className="max-w-6xl mx-auto py-8 animate-on-scroll">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-                    <div className="space-y-8">
-                        <h2 className="text-3xl font-black text-white uppercase italic">Green Beret Foundations</h2>
+            {/* Military History: Interactive Globe Mission Context */}
+            {/* Military History: Interactive Globe Mission Context */}
+            <section className="relative w-full">
+                {/* Sticky Globe Background */}
+                <div className="sticky top-0 h-screen w-full -z-10 opacity-60 md:opacity-100">
+                    <MilitaryHistoryGlobe />
+                </div>
+
+                <div className="max-w-7xl mx-auto px-6 relative z-10 -mt-[100vh] pt-[20vh] pb-32">
+                    <div className="mb-24 md:mb-48 space-y-8 max-w-lg">
+                        <div className="inline-flex items-center gap-3 text-orange-500/60 font-mono text-[10px] tracking-[0.3em] uppercase">
+                            <Crosshair className="w-4 h-4" />
+                            MISSION_RECORD
+                        </div>
+                        <h2 className="text-4xl md:text-6xl font-black text-white uppercase italic leading-tight">
+                            Green Beret <br />Foundations
+                        </h2>
                         <div className="space-y-6 text-slate-400 leading-relaxed">
                             <p>
                                 My Special Forces background forged the way I approach design - with clarity, systems thinking,
-                                and mission-level precision. Planning, execution, iteration, and adaptability are baked into every
-                                project I lead.
+                                and mission-level precision.
                             </p>
-                            <p>
-                                From operational planning to visual communication, I learned how to build under pressure,
-                                coordinate across teams, and deliver results that hold up in real-world conditions.
+                            <p className="text-sm border-l border-orange-500/30 pl-6 italic">
+                                Scroll down to target specific mission locations.
                             </p>
-                        </div>
-                        <div className="flex flex-wrap gap-3">
-                            {['Leadership', 'Operational Design', 'Decision Speed', 'Precision'].map((tag) => (
-                                <span key={tag} className="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[10px] font-mono text-slate-400 uppercase tracking-widest">
-                                    {tag}
-                                </span>
-                            ))}
                         </div>
                     </div>
 
-                    <div className="relative aspect-[4/3] rounded-3xl overflow-hidden border border-white/10 bg-white/5">
-                        <img
-                            src="/meafghanSFguys.png"
-                            alt="Isaac Reyes in Afghanistan"
-                            className="w-full h-full object-cover opacity-90"
-                            loading="lazy"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-tr from-black/65 to-transparent"></div>
-                        <div className="absolute bottom-6 left-6 text-xs font-mono text-white/70 uppercase tracking-widest">
-                            Afghanistan // Special Forces
-                        </div>
+                    {/* Progressive Story Sections */}
+                    <div className="space-y-0">
+                        {DESTINATIONS.map((dest, i) => {
+                            // Alternating Layout Logic
+                            // Even Index (0, 2...) -> Text Left (mr-auto), Globe shifts Right
+                            // Odd Index (1, 3...) -> Text Right (ml-auto), Globe shifts Left
+                            const isEven = i % 2 === 0;
+                            const alignClass = isEven ? 'mr-auto text-left items-start' : 'ml-auto text-right items-end';
+                            const textAlign = isEven ? 'text-left' : 'text-right';
+
+                            return (
+                                <div key={i} className={`military-dest-section min-h-[80vh] flex items-center ${isEven ? 'justify-start' : 'justify-end'}`}>
+                                    <div className={`max-w-xl p-8 border-l-2 ${isEven ? 'border-l-green-500 pl-8' : 'border-r-2 border-r-green-500 pr-8 border-l-0'} bg-black/40 backdrop-blur-md rounded-none transition-all duration-500 ${alignClass}`}>
+                                        <span className={`text-green-500 font-mono text-xs mb-1 block tracking-[0.5em] uppercase ${textAlign}`}>
+                                            MISSION // {dest.city}
+                                        </span>
+                                        <h3 className={`text-7xl md:text-9xl font-black text-white/10 mb-[-0.5em] relative z-0 select-none ${textAlign}`}>
+                                            {dest.year}
+                                        </h3>
+                                        <h4 className={`text-3xl md:text-4xl font-bold text-white mb-4 relative z-10 ${textAlign}`}>{dest.name}</h4>
+                                        <p className={`text-base text-slate-300 leading-relaxed font-light ${textAlign} max-w-sm ml-auto`}>
+                                            {dest.desc}
+                                        </p>
+                                        <div className={`mt-6 pt-6 border-t border-white/10 flex gap-6 text-[10px] font-mono text-white/40 uppercase ${isEven ? 'justify-start' : 'justify-end'}`}>
+                                            <span>MGRS: {dest.mgrs}</span>
+                                            <span className={dest.status === 'MISSION_COMPLETE' ? 'text-green-500' : 'text-green-500'}>
+                                                {dest.status.replace('_', ' ')}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            );
+                        })}
                     </div>
                 </div>
             </section>
 
-            {/* Professional Work */}
-            <section className="max-w-6xl mx-auto py-16 animate-on-scroll">
+            {/* Experience & Skills Section (Merged from History) */}
+            <section className="max-w-6xl mx-auto py-24 animate-on-scroll border-t border-white/5">
+                <div className="text-center mb-16">
+                    <div className="text-[10px] font-mono uppercase tracking-[0.4em] text-white/40 mb-4">
+                        Capabilities // Skill Matrix
+                    </div>
+                    <h2 className="text-3xl md:text-5xl font-black text-white uppercase italic tracking-tight mb-4">
+                        Experience & Skills
+                    </h2>
+                    <p className="text-base text-slate-400 leading-relaxed max-w-3xl mx-auto font-mono">
+                        20+ years of expertise in visual design, project management, strategic operations,
+                        and renewable energy development.
+                    </p>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    {/* Design */}
+                    <div className="p-6 rounded-2xl bg-gradient-to-br from-white/10 to-transparent border border-white/20">
+                        <h3 className="text-white font-bold uppercase tracking-wider text-xs mb-4">Design</h3>
+                        <div className="space-y-2">
+                            {SKILLS.design.map((skill) => (
+                                <div key={skill} className="text-white/60 text-[13px] font-mono flex items-center gap-2">
+                                    <div className="w-1 h-1 rounded-full bg-orange-500"></div>
+                                    {skill}
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Technical */}
+                    <div className="p-6 rounded-2xl bg-gradient-to-br from-blue-500/10 to-transparent border border-blue-500/20">
+                        <h3 className="text-blue-400 font-bold uppercase tracking-wider text-xs mb-4">Technical</h3>
+                        <div className="space-y-2">
+                            {SKILLS.technical.map((skill) => (
+                                <div key={skill} className="text-white/60 text-[13px] font-mono flex items-center gap-2">
+                                    <div className="w-1 h-1 rounded-full bg-blue-500"></div>
+                                    {skill}
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Leadership */}
+                    <div className="p-6 rounded-2xl bg-gradient-to-br from-white/10 to-transparent border border-white/20">
+                        <h3 className="text-white font-bold uppercase tracking-wider text-xs mb-4">Leadership</h3>
+                        <div className="space-y-2">
+                            {SKILLS.leadership.map((skill) => (
+                                <div key={skill} className="text-white/60 text-[13px] font-mono flex items-center gap-2">
+                                    <div className="w-1 h-1 rounded-full bg-emerald-500"></div>
+                                    {skill}
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Certs */}
+                    <div className="p-6 rounded-2xl bg-gradient-to-br from-white/10 to-transparent border border-white/20">
+                        <h3 className="text-white font-bold uppercase tracking-wider text-xs mb-4">Certs</h3>
+                        <div className="space-y-2">
+                            {SKILLS.certifications.map((skill) => (
+                                <div key={skill} className="text-white/60 text-[13px] font-mono flex items-center gap-2">
+                                    <div className="w-1 h-1 rounded-full bg-slate-400"></div>
+                                    {skill}
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+
+                {/* Awards Section */}
+                <motion.div
+                    className="mt-16 text-center"
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true }}
+                    variants={staggerContainer(0.08)}
+                >
+                    <motion.h3 variants={fadeInUp} className="text-[10px] font-mono text-white/40 uppercase tracking-widest mb-6">Notable Awards</motion.h3>
+                    <motion.div variants={fadeInUp} className="flex flex-wrap justify-center gap-3">
+                        {['Bronze Star (2)', 'Purple Heart', 'Meritorious Service (3)', 'Army Commendation (5)', 'NATO Medal'].map((award) => (
+                            <span
+                                key={award}
+                                className="px-4 py-2 rounded-full bg-white/5 border border-white/10 text-white/60 text-[11px] font-mono hover:border-orange-500/50 hover:text-white transition-colors cursor-default"
+                            >
+                                {award}
+                            </span>
+                        ))}
+                    </motion.div>
+                </motion.div>
+            </section>
+
+            {/* Professional Work (Old Section Updated with better spacing) */}
+            <section className="max-w-6xl mx-auto py-24 animate-on-scroll">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
                     <div className="relative aspect-[4/3] rounded-3xl overflow-hidden border border-white/10 bg-white/5">
                         <img
@@ -333,29 +415,35 @@ const About = () => {
             </section>
 
             {/* Toolstack */}
-            <section className="max-w-6xl mx-auto py-8 animate-on-scroll">
-                <div className="rounded-3xl border border-white/10 bg-white/5 p-8 md:p-10">
-                    <div className="flex items-center gap-3 text-orange-500/60 font-mono text-[10px] mb-4 tracking-[0.3em] uppercase">
+            <section className="max-w-6xl mx-auto py-8">
+                <motion.div
+                    className="rounded-3xl border border-white/10 bg-white/5 p-8 md:p-10"
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true }}
+                    variants={staggerContainer(0.1)}
+                >
+                    <motion.div variants={fadeInUp} className="flex items-center gap-3 text-orange-500/60 font-mono text-[10px] mb-4 tracking-[0.3em] uppercase">
                         <PenTool className="w-4 h-4" />
                         TOOLS_AND_METHODS
-                    </div>
-                    <h2 className="text-3xl md:text-4xl font-black text-white uppercase italic">Tools, Methods, and Stack</h2>
-                    <p className="text-slate-400 mt-4 max-w-3xl leading-relaxed">
+                    </motion.div>
+                    <motion.h2 variants={fadeInUp} className="text-3xl md:text-4xl font-black text-white uppercase italic">Tools, Methods, and Stack</motion.h2>
+                    <motion.p variants={fadeInUp} className="text-slate-400 mt-4 max-w-3xl leading-relaxed">
                         From Adobe to AI, I blend technical execution with narrative design to build assets, systems, and
                         digital experiences that scale.
-                    </p>
-                    <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4">
+                    </motion.p>
+                    <motion.div variants={fadeInUp} className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4">
                         {TOOLSTACK.map((tool) => (
-                            <div key={tool} className="rounded-2xl border border-white/10 bg-white/5 p-4 text-sm text-slate-300">
+                            <div key={tool} className="rounded-2xl border border-white/10 bg-white/5 p-4 text-sm text-slate-300 hover:border-[var(--page-accent)] transition-colors duration-500">
                                 {tool}
                             </div>
                         ))}
-                    </div>
-                </div>
+                    </motion.div>
+                </motion.div>
             </section>
 
             {/* Services */}
-            <section className="max-w-6xl mx-auto py-16 animate-on-scroll">
+            <section className="max-w-6xl mx-auto py-16">
                 <div className="flex items-center gap-3 mb-6">
                     <span className="text-xs font-medium text-white/50 uppercase tracking-widest font-mono">Services</span>
                     <div className="h-px flex-1 bg-white/10"></div>
@@ -364,13 +452,19 @@ const About = () => {
                 <p className="text-base text-slate-400 max-w-2xl font-mono">
                     Design, identity, development, and growth - crafted as polished, cohesive experiences.
                 </p>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-10">
+                <motion.div
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true }}
+                    variants={staggerContainer(0.08)}
+                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-10"
+                >
                     {SERVICES.map((item) => (
-                        <div key={item} className="rounded-2xl border border-white/10 bg-white/5 p-6">
+                        <motion.div variants={fadeInUp} key={item} className="rounded-2xl border border-white/10 bg-white/5 p-6 hover:border-[var(--page-accent)] transition-colors duration-500">
                             <h3 className="text-base font-semibold text-white">{item}</h3>
-                        </div>
+                        </motion.div>
                     ))}
-                </div>
+                </motion.div>
             </section>
 
             {/* Design Studio */}

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Search, Folder, Atom, Zap, Globe, Hammer, FileText, HardDrive, Shield, ChevronRight } from 'lucide-react';
 import { db } from '../lib/db';
 import { motion } from 'framer-motion';
+import { staggerContainer, fadeInUp } from '../lib/animations';
 import ConstellationBackground from '../components/ConstellationBackground';
 import Button from '../components/Button';
 
@@ -10,9 +11,8 @@ const CATEGORIES = [
     { id: 'all', label: 'All Files', icon: Folder },
     { id: 'mycology', label: 'Mycology', icon: Atom },
     { id: 'ai', label: 'Intelligence', icon: Zap },
-    { id: 'politics', label: 'World Stats', icon: Globe },
-    { id: 'diy', label: 'Physical', icon: Hammer },
-    { id: 'productivity', label: 'Efficiency', icon: FileText }
+    { id: 'geopolitics', label: 'Geopolitics', icon: Globe },
+    { id: 'design', label: 'A.I. Design', icon: Hammer }
 ];
 
 const IDrive = () => {
@@ -102,16 +102,23 @@ const IDrive = () => {
                 <section className="max-w-7xl mx-auto px-6 pt-10">
                     <section id="overview" className="rounded-[28px] border border-white/10 bg-[#12131A]/45 backdrop-blur-xl p-8 lg:p-12">
                         <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-10 items-start">
-                            <div className="space-y-6">
-                                <div className="animate-on-scroll">
+                            <motion.div
+                                className="space-y-6"
+                                variants={staggerContainer(0.1, 0.2)}
+                                initial="hidden"
+                                whileInView="visible"
+                                viewport={{ once: true }}
+                            >
+                                <motion.div variants={fadeInUp}>
                                     <div className="text-[10px] font-mono uppercase tracking-widest text-emerald-400/70">
                                         Documentation / Getting Started
                                     </div>
                                     <h1 className="text-4xl md:text-5xl font-black text-white tracking-tighter uppercase italic">
                                         The i-Drive
                                     </h1>
-                                </div>
-                                <div className="rounded-2xl border border-white/10 bg-black/20 p-5 animate-on-scroll">
+                                </motion.div>
+
+                                <motion.div variants={fadeInUp} className="rounded-2xl border border-white/10 bg-black/20 p-5">
                                     <ol className="space-y-3 text-sm text-slate-300 max-w-2xl">
                                         <li className="flex items-center justify-between gap-4">
                                             <span className="font-mono uppercase tracking-widest text-white/50">Item Name</span>
@@ -130,8 +137,9 @@ const IDrive = () => {
                                             <span className="text-white">NovaRey Studio</span>
                                         </li>
                                     </ol>
-                                </div>
-                                <div className="rounded-2xl border border-white/10 bg-white/5 p-5 animate-on-scroll">
+                                </motion.div>
+
+                                <motion.div variants={fadeInUp} className="rounded-2xl border border-white/10 bg-white/5 p-5">
                                     <h2 className="text-lg font-semibold text-white">Introduction</h2>
                                     <p className="text-sm text-slate-400 mt-3 max-w-2xl leading-relaxed">
                                         A living blog covering high-interest topics: special operations, politics, military and
@@ -141,17 +149,18 @@ const IDrive = () => {
                                     <div className="mt-4 text-sm text-slate-400">
                                         Expect field notes, research logs, and tactical breakdowns across those domains.
                                     </div>
-                                </div>
-                                <div className="flex flex-wrap items-center gap-4 animate-on-scroll">
+                                </motion.div>
+
+                                <motion.div variants={fadeInUp} className="flex flex-wrap items-center gap-4">
                                     <Button as={Link} to="/contact" className="uppercase italic font-black tracking-widest text-xs">
                                         Request Support
                                     </Button>
                                     <div className="text-xs font-mono text-slate-400 bg-white/5 border border-white/10 px-3 py-2 rounded-xl">
                                         PATH: /root/archive/declassified
                                     </div>
-                                </div>
-                            </div>
-                            <figure className="rounded-3xl border border-white/10 overflow-hidden bg-black/25 animate-on-scroll">
+                                </motion.div>
+                            </motion.div>
+                            <motion.figure variants={fadeInUp} className="rounded-3xl border border-white/10 overflow-hidden bg-black/25">
                                 <img
                                     src="/homepage_whatido.png"
                                     alt="Archive preview"
@@ -160,9 +169,15 @@ const IDrive = () => {
                                 <figcaption className="px-4 py-3 text-xs font-mono text-white/50 border-t border-white/10">
                                     Documentation preview still frame
                                 </figcaption>
-                            </figure>
+                            </motion.figure>
                         </div>
-                        <div className="mt-8 rounded-2xl border border-white/10 bg-black/20 p-5 animate-on-scroll">
+                        <motion.div
+                            className="mt-8 rounded-2xl border border-white/10 bg-black/20 p-5"
+                            variants={fadeInUp}
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true }}
+                        >
                             <h3 className="text-base font-semibold text-white">Template Features</h3>
                             <ul className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-slate-400 max-w-2xl">
                                 <li>Structured documentation layout</li>
@@ -172,7 +187,7 @@ const IDrive = () => {
                                 <li>Translucent panels and grid</li>
                                 <li>Responsive column layout</li>
                             </ul>
-                        </div>
+                        </motion.div>
                     </section>
                 </section>
 
@@ -224,111 +239,136 @@ const IDrive = () => {
                                 </div>
                             </div>
 
-                            <div className="rounded-2xl border border-white/10 bg-[#14121D]/45 backdrop-blur-sm p-5">
-                                <h4 className="text-sm font-mono uppercase tracking-widest text-white/70 mb-4">Popular Posts</h4>
+                            <motion.div
+                                className="rounded-2xl border border-white/10 bg-[#14121D]/45 backdrop-blur-sm p-5"
+                                variants={staggerContainer(0.1, 0.2)}
+                                initial="hidden"
+                                whileInView="visible"
+                                viewport={{ once: true }}
+                            >
+                                <motion.h4 variants={fadeInUp} className="text-sm font-mono uppercase tracking-widest text-white/70 mb-4">Popular Posts</motion.h4>
                                 <div className="space-y-4">
                                     {sidebarPosts.map((post) => (
-                                        <Link key={post.id} to={`/idrive/${post.id}`} className="flex gap-3 group">
-                                            <div className="h-14 w-14 rounded-xl overflow-hidden border border-white/10">
-                                                <img src={post.coverImage || '/homepage_info.png'} alt={post.title} className="w-full h-full object-cover" />
-                                            </div>
-                                            <div className="flex-1">
-                                                <div className="text-[10px] font-mono text-slate-500 uppercase tracking-widest">{post.date}</div>
-                                                <div className="text-sm text-white group-hover:text-emerald-300 transition-colors line-clamp-2">
-                                                    {post.title}
+                                        <motion.div key={post.id} variants={fadeInUp}>
+                                            <Link to={`/idrive/${post.id}`} className="flex gap-3 group">
+                                                <div className="h-14 w-14 rounded-xl overflow-hidden border border-white/10 group-hover:border-[var(--page-accent)] transition-colors">
+                                                    <img src={post.coverImage || '/homepage_info.png'} alt={post.title} className="w-full h-full object-cover" />
                                                 </div>
-                                            </div>
-                                        </Link>
+                                                <div className="flex-1">
+                                                    <div className="text-[10px] font-mono text-slate-500 uppercase tracking-widest">{post.date}</div>
+                                                    <div className="text-sm text-white group-hover:text-[var(--page-accent)] transition-colors line-clamp-2">
+                                                        {post.title}
+                                                    </div>
+                                                </div>
+                                            </Link>
+                                        </motion.div>
                                     ))}
                                 </div>
-                            </div>
+                            </motion.div>
                         </aside>
 
                         <div className="space-y-10 pb-16">
 
-                            <section id="featured" className="rounded-2xl border border-white/10 bg-[#14121D]/45 backdrop-blur-sm p-6 animate-on-scroll">
-                                <div className="flex items-center justify-between mb-6">
+                            <motion.section
+                                id="featured"
+                                className="rounded-2xl border border-white/10 bg-[#14121D]/45 backdrop-blur-sm p-6"
+                                variants={staggerContainer(0.1)}
+                                initial="hidden"
+                                whileInView="visible"
+                                viewport={{ once: true, margin: "-100px" }}
+                            >
+                                <motion.div variants={fadeInUp} className="flex items-center justify-between mb-6">
                                     <h2 className="text-xl font-semibold text-white">Featured Intel</h2>
                                     <span className="text-[10px] font-mono uppercase tracking-widest text-slate-400">Priority Feed</span>
-                                </div>
+                                </motion.div>
 
                                 {featuredPost ? (
                                     <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-6">
-                                        <Link
-                                            to={`/idrive/${featuredPost.id}`}
-                                            className="group rounded-2xl border border-white/10 bg-black/20 overflow-hidden hover:border-white/25 transition-all"
-                                        >
-                                            <div className="relative h-52 md:h-64">
-                                                <img
-                                                    src={featuredPost.coverImage || '/homepage_whatido.png'}
-                                                    alt={featuredPost.title}
-                                                    className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity"
-                                                />
-                                                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
-                                                <div className="absolute bottom-5 left-5 right-5">
-                                                    <div className="text-[10px] font-mono uppercase tracking-widest text-white/60">
-                                                        {featuredPost.category.toUpperCase()}
+                                        <motion.div variants={fadeInUp}>
+                                            <Link
+                                                to={`/idrive/${featuredPost.id}`}
+                                                className="group block rounded-2xl border border-white/10 bg-black/20 overflow-hidden hover:border-[var(--page-accent)] transition-all"
+                                            >
+                                                <div className="relative h-52 md:h-64">
+                                                    <img
+                                                        src={featuredPost.coverImage || '/homepage_whatido.png'}
+                                                        alt={featuredPost.title}
+                                                        className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity"
+                                                    />
+                                                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
+                                                    <div className="absolute bottom-5 left-5 right-5">
+                                                        <div className="text-[10px] font-mono uppercase tracking-widest text-white/60">
+                                                            {featuredPost.category.toUpperCase()}
+                                                        </div>
+                                                        <h3 className="text-xl font-semibold text-white mt-2">
+                                                            {featuredPost.title}
+                                                        </h3>
+                                                        <p className="text-sm text-slate-300 mt-2 line-clamp-2">
+                                                            {featuredPost.excerpt}
+                                                        </p>
                                                     </div>
-                                                    <h3 className="text-xl font-semibold text-white mt-2">
-                                                        {featuredPost.title}
-                                                    </h3>
-                                                    <p className="text-sm text-slate-300 mt-2 line-clamp-2">
-                                                        {featuredPost.excerpt}
-                                                    </p>
                                                 </div>
-                                            </div>
-                                        </Link>
+                                            </Link>
+                                        </motion.div>
 
                                         <div className="space-y-4">
                                             {secondaryPosts.map((post) => (
-                                                <Link
-                                                    key={post.id}
-                                                    to={`/idrive/${post.id}`}
-                                                    className="group flex gap-4 rounded-xl border border-white/10 bg-black/20 p-4 hover:border-white/25 transition-all"
-                                                >
-                                                    <div className="h-16 w-20 rounded-xl overflow-hidden border border-white/10">
-                                                        <img
-                                                            src={post.coverImage || '/homepage_info.png'}
-                                                            alt={post.title}
-                                                            className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity"
-                                                        />
-                                                    </div>
-                                                    <div className="flex-1">
-                                                        <div className="text-[10px] font-mono text-white/50 uppercase tracking-widest">
-                                                            {post.date}
+                                                <motion.div key={post.id} variants={fadeInUp}>
+                                                    <Link
+                                                        to={`/idrive/${post.id}`}
+                                                        className="group flex gap-4 rounded-xl border border-white/10 bg-black/20 p-4 hover:border-[var(--page-accent)] transition-all"
+                                                    >
+                                                        <div className="h-16 w-20 rounded-xl overflow-hidden border border-white/10 group-hover:border-[var(--page-accent)] transition-colors">
+                                                            <img
+                                                                src={post.coverImage || '/homepage_info.png'}
+                                                                alt={post.title}
+                                                                className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity"
+                                                            />
                                                         </div>
-                                                        <h3 className="text-sm font-semibold text-white mt-2 line-clamp-2">
-                                                            {post.title}
-                                                        </h3>
-                                                        <div className="text-[10px] font-mono text-slate-400 mt-2">
-                                                            {post.clearance}
+                                                        <div className="flex-1">
+                                                            <div className="text-[10px] font-mono text-white/50 uppercase tracking-widest">
+                                                                {post.date}
+                                                            </div>
+                                                            <h3 className="text-sm font-semibold text-white mt-2 line-clamp-2">
+                                                                {post.title}
+                                                            </h3>
+                                                            <div className="text-[10px] font-mono text-slate-400 mt-2">
+                                                                {post.clearance}
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                </Link>
+                                                    </Link>
+                                                </motion.div>
                                             ))}
                                         </div>
                                     </div>
                                 ) : (
                                     <div className="py-16 text-center text-slate-500">No featured entries yet.</div>
                                 )}
-                            </section>
+                            </motion.section>
 
-                            <section id="latest" className="animate-on-scroll">
-                                <div className="flex items-center justify-between mb-4">
+                            <section id="latest">
+                                <motion.div
+                                    className="flex items-center justify-between mb-4"
+                                    variants={fadeInUp}
+                                    initial="hidden"
+                                    whileInView="visible"
+                                    viewport={{ once: true }}
+                                >
                                     <h2 className="text-xl font-semibold text-white">Latest Drops</h2>
                                     <span className="text-[10px] font-mono uppercase tracking-widest text-slate-400">Grid Feed</span>
-                                </div>
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    {gridPosts.map((post, idx) => (
-                                        <motion.div
-                                            key={post.id}
-                                            initial={{ opacity: 0, y: 10 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            transition={{ delay: idx * 0.05 }}
-                                        >
+                                </motion.div>
+                                <motion.div
+                                    className="grid grid-cols-1 md:grid-cols-2 gap-6"
+                                    variants={staggerContainer(0.08)}
+                                    initial="hidden"
+                                    whileInView="visible"
+                                    viewport={{ once: true }}
+                                >
+                                    {gridPosts.map((post) => (
+                                        <motion.div key={post.id} variants={fadeInUp}>
                                             <Link
                                                 to={`/idrive/${post.id}`}
-                                                className="group block rounded-2xl border border-white/10 bg-[#14121D]/45 backdrop-blur-sm overflow-hidden hover:border-white/25 transition-all hover:-translate-y-1"
+                                                className="group block rounded-2xl border border-white/10 bg-[#14121D]/45 backdrop-blur-sm overflow-hidden hover:border-[var(--page-accent)] transition-all hover:-translate-y-1"
                                             >
                                                 <div className="h-40 overflow-hidden">
                                                     <img
@@ -341,7 +381,7 @@ const IDrive = () => {
                                                     <div className="text-[10px] font-mono text-slate-400 uppercase tracking-widest">
                                                         {post.date} // {post.category.toUpperCase()}
                                                     </div>
-                                                    <h3 className="text-lg font-semibold text-white mt-2 line-clamp-2">
+                                                    <h3 className="text-lg font-semibold text-white mt-2 line-clamp-2 italic group-hover:text-[var(--page-accent)] transition-colors">
                                                         {post.title}
                                                     </h3>
                                                     <p className="text-sm text-slate-400 mt-3 line-clamp-2">
@@ -355,17 +395,26 @@ const IDrive = () => {
                                             </Link>
                                         </motion.div>
                                     ))}
+                                </motion.div>
 
-                                    {filteredPosts.length === 0 && (
+                                {
+                                    filteredPosts.length === 0 && (
                                         <div className="col-span-full py-24 flex flex-col items-center justify-center text-slate-600 animate-pulse">
                                             <HardDrive className="w-12 h-12 mb-4 opacity-20" />
                                             <span className="font-mono text-sm uppercase tracking-widest">No entries found in current directory</span>
                                         </div>
-                                    )}
-                                </div>
+                                    )
+                                }
                             </section>
 
-                            <section id="media" className="rounded-2xl border border-white/10 bg-[#14121D]/45 backdrop-blur-sm p-6 animate-on-scroll">
+                            <motion.section
+                                id="media"
+                                className="rounded-2xl border border-white/10 bg-[#14121D]/45 backdrop-blur-sm p-6"
+                                variants={fadeInUp}
+                                initial="hidden"
+                                whileInView="visible"
+                                viewport={{ once: true }}
+                            >
                                 <div className="flex items-center justify-between mb-4">
                                     <h2 className="text-xl font-semibold text-white">Media Vault</h2>
                                     <span className="text-[10px] font-mono uppercase tracking-widest text-slate-400">Placeholders</span>
@@ -381,9 +430,16 @@ const IDrive = () => {
                                         Image Gallery Placeholder
                                     </div>
                                 </div>
-                            </section>
+                            </motion.section>
 
-                            <section id="tags" className="rounded-2xl border border-white/10 bg-[#14121D]/45 backdrop-blur-sm p-6 animate-on-scroll">
+                            <motion.section
+                                id="tags"
+                                className="rounded-2xl border border-white/10 bg-[#14121D]/45 backdrop-blur-sm p-6"
+                                variants={fadeInUp}
+                                initial="hidden"
+                                whileInView="visible"
+                                viewport={{ once: true }}
+                            >
                                 <div className="flex items-center justify-between mb-4">
                                     <h2 className="text-xl font-semibold text-white">Tags & Filters</h2>
                                     <span className="text-[10px] font-mono uppercase tracking-widest text-slate-400">Searchable</span>
@@ -408,12 +464,12 @@ const IDrive = () => {
                                         </button>
                                     ))}
                                 </div>
-                            </section>
+                            </motion.section>
                         </div>
-                    </div>
-                </section>
-            </main>
-        </div>
+                    </div >
+                </section >
+            </main >
+        </div >
     );
 };
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import {
-    Home, Briefcase, Camera, LayoutGrid, History as HistoryIcon, HardDrive, Cpu,
+    Home, Briefcase, Camera, LayoutGrid, HardDrive, Cpu,
     ChevronLeft, ChevronRight, Settings, LogOut, PanelLeftClose, PanelLeft,
     Image as ImageIcon, Menu, FileText, Layout, PenTool, Code2, Megaphone,
     Monitor, Rocket, Zap, Palette, Hash, Mail
@@ -82,7 +82,6 @@ const Sidebar = () => {
                     <NavItem icon={<Home className="w-5 h-5" />} label="Home" to="/" accent="#22c55e" soft="rgba(34, 197, 94, 0.18)" collapsed={isCollapsed} />
                     <NavItem icon={<Briefcase className="w-5 h-5" />} label="Work" to="/work" accent="#f97316" soft="rgba(249, 115, 22, 0.18)" collapsed={isCollapsed} />
                     <NavItem icon={<ImageIcon className="w-5 h-5" />} label="Portfolio" to="/portfolio" accent="#38bdf8" soft="rgba(56, 189, 248, 0.18)" collapsed={isCollapsed} />
-                    <NavItem icon={<FileText className="w-5 h-5" />} label="History" to="/history" accent="#a855f7" soft="rgba(168, 85, 247, 0.18)" collapsed={isCollapsed} />
                     <NavItem icon={<HardDrive className="w-5 h-5" />} label="The i-Drive" to="/idrive" accent="#6366f1" soft="rgba(99, 102, 241, 0.18)" collapsed={isCollapsed} />
                     <NavItem icon={<Cpu className="w-5 h-5" />} label="A.I. Strategy" to="/ai-strategy" accent="#ec4899" soft="rgba(236, 72, 153, 0.18)" collapsed={isCollapsed} />
                     <NavItem icon={<Layout className="w-5 h-5" />} label="About" to="/about" accent="#f59e0b" soft="rgba(245, 158, 11, 0.18)" collapsed={isCollapsed} />
