@@ -51,9 +51,9 @@ const MilitaryHistoryGlobe = () => {
 
         // --- POST PROCESSING (Subtler Bloom) ---
         const renderPass = new RenderPass(scene, camera);
-        const bloomPass = new UnrealBloomPass(new THREE.Vector2(w, h), 0.8, 0.4, 0.85);
-        bloomPass.threshold = 0.2;
-        bloomPass.strength = 0.6;
+        const bloomPass = new UnrealBloomPass(new THREE.Vector2(w, h), 0.5, 0.4, 0.85); // Reduced bloom
+        bloomPass.threshold = 0.25;
+        bloomPass.strength = 0.5;
         bloomPass.radius = 0.4;
 
         const composer = new EffectComposer(renderer);
@@ -95,21 +95,23 @@ const MilitaryHistoryGlobe = () => {
                     vec4 mask = texture2D(uMask, vUv);
                     float land = mask.g; 
                     
-                    float scan = smoothstep(0.48, 0.5, sin(vUv.y * 150.0 + uTime * 1.5));
+                    float scan = smoothstep(0.48, 0.5, sin(vUv.y * 120.0 + uTime * 1.5));
                     float grid = step(0.992, fract(vUv.x * 240.0)) + step(0.99, fract(vUv.y * 120.0));
                     
-                    vec3 landColor = uColor * (0.15 + scan * 0.05 + grid * 0.15); 
-                    vec3 oceanColor = vec3(0.02, 0.03, 0.05); 
+                    vec3 landColor = uColor * (0.2 + scan * 0.1 + grid * 0.3); 
+                    vec3 oceanColor = vec3(0.01, 0.02, 0.04); 
                     
                     vec3 baseColor = mix(oceanColor, landColor, land);
+                    float fresnel = pow(1.0 - dot(vNormal, vec3(0,0,1.0)), 4.0);
+                    baseColor += uColor * fresnel * 0.3;
                     
-                    float fresnel = pow(1.1 - dot(vNormal, vec3(0,0,1.0)), 4.0);
-                    baseColor += uColor * fresnel * 0.4;
-                    
-                    gl_FragColor = vec4(baseColor, 0.95);
+                    // Transparency: oceans are near-clear, land is solid glowing emerald
+                    float alpha = mix(0.1, 0.8, land) + fresnel * 0.4;
+                    gl_FragColor = vec4(baseColor, alpha);
                 }
             `,
-            transparent: true
+            transparent: true,
+            blending: THREE.NormalBlending
         });
 
         const earth = new THREE.Mesh(new THREE.SphereGeometry(GLOBE_RADIUS, 128, 128), tacticalMat);
@@ -126,8 +128,8 @@ const MilitaryHistoryGlobe = () => {
             fragmentShader: `
                 varying vec3 vNormal;
                 void main() {
-                    float intensity = pow(0.65 - dot(vNormal, vec3(0, 0, 1.0)), 8.0);
-                    gl_FragColor = vec4(0.06, 0.72, 0.5, 0.8) * intensity; 
+                    float intensity = pow(0.7 - dot(vNormal, vec3(0, 0, 1.0)), 10.0);
+                    gl_FragColor = vec4(0.06, 0.72, 0.5, 0.5) * intensity; 
                 }
             `,
             blending: THREE.AdditiveBlending,
@@ -146,35 +148,6 @@ const MilitaryHistoryGlobe = () => {
             return new THREE.Vector3(x, y, z);
         }
 
-        const pathGroup = new THREE.Group();
-        earthGroup.add(pathGroup);
-        const arcItems = [];
-
-        DESTINATIONS.forEach((loc, i) => {
-            if (i === 0) return;
-            const prev = DESTINATIONS[i - 1];
-            const startP = latLonToVector3(prev.lat, prev.lon, GLOBE_RADIUS);
-            const endP = latLonToVector3(loc.lat, loc.lon, GLOBE_RADIUS);
-
-            const dist = startP.distanceTo(endP);
-            const midP = startP.clone().add(endP).multiplyScalar(0.5).normalize().setLength(GLOBE_RADIUS + (dist * 0.25));
-
-            const curve = new THREE.QuadraticBezierCurve3(startP, midP, endP);
-            const points = curve.getPoints(100);
-            const geometry = new THREE.BufferGeometry().setFromPoints(points);
-
-            const material = new THREE.LineBasicMaterial({
-                color: 0x10b981,
-                transparent: true,
-                opacity: 0,
-                blending: THREE.AdditiveBlending
-            });
-            const line = new THREE.Line(geometry, material);
-            pathGroup.add(line);
-
-            arcItems.push({ line, curve, id: i });
-        });
-
         const markerGroup = new THREE.Group();
         earthGroup.add(markerGroup);
         const markers = [];
@@ -191,16 +164,36 @@ const MilitaryHistoryGlobe = () => {
             );
             mContainer.add(dot);
 
-            const ringGeo = new THREE.RingGeometry(0.08, 0.1, 4, 1);
-            const ringMat = new THREE.MeshBasicMaterial({ color: 0x10b981, side: THREE.DoubleSide });
-            const ring = new THREE.Mesh(ringGeo, ringMat);
+            const ring = new THREE.Mesh(
+                new THREE.RingGeometry(0.08, 0.1, 4, 1),
+                new THREE.MeshBasicMaterial({ color: 0x10b981, side: THREE.DoubleSide })
+            );
             mContainer.add(ring);
 
             markers.push({ group: mContainer, ring, id: i });
             markerGroup.add(mContainer);
         });
 
-        let currentActive = -1;
+        const arcGroup = new THREE.Group();
+        earthGroup.add(arcGroup);
+        const arcs = [];
+        DESTINATIONS.forEach((loc, i) => {
+            if (i === 0) return;
+            const prev = DESTINATIONS[i - 1];
+            const start = latLonToVector3(prev.lat, prev.lon, GLOBE_RADIUS);
+            const end = latLonToVector3(loc.lat, loc.lon, GLOBE_RADIUS);
+            const dist = start.distanceTo(end);
+            const mid = start.clone().add(end).multiplyScalar(0.5).normalize().setLength(GLOBE_RADIUS + (dist * 0.2));
+            const curve = new THREE.QuadraticBezierCurve3(start, mid, end);
+            const pts = curve.getPoints(50);
+            const geo = new THREE.BufferGeometry().setFromPoints(pts);
+            const mat = new THREE.LineBasicMaterial({ color: 0x10b981, transparent: true, opacity: 0 });
+            const line = new THREE.Line(geo, mat);
+            arcGroup.add(line);
+            arcs.push({ line, id: i });
+        });
+
+        let activeIdx = -1;
         const ctx = gsap.context(() => {
             const scroller = document.querySelector('[data-scroll-container]') || window;
             const sections = document.querySelectorAll('.military-dest-section');
@@ -209,56 +202,30 @@ const MilitaryHistoryGlobe = () => {
                 const loc = DESTINATIONS[i];
                 const isEven = i % 2 === 0;
                 const xPos = isEven ? 4.5 : -4.5;
-
                 const parallax = Math.atan2(xPos, 18);
                 const targetRotY = -1 * (loc.lon * (Math.PI / 180)) - (Math.PI / 2) + parallax;
                 const targetRotX = (loc.lat * (Math.PI / 180));
 
-                gsap.to(earthGroup.rotation, {
-                    y: targetRotY,
-                    x: targetRotX,
-                    ease: "power2.inOut",
+                const tl = gsap.timeline({
                     scrollTrigger: {
                         trigger: section,
                         scroller: scroller,
                         start: 'top 80%',
                         end: 'bottom 20%',
-                        scrub: 1,
-                        onUpdate: (self) => {
-                            if (self.isActive) {
-                                if (currentActive !== i) {
-                                    currentActive = i;
-                                    setActiveIndexState(i);
-                                }
-                            }
-                        }
+                        scrub: 1.5, // Smoother follow
+                        onEnter: () => { activeIdx = i; setActiveIndexState(i); },
+                        onEnterBack: () => { activeIdx = i; setActiveIndexState(i); },
+                        onLeave: () => { if (activeIdx === i) { activeIdx = -1; setActiveIndexState(-1); } },
+                        onLeaveBack: () => { if (activeIdx === i) { activeIdx = -1; setActiveIndexState(-1); } }
                     }
                 });
 
-                gsap.to(earthGroup.position, {
-                    x: xPos,
-                    ease: "power2.inOut",
-                    scrollTrigger: {
-                        trigger: section,
-                        scroller: scroller,
-                        start: 'top 80%',
-                        end: 'bottom 20%',
-                        scrub: 1
-                    }
-                });
+                tl.to(earthGroup.rotation, { y: targetRotY, x: targetRotX, ease: "sine.inOut" }, "sync")
+                    .to(earthGroup.position, { x: xPos, ease: "sine.inOut" }, "sync");
 
                 if (i > 0) {
-                    const arc = arcItems[i - 1];
-                    gsap.to(arc.line.material, {
-                        opacity: 0.6,
-                        scrollTrigger: {
-                            trigger: section,
-                            scroller: scroller,
-                            start: 'top 80%',
-                            end: 'top 50%',
-                            scrub: 1
-                        }
-                    });
+                    const arc = arcs[i - 1];
+                    tl.to(arc.line.material, { opacity: 0.5, duration: 0.5 }, "sync");
                 }
             });
         });
@@ -269,23 +236,20 @@ const MilitaryHistoryGlobe = () => {
             tacticalMat.uniforms.uTime.value = time * 0.001;
 
             markers.forEach((m, i) => {
-                const isActive = i === currentActive;
+                const active = i === activeIdx;
                 m.ring.rotation.z += 0.02;
-                m.ring.scale.setScalar(isActive ? 2.8 + Math.sin(time * 0.01) * 0.4 : 1.0);
+                m.ring.scale.setScalar(active ? 2.5 + Math.sin(time * 0.01) * 0.5 : 1.0);
 
-                const labelDiv = labelContainerRef.current?.children[i];
-                if (labelDiv) {
-                    const screenPos = m.group.position.clone();
-                    earthGroup.localToWorld(screenPos);
-                    screenPos.project(camera);
-
-                    const x = (screenPos.x * 0.5 + 0.5) * w;
-                    const y = (-(screenPos.y * 0.5 - 0.5)) * h;
-
-                    const towardCamera = m.group.getWorldPosition(new THREE.Vector3()).normalize().dot(camera.position.clone().normalize());
-
-                    labelDiv.style.transform = `translate(-50%, -100%) translate(${x}px, ${y}px)`;
-                    labelDiv.style.opacity = (isActive && towardCamera > 0.01) ? 1 : 0;
+                const div = labelContainerRef.current?.children[i];
+                if (div) {
+                    const p = m.group.position.clone();
+                    earthGroup.localToWorld(p);
+                    p.project(camera);
+                    const x = (p.x * 0.5 + 0.5) * w;
+                    const y = (-(p.y * 0.5 - 0.5)) * h;
+                    const dot = m.group.getWorldPosition(new THREE.Vector3()).normalize().dot(camera.position.clone().normalize());
+                    div.style.transform = `translate(-50%, -100%) translate(${x}px, ${y}px)`;
+                    div.style.opacity = (active && dot > 0.1) ? 1 : 0;
                 }
             });
 
@@ -308,7 +272,7 @@ const MilitaryHistoryGlobe = () => {
             window.removeEventListener('resize', handleResize);
             cancelAnimationFrame(frameId);
             ctx.revert();
-            if (renderer) renderer.dispose();
+            renderer.dispose();
             tacticalMat.dispose();
             atmosphereMat.dispose();
         };
