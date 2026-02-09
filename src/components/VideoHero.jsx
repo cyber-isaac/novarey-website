@@ -38,7 +38,7 @@ const VideoHero = () => {
                     <span className="text-xs font-mono text-white/60 uppercase tracking-[0.3em]">NovaRey Ventures</span>
                 </div>
 
-                <h1 className="text-4xl md:text-6xl font-bold text-white tracking-tighter mb-3 leading-[1.08]">
+                <h1 className="text-4xl md:text-6xl lg:text-7xl font-display font-bold text-white tracking-tighter mb-3 leading-[1.08]">
                     Isaac Reyes
                 </h1>
 

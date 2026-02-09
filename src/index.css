@@ -40,38 +40,53 @@
 }
 
 body {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Outfit', sans-serif;
   background-color: #050505;
   color: white;
   overflow-x: hidden;
   font-size: 16px;
   line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Smooth font-weight transitions for interactive elements */
+a, button, [role="button"] {
+  transition: font-variation-settings 0.3s ease, color 0.2s ease, opacity 0.2s ease;
 }
 
 /* ===== TYPOGRAPHY SCALE ===== */
-/* Improved sizing for better readability */
+/* Display headings use Syne; body text uses Outfit */
+
+h1, .h1,
+h2, .h2,
+h3, .h3,
+h4, .h4 {
+  font-family: 'Syne', sans-serif;
+}
 
 h1,
 .h1 {
   font-size: clamp(2.5rem, 6vw, 4rem);
-  font-weight: 700;
-  line-height: 1.1;
-  letter-spacing: -0.02em;
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: -0.03em;
 }
 
 h2,
 .h2 {
   font-size: clamp(2rem, 4.5vw, 3rem);
-  font-weight: 600;
-  line-height: 1.15;
-  letter-spacing: -0.015em;
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
 }
 
 h3,
 .h3 {
   font-size: clamp(1.5rem, 3vw, 2rem);
-  font-weight: 600;
-  line-height: 1.25;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
 }
 
 h4,
@@ -113,17 +128,20 @@ p,
 
 /* Section headers with clearer visual hierarchy */
 .section-label {
-  font-size: 0.75rem;
-  font-weight: 500;
-  letter-spacing: 0.15em;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.7rem;
+  font-weight: 400;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--text-3);
 }
 
 .section-title {
+  font-family: 'Syne', sans-serif;
   font-size: clamp(1.75rem, 4vw, 2.5rem);
-  font-weight: 700;
-  line-height: 1.15;
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
   color: var(--text-1);
 }
 
@@ -148,19 +166,6 @@ p,
     opacity: 1;
     transform: translateY(0);
   }
-}
-
-.animate-on-scroll {
-  opacity: 0;
-  transform: translateY(18px);
-  transition: opacity 0.55s ease, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
-  transition-delay: var(--reveal-delay, 0ms);
-  will-change: opacity, transform;
-}
-
-.animate-on-scroll.is-visible {
-  opacity: 1;
-  transform: translateY(0);
 }
 
 .storyline-step {
@@ -1011,95 +1016,6 @@ p,
   display: flex;
   align-items: center;
   overflow: hidden;
-}
-
-/* Enhanced reveal animations */
-.reveal-up {
-  opacity: 0;
-  transform: translateY(60px);
-  transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
-    transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.reveal-up.is-visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.reveal-scale {
-  opacity: 0;
-  transform: scale(0.9);
-  transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.reveal-scale.is-visible {
-  opacity: 1;
-  transform: scale(1);
-}
-
-.reveal-left {
-  opacity: 0;
-  transform: translateX(-60px);
-  transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.reveal-left.is-visible {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-.reveal-right {
-  opacity: 0;
-  transform: translateX(60px);
-  transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.reveal-right.is-visible {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-/* Staggered children animations */
-.stagger-children>* {
-  opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 0.5s ease, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.stagger-children.is-visible>*:nth-child(1) {
-  transition-delay: 0ms;
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.stagger-children.is-visible>*:nth-child(2) {
-  transition-delay: 80ms;
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.stagger-children.is-visible>*:nth-child(3) {
-  transition-delay: 160ms;
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.stagger-children.is-visible>*:nth-child(4) {
-  transition-delay: 240ms;
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.stagger-children.is-visible>*:nth-child(5) {
-  transition-delay: 320ms;
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.stagger-children.is-visible>*:nth-child(6) {
-  transition-delay: 400ms;
-  opacity: 1;
-  transform: translateY(0);
 }
 
 /* Floating animation for decorative elements */

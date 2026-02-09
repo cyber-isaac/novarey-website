@@ -22,7 +22,7 @@ import Button from '../components/Button';
 import GlitchReveal from '../components/GlitchReveal';
 import MilitaryHistoryGlobe, { DESTINATIONS } from '../components/MilitaryHistoryGlobe';
 import { motion } from 'framer-motion';
-import { staggerContainer, fadeInUp } from '../lib/animations';
+import { staggerContainer, fadeInUp, scrollReveal, viewportConfig } from '../lib/animations';
 
 const SKILLS = {
     design: ['Visual Design', 'Brand Development', 'AI-Enhanced Design', 'Marketing Design', 'Cross Platform Design', 'Design Systems'],
@@ -58,7 +58,7 @@ const About = () => {
             <AuraBackground />
 
             {/* Hero Media */}
-            <section className="max-w-6xl mx-auto pt-6 md:pt-10 animate-on-scroll">
+            <motion.section className="max-w-6xl mx-auto pt-6 md:pt-10" variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig}>
                 <div className="space-y-4">
                     <GlitchReveal
                         leftSrc="/mestandingbw.png"
@@ -73,10 +73,10 @@ const About = () => {
                         Slide for A.I. Transformation
                     </div>
                 </div>
-            </section>
+            </motion.section>
 
             {/* Hero */}
-            <section className="max-w-6xl mx-auto pt-8 md:pt-16 animate-on-scroll">
+            <motion.section className="max-w-6xl mx-auto pt-8 md:pt-16" variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig}>
                 <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-10">
                     <div className="lg:max-w-2xl">
                         <div className="inline-flex items-center gap-3 text-[11px] uppercase font-semibold text-white/70 font-mono px-4 py-2 rounded-full border border-white/10 bg-white/5">
@@ -86,7 +86,7 @@ const About = () => {
                         <p className="mt-6 text-base font-medium text-white/70 font-mono">
                             Hi, I'm Isaac Reyes
                         </p>
-                        <h1 className="text-[42px] sm:text-[64px] md:text-[80px] lg:text-[96px] font-black tracking-tight leading-[0.9] uppercase text-white italic mt-4">
+                        <h1 className="text-[42px] sm:text-[64px] md:text-[80px] lg:text-[96px] font-display font-black tracking-tight leading-[0.9] uppercase text-white italic mt-4">
                             <span className="block">Green Beret</span>
                             <span className="block">Design Operator</span>
                             <span className="block">AI Studio Lead</span>
@@ -185,14 +185,14 @@ const About = () => {
                         </div>
                     </div>
                 </div>
-            </section>
+            </motion.section>
 
 
 
 
 
             {/* Stats */}
-            <section className="max-w-6xl mx-auto py-16 animate-on-scroll">
+            <motion.section className="max-w-6xl mx-auto py-16" variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig}>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                     <div className="p-6 rounded-2xl bg-white/5 border border-white/10">
                         <Crosshair className="w-8 h-8 text-emerald-400 mb-4" />
@@ -210,13 +210,13 @@ const About = () => {
                         <p className="text-slate-500 text-sm uppercase tracking-wider">Workflow & Automation Focus</p>
                     </div>
                 </div>
-            </section>
+            </motion.section>
 
             {/* Military History: Interactive Globe Mission Context */}
             {/* Military History: Interactive Globe Mission Context */}
             <section className="relative w-full">
                 {/* Sticky Globe Background */}
-                <div className="sticky top-0 h-screen w-full -z-10 opacity-60 md:opacity-100">
+                <div className="sticky top-0 h-screen w-full -z-10">
                     <MilitaryHistoryGlobe />
                 </div>
 
@@ -278,7 +278,7 @@ const About = () => {
             </section>
 
             {/* Experience & Skills Section (Merged from History) */}
-            <section className="max-w-6xl mx-auto py-24 animate-on-scroll border-t border-white/5">
+            <motion.section className="max-w-6xl mx-auto py-24 border-t border-white/5" variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig}>
                 <div className="text-center mb-16">
                     <div className="text-[10px] font-mono uppercase tracking-[0.4em] text-white/40 mb-4">
                         Capabilities // Skill Matrix
@@ -366,10 +366,10 @@ const About = () => {
                         ))}
                     </motion.div>
                 </motion.div>
-            </section>
+            </motion.section>
 
             {/* Professional Work (Old Section Updated with better spacing) */}
-            <section className="max-w-6xl mx-auto py-24 animate-on-scroll">
+            <motion.section className="max-w-6xl mx-auto py-24" variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig}>
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
                     <div className="relative aspect-[4/3] rounded-3xl overflow-hidden border border-white/10 bg-white/5">
                         <img
@@ -412,7 +412,7 @@ const About = () => {
                         </div>
                     </div>
                 </div>
-            </section>
+            </motion.section>
 
             {/* Toolstack */}
             <section className="max-w-6xl mx-auto py-8">

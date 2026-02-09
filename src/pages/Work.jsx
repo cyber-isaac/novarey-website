@@ -5,7 +5,7 @@ import ParticleBackground from '../components/ParticleBackground';
 import Button from '../components/Button';
 import AppFlow from '../components/AppFlow';
 import { motion } from 'framer-motion';
-import { staggerContainer, fadeInUp } from '../lib/animations';
+import { staggerContainer, fadeInUp, scrollReveal, viewportConfig } from '../lib/animations';
 
 const SECTION_LINKS = [
     { id: 'apps', label: 'Apps + Tools' },
@@ -159,7 +159,7 @@ const Work = () => {
             <ParticleBackground />
 
             {/* Hero */}
-            <div className="flex flex-col gap-6 mb-12 animate-on-scroll">
+            <motion.div variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig} className="flex flex-col gap-6 mb-12">
                 <div>
                     <h1 className="text-4xl md:text-6xl font-bold text-white tracking-tight">Work Playground</h1>
                     <p className="text-slate-400 max-w-2xl text-lg mt-3">
@@ -185,10 +185,10 @@ const Work = () => {
                         Full Portfolio
                     </Button>
                 </div>
-            </div>
+            </motion.div>
 
             {/* Apps */}
-            <section id="apps" className="space-y-6 mb-16 animate-on-scroll">
+            <motion.section id="apps" variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig} className="space-y-6 mb-16">
                 <div className="flex items-center gap-4">
                     <h2 className="text-xl font-bold text-white tracking-tight">Apps + Tools</h2>
                     <div className="h-px bg-white/10 flex-1"></div>
@@ -199,10 +199,10 @@ const Work = () => {
                         <div className="text-[10px] font-mono text-orange-500/50 uppercase tracking-[0.3em]">Neural App Pipeline</div>
                     </div>
                 </div>
-            </section>
+            </motion.section>
 
             {/* Motion + Video */}
-            <section id="motion" className="space-y-6 mb-16 animate-on-scroll">
+            <motion.section id="motion" variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig} className="space-y-6 mb-16">
                 <div className="flex items-center gap-4">
                     <h2 className="text-xl font-bold text-white tracking-tight">Motion + Video</h2>
                     <div className="h-px bg-white/10 flex-1"></div>
@@ -240,10 +240,10 @@ const Work = () => {
                         </motion.div>
                     ))}
                 </motion.div>
-            </section>
+            </motion.section>
 
             {/* Heritage Art */}
-            <section id="artworks" className="space-y-6 mb-16 animate-on-scroll">
+            <motion.section id="artworks" variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig} className="space-y-6 mb-16">
                 <div className="flex items-center gap-4">
                     <h2 className="text-xl font-bold text-white tracking-tight">Heritage Art</h2>
                     <div className="h-px bg-white/10 flex-1"></div>
@@ -278,10 +278,10 @@ const Work = () => {
                         </motion.div>
                     ))}
                 </motion.div>
-            </section>
+            </motion.section>
 
             {/* Design Systems */}
-            <section id="design" className="space-y-6 mb-16 animate-on-scroll">
+            <motion.section id="design" variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig} className="space-y-6 mb-16">
                 <div className="flex items-center gap-4">
                     <h2 className="text-xl font-bold text-white tracking-tight">Design Systems</h2>
                     <div className="h-px bg-white/10 flex-1"></div>
@@ -304,10 +304,10 @@ const Work = () => {
                         </motion.div>
                     ))}
                 </motion.div>
-            </section>
+            </motion.section>
 
             {/* Merch */}
-            <section id="merch" className="space-y-6 mb-16 animate-on-scroll">
+            <motion.section id="merch" variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig} className="space-y-6 mb-16">
                 <div className="flex items-center gap-4">
                     <h2 className="text-xl font-bold text-white tracking-tight">Merch + Drops</h2>
                     <div className="h-px bg-white/10 flex-1"></div>
@@ -333,10 +333,10 @@ const Work = () => {
                         </motion.div>
                     ))}
                 </motion.div>
-            </section>
+            </motion.section>
 
             {/* Plans */}
-            <section id="plans" className="space-y-6 animate-on-scroll">
+            <motion.section id="plans" variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig} className="space-y-6">
                 <div className="flex items-center gap-4">
                     <h2 className="text-xl font-bold text-white tracking-tight">Plans + Roadmap</h2>
                     <div className="h-px bg-white/10 flex-1"></div>
@@ -356,7 +356,7 @@ const Work = () => {
                         </motion.div>
                     ))}
                 </motion.div>
-            </section>
+            </motion.section>
         </div>
     );
 };

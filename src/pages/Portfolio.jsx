@@ -6,6 +6,7 @@ import PortfolioServices from '../components/PortfolioServices';
 import PortfolioResults from '../components/PortfolioResults';
 import { PortfolioFAQ } from '../components/PortfolioPricing';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
+import { scrollReveal, viewportConfig } from '../lib/animations';
 import { Play, Globe, X, ArrowUpRight, Radio, Shield, Sparkles, ArrowRight } from 'lucide-react';
 import ParticleBackground from '../components/ParticleBackground';
 import Button from '../components/Button';
@@ -179,7 +180,7 @@ const Portfolio = () => {
             />
 
             {/* Navigation Bar with Links */}
-            <section className="mx-6 md:mx-8 mt-6 animate-on-scroll">
+            <motion.section variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig} className="mx-6 md:mx-8 mt-6">
                 <nav className="flex flex-wrap items-center justify-between gap-6 text-xs font-mono uppercase tracking-widest text-white/60 px-8 py-4 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-xl">
                     <div className="flex items-center gap-4">
                         <div className="inline-flex items-center justify-center w-10 h-10 bg-white/10 rounded border border-white/10 text-white font-bold tracking-tight">
@@ -201,21 +202,25 @@ const Portfolio = () => {
                         Initiate Comms
                     </Button>
                 </nav>
-            </section>
+            </motion.section>
 
-            <section
+            <motion.section
+                variants={scrollReveal}
+                initial="hidden"
+                whileInView="visible"
+                viewport={viewportConfig}
                 onMouseMove={handleSpotlightMove}
                 onMouseLeave={(event) => {
                     event.currentTarget.style.setProperty('--mouse-x', '50%');
                     event.currentTarget.style.setProperty('--mouse-y', '50%');
                 }}
-                className="spotlight-group overflow-hidden bg-gradient-to-br from-white/10 via-white/0 to-white/10 rounded-[32px] ring-1 ring-white/10 mx-6 md:mx-8 mt-8 animate-on-scroll"
+                className="spotlight-group overflow-hidden bg-gradient-to-br from-white/10 via-white/0 to-white/10 rounded-[32px] ring-1 ring-white/10 mx-6 md:mx-8 mt-8"
             >
                 <div className="spotlight-content px-8 md:px-12 py-12" id="portfolio-about">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                         <div>
-                            <h2 className="text-4xl md:text-5xl font-semibold tracking-tight text-white leading-[0.95]">
-                                Operator <span className="text-white/50 font-serif italic">Designer</span>
+                            <h2 className="text-4xl md:text-5xl font-display font-semibold tracking-tight text-white leading-[0.95]">
+                                Operator <span className="text-white/50 font-display italic">Designer</span>
                             </h2>
                             <div className="text-white/50 text-xs font-mono uppercase tracking-widest mt-4">
                                 // From Kabul to Kernel
@@ -279,18 +284,18 @@ const Portfolio = () => {
                         </div>
                     </div>
                 </div>
-            </section>
+            </motion.section>
 
             <section className="mx-6 md:mx-8 mt-8 space-y-6">
-                <div className="animate-on-scroll">
+                <motion.div variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig}>
                     <PortfolioCarousel />
-                </div>
-                <div className="animate-on-scroll">
+                </motion.div>
+                <motion.div variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig}>
                     <PortfolioServices />
-                </div>
+                </motion.div>
             </section>
 
-            <section className="mx-6 md:mx-8 mt-10 animate-on-scroll">
+            <motion.section variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig} className="mx-6 md:mx-8 mt-10">
                 <div className="flex items-center gap-4 mb-8">
                     <div className="h-px bg-white/10 flex-1"></div>
                     <div className="text-xs font-mono uppercase tracking-[0.4em] text-white/60">Portfolio Categories</div>
@@ -416,7 +421,7 @@ const Portfolio = () => {
                         </div>
                     </div>
                 </div>
-            </section>
+            </motion.section>
 
 
 
@@ -451,7 +456,7 @@ const Portfolio = () => {
             {/* Archive / Vault Section */}
             <div className="max-w-7xl mx-auto px-8 pb-32 pt-10 space-y-32" id="portfolio-operations">
                 {/* Motion Studio Section */}
-                <section className="animate-on-scroll">
+                <motion.section variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig}>
                     <div className="flex items-center gap-4 mb-12">
                         <div className="p-3 rounded-2xl bg-orange-500/10 text-orange-500">
                             <Play className="w-6 h-6 fill-current" />
@@ -464,8 +469,12 @@ const Portfolio = () => {
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                         <motion.div
+                            variants={scrollReveal}
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={viewportConfig}
                             whileHover={{ y: -8 }}
-                            className="group cursor-pointer relative rounded-[2rem] overflow-hidden border border-white/5 bg-[#14121D] animate-on-scroll"
+                            className="group cursor-pointer relative rounded-[2rem] overflow-hidden border border-white/5 bg-[#14121D]"
                         >
                             <div
                                 className="aspect-video relative overflow-hidden"
@@ -498,8 +507,12 @@ const Portfolio = () => {
                         {AE_PROJECTS.map(project => (
                             <motion.div
                                 key={project.id}
+                                variants={scrollReveal}
+                                initial="hidden"
+                                whileInView="visible"
+                                viewport={viewportConfig}
                                 whileHover={{ y: -8 }}
-                                className="group cursor-pointer relative rounded-[2rem] overflow-hidden border border-white/5 bg-[#14121D] animate-on-scroll"
+                                className="group cursor-pointer relative rounded-[2rem] overflow-hidden border border-white/5 bg-[#14121D]"
                                 onClick={() => setSelectedMedia(project)}
                             >
                                 <div className="aspect-video relative overflow-hidden">
@@ -529,10 +542,10 @@ const Portfolio = () => {
                             </motion.div>
                         ))}
                     </div>
-                </section>
+                </motion.section>
 
                 {/* Web Archive Section */}
-                <section className="animate-on-scroll">
+                <motion.section variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig}>
                     <div className="flex items-center gap-4 mb-12">
                         <div className="p-3 rounded-2xl bg-blue-500/10 text-blue-500">
                             <Globe className="w-6 h-6" />
@@ -545,7 +558,7 @@ const Portfolio = () => {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {WEB_PROJECTS.map(site => (
-                            <div key={site.id} className="group p-8 rounded-[2rem] border border-white/5 bg-white/[0.02] hover:bg-white/5 transition-all cursor-pointer flex items-center justify-between animate-on-scroll">
+                            <motion.div key={site.id} variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig} className="group p-8 rounded-[2rem] border border-white/5 bg-white/[0.02] hover:bg-white/5 transition-all cursor-pointer flex items-center justify-between">
                                 <div>
                                     <span className="text-[10px] font-mono text-orange-500 uppercase tracking-widest block mb-1">{site.type}</span>
                                     <h3 className="text-lg font-bold text-white uppercase italic tracking-tighter">{site.title}</h3>
@@ -554,19 +567,19 @@ const Portfolio = () => {
                                 <div className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-all translate-x-4 group-hover:translate-x-0">
                                     <ArrowUpRight className="w-4 h-4" />
                                 </div>
-                            </div>
+                            </motion.div>
                         ))}
                     </div>
-                </section>
+                </motion.section>
             </div>
 
             {/* Remaining Reference Sections */}
-            <div className="animate-on-scroll">
+            <motion.div variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig}>
                 <PortfolioResults />
-            </div>
-            <div className="animate-on-scroll">
+            </motion.div>
+            <motion.div variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig}>
                 <PortfolioFAQ />
-            </div>
+            </motion.div>
 
             {/* Cinema Viewer Modal */}
             <AnimatePresence>

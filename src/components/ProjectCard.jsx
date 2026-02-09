@@ -1,10 +1,12 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
+import { scrollReveal, viewportConfig } from '../lib/animations';
 
 const ProjectCard = ({ title, category, image, description, size = 'normal' }) => {
     // Size logic for masonry-style grid if we want later, for now sticking to standard adaptable card
     return (
-        <div className="group cursor-pointer group relative rounded-xl overflow-hidden bg-[#1A1823] border border-white/5 hover:border-white/20 transition-all duration-500 animate-on-scroll">
+        <motion.div className="group cursor-pointer group relative rounded-xl overflow-hidden bg-[#1A1823] border border-white/5 hover:border-white/20 transition-all duration-500" variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig}>
             {/* Image Container */}
             <div className={`relative w-full ${size === 'large' ? 'aspect-[16/9]' : 'aspect-[4/3]'} overflow-hidden`}>
                 <img
@@ -38,7 +40,7 @@ const ProjectCard = ({ title, category, image, description, size = 'normal' }) =
                     </div>
                 </div>
             </div>
-        </div>
+        </motion.div>
     );
 };
 

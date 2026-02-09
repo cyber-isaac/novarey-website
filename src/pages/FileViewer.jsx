@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { db } from '../lib/db';
 import { ArrowLeft, Share2, Download, ShieldCheck, Printer, Clock } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { scrollReveal, viewportConfig } from '../lib/animations';
 
 const FileViewer = () => {
     const { id } = useParams();
@@ -64,7 +65,7 @@ const FileViewer = () => {
                     animate={{ opacity: 1, y: 0 }}
                     className="relative z-10"
                 >
-                    <header className="mb-12 border-l-4 border-white/20 pl-8 animate-on-scroll">
+                    <motion.header className="mb-12 border-l-4 border-white/20 pl-8" variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig}>
                         <div className="text-xs font-mono text-slate-500 uppercase tracking-widest mb-2">
                             Subject-ID: {post.id} / Type: DOC_RESEARCH
                         </div>
@@ -84,7 +85,7 @@ const FileViewer = () => {
                                 </span>
                             ))}
                         </div>
-                    </header>
+                    </motion.header>
 
                     {post.coverImage && (
                         <div className="mb-10 rounded-2xl overflow-hidden border border-white/10 bg-white/5">
@@ -106,11 +107,11 @@ const FileViewer = () => {
                         )}
                     </div>
 
-                    <footer className="mt-20 pt-10 border-t border-white/5 text-center animate-on-scroll">
+                    <motion.footer className="mt-20 pt-10 border-t border-white/5 text-center" variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig}>
                         <div className="text-[10px] font-mono text-slate-600 uppercase tracking-[0.5em]">
                             End of Transmission // Novarey Ventures Declassified
                         </div>
-                    </footer>
+                    </motion.footer>
                 </motion.article>
             </div>
 

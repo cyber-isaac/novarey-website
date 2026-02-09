@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Cpu, Rocket, Activity, Zap, Shield, Microscope, Boxes, Gauge, ChevronRight, Binary } from 'lucide-react';
+import { scrollReveal, viewportConfig } from '../lib/animations';
 import IntegrationsShowcase from '../components/IntegrationsShowcase';
 import ParticleBackground from '../components/ParticleBackground';
 import Button from '../components/Button';
@@ -83,12 +84,12 @@ const AIStrategy = () => {
             <div className="absolute inset-0 pointer-events-none opacity-[0.02] bg-[linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:40px_40px]"></div>
 
             {/* Generalist Showcase */}
-            <div className="mb-16 relative z-10 animate-on-scroll">
+            <motion.div className="mb-16 relative z-10" variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig}>
                 <PortfolioCarousel />
-            </div>
+            </motion.div>
 
             {/* Header */}
-            <div className="mb-12 relative z-10 animate-on-scroll">
+            <motion.div className="mb-12 relative z-10" variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig}>
                 <div className="flex items-center gap-3 text-orange-500/60 font-mono text-[10px] mb-4 tracking-[0.3em]">
                     <Shield className="w-4 h-4" />
                     SKUNKWORKS_LABORATORY // ACCESS_GRANTED
@@ -102,18 +103,18 @@ const AIStrategy = () => {
                 <p className="text-slate-400 max-w-xl font-medium leading-relaxed mt-4">
                     Exploring the intersection of physical robotics, tactical utilities, and software-driven psychological resonance.
                 </p>
-            </div>
+            </motion.div>
 
             {/* Quick Stats HUD */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-12 relative z-10 animate-on-scroll">
+            <motion.div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-12 relative z-10" variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig}>
                 <StatCard label="Active Projects" value="04" icon={Boxes} />
                 <StatCard label="Compute Status" value="OPTIMAL" icon={Activity} />
                 <StatCard label="Lab Uptime" value="99.9%" icon={Gauge} />
                 <StatCard label="Clearance" value="LVL_7" icon={Shield} />
-            </div>
+            </motion.div>
 
             {/* Projects Grid */}
-            <div className="grid grid-cols-1 xl:grid-cols-2 gap-8 relative z-10 mb-20 animate-on-scroll">
+            <motion.div className="grid grid-cols-1 xl:grid-cols-2 gap-8 relative z-10 mb-20" variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig}>
                 {PROJECTS.map((project, idx) => (
                     <motion.div
                         key={project.id}
@@ -192,16 +193,16 @@ const AIStrategy = () => {
                         </div>
                     </motion.div>
                 ))}
-            </div>
+            </motion.div>
 
             {/* Integrations Showcase */}
-            <div className="relative z-10 mb-12 animate-on-scroll">
+            <motion.div className="relative z-10 mb-12" variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig}>
                 <div className="h-px bg-white/5 w-full mb-12"></div>
                 <IntegrationsShowcase />
-            </div>
+            </motion.div>
 
             {/* Experimental HUD Sidebar / Bottom Bar */}
-            <div className="mt-12 border-t border-white/5 pt-8 grid grid-cols-1 lg:grid-cols-2 gap-8 text-slate-500 font-mono text-[10px] animate-on-scroll">
+            <motion.div className="mt-12 border-t border-white/5 pt-8 grid grid-cols-1 lg:grid-cols-2 gap-8 text-slate-500 font-mono text-[10px]" variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig}>
                 <div className="flex items-center gap-4">
                     <div className="flex gap-1">
                         {[...Array(8)].map((_, i) => (
@@ -213,7 +214,7 @@ const AIStrategy = () => {
                 <div className="lg:text-right">
                     <span>// LAST_SYNC: {new Date().toLocaleTimeString()} // LOCATION: LAB_NODE_01</span>
                 </div>
-            </div>
+            </motion.div>
         </div>
     );
 };

@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Mail, Send, Calendar, Twitter, Instagram, Dribbble, Linkedin, Globe, Shield, User } from 'lucide-react';
+import { scrollReveal, viewportConfig } from '../lib/animations';
 import Button from '../components/Button';
 import ParticleBackground from '../components/ParticleBackground';
 
@@ -10,8 +11,9 @@ const Contact = () => {
             {/* Red Particle Background */}
             <ParticleBackground />
 
-            <section
-                className="md:pt-40 bg-center z-10 bg-[url(https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/77f55872-adf5-4910-9a7c-d21c0041bbe1_3840w.webp)] bg-cover pt-40 pb-40 relative animate-on-scroll"
+            <motion.section
+                className="md:pt-40 bg-center z-10 bg-[url(https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/77f55872-adf5-4910-9a7c-d21c0041bbe1_3840w.webp)] bg-cover pt-40 pb-40 relative"
+                variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig}
                 style={{
                     maskImage: 'linear-gradient(90deg, transparent, black 15%, black 85%, transparent)',
                     WebkitMaskImage: 'linear-gradient(90deg, transparent, black 15%, black 85%, transparent)'
@@ -186,7 +188,7 @@ const Contact = () => {
                     </div>
                     <div className="h-px bg-white/10 w-full"></div>
                 </div>
-            </section>
+            </motion.section>
         </div>
     );
 };

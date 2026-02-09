@@ -1,10 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
+import Globe from 'globe.gl';
 import * as THREE from 'three';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer';
-import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
-import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -27,283 +25,241 @@ export const DESTINATIONS = [
 
 const MilitaryHistoryGlobe = () => {
     const containerRef = useRef(null);
-    const sceneRef = useRef(null);
-    const labelContainerRef = useRef(null);
+    const globeRef = useRef(null);
     const [activeIndexState, setActiveIndexState] = useState(-1);
 
     useEffect(() => {
         if (!containerRef.current) return;
 
-        const w = containerRef.current.clientWidth;
-        const h = containerRef.current.clientHeight;
+        const container = containerRef.current;
+        const w = container.clientWidth;
+        const h = container.clientHeight;
 
-        // --- SCENE SETUP ---
-        const scene = new THREE.Scene();
-        sceneRef.current = scene;
+        // --- Build arc data: connect sequential destinations ---
+        const arcsData = DESTINATIONS.slice(1).map((dest, i) => ({
+            startLat: DESTINATIONS[i].lat,
+            startLng: DESTINATIONS[i].lon,
+            endLat: dest.lat,
+            endLng: dest.lon,
+            color: ['rgba(249,115,22,0.9)', 'rgba(16,185,129,0.9)']
+        }));
 
-        const camera = new THREE.PerspectiveCamera(40, w / h, 0.1, 1000);
-        camera.position.set(0, 0, 18);
+        // --- Build points data ---
+        const pointsData = DESTINATIONS.map((d, i) => ({
+            lat: d.lat,
+            lng: d.lon,
+            size: 0.6,
+            color: '#10b981',
+            idx: i
+        }));
 
-        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-        renderer.setSize(w, h);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        containerRef.current.appendChild(renderer.domElement);
+        // --- Build labels data ---
+        const labelsData = DESTINATIONS.map((d, i) => ({
+            lat: d.lat,
+            lng: d.lon,
+            text: d.name,
+            color: 'rgba(16, 185, 129, 0.85)',
+            size: 0.8,
+            idx: i
+        }));
 
-        // --- POST PROCESSING (Subtler Bloom) ---
-        const renderPass = new RenderPass(scene, camera);
-        const bloomPass = new UnrealBloomPass(new THREE.Vector2(w, h), 0.5, 0.4, 0.85); // Reduced bloom
-        bloomPass.threshold = 0.25;
-        bloomPass.strength = 0.5;
-        bloomPass.radius = 0.4;
+        // --- Create globe.gl instance ---
+        const globe = Globe()
+            .width(w)
+            .height(h)
+            .backgroundColor('rgba(0,0,0,0)')
+            .globeImageUrl('//cdn.jsdelivr.net/npm/three-globe/example/img/earth-night.jpg')
+            .bumpImageUrl('//cdn.jsdelivr.net/npm/three-globe/example/img/earth-topology.png')
+            .showAtmosphere(true)
+            .atmosphereColor('#10b981')
+            .atmosphereAltitude(0.2)
+            // --- Arcs (animated dash routes) ---
+            .arcsData(arcsData)
+            .arcColor('color')
+            .arcDashLength(0.6)
+            .arcDashGap(0.3)
+            .arcDashAnimateTime(2000)
+            .arcStroke(0.5)
+            .arcsTransitionDuration(0)
+            // --- Points at each destination ---
+            .pointsData(pointsData)
+            .pointLat('lat')
+            .pointLng('lng')
+            .pointColor('color')
+            .pointAltitude(0.01)
+            .pointRadius('size')
+            // --- Labels at each destination ---
+            .labelsData(labelsData)
+            .labelLat('lat')
+            .labelLng('lng')
+            .labelText('text')
+            .labelSize('size')
+            .labelColor('color')
+            .labelDotRadius(0.4)
+            .labelAltitude(0.02)
+            .labelResolution(3)
+            // --- Rings (pulse at active location) ---
+            .ringsData([])
+            .ringColor(() => t => `rgba(249,115,22,${1 - t})`)
+            .ringMaxRadius(4)
+            .ringPropagationSpeed(3)
+            .ringRepeatPeriod(1200)
+            // --- HTML markers (tactical label boxes) ---
+            .htmlElementsData(DESTINATIONS.map((d, i) => ({ lat: d.lat, lng: d.lon, ...d, idx: i })))
+            .htmlLat('lat')
+            .htmlLng(d => d.lon)
+            .htmlAltitude(0.05)
+            .htmlElement(d => {
+                const el = document.createElement('div');
+                el.className = 'globe-html-label';
+                el.style.opacity = '0';
+                el.style.transition = 'opacity 0.5s ease';
+                el.style.pointerEvents = 'none';
+                el.style.willChange = 'opacity';
+                el.innerHTML = `
+                    <div style="display:flex;flex-direction:column;align-items:center;">
+                        <div style="
+                            background:rgba(0,0,0,0.92);
+                            backdrop-filter:blur(24px);
+                            border:1px solid rgba(16,185,129,0.4);
+                            padding:12px 20px;
+                            white-space:nowrap;
+                            box-shadow:0 0 40px rgba(16,185,129,0.1);
+                        ">
+                            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;gap:16px;">
+                                <span style="font-size:9px;color:rgba(16,185,129,0.8);font-family:'Space Mono',monospace;letter-spacing:0.15em;text-transform:uppercase;">NODE_${d.idx + 1}</span>
+                                <div style="width:6px;height:6px;background:#10b981;border-radius:50%;"></div>
+                            </div>
+                            <span style="color:#fff;font-weight:900;letter-spacing:-0.02em;font-size:22px;font-style:italic;text-transform:uppercase;line-height:1;display:block;font-family:'Syne',sans-serif;">
+                                ${d.city}
+                            </span>
+                            <div style="height:1px;width:100%;background:rgba(16,185,129,0.2);margin:8px 0;"></div>
+                            <div style="display:flex;justify-content:space-between;align-items:center;">
+                                <span style="font-size:9px;color:rgba(100,116,139,1);font-family:'Space Mono',monospace;text-transform:uppercase;">${d.name}</span>
+                                <span style="font-size:9px;color:#10b981;font-family:'Space Mono',monospace;margin-left:16px;">${d.year}</span>
+                            </div>
+                        </div>
+                        <div style="width:1px;height:40px;background:linear-gradient(to top, rgba(16,185,129,0.3), transparent);"></div>
+                    </div>
+                `;
+                el.dataset.labelIdx = d.idx;
+                return el;
+            })
+            .htmlElementVisibilityModifier((el, isVisible) => {
+                // Only show if this is the active destination AND it's on the visible side
+                const idx = parseInt(el.dataset.labelIdx);
+                el.style.opacity = (isVisible && idx === globeRef.current?._activeIdx) ? '1' : '0';
+            })
+            (container);
 
-        const composer = new EffectComposer(renderer);
-        composer.addPass(renderPass);
-        composer.addPass(bloomPass);
+        globeRef.current = globe;
+        globe._activeIdx = -1;
 
-        const earthGroup = new THREE.Group();
-        earthGroup.rotation.order = 'YXZ';
-        earthGroup.rotation.z = 23.5 * (Math.PI / 180);
-        scene.add(earthGroup);
+        // --- Camera & Controls ---
+        globe.controls().autoRotate = false;
+        globe.controls().enableZoom = false;
+        globe.controls().enablePan = false;
+        globe.controls().enableRotate = false;
 
-        // --- REFINED TACTICAL SHADER ---
-        const GLOBE_RADIUS = 5;
-        const loader = new THREE.TextureLoader();
-        const earthMask = loader.load('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/planets/earth_atmos_2048.jpg');
+        // Set initial view
+        globe.pointOfView({ lat: 20, lng: 0, altitude: 2.5 }, 0);
 
-        const tacticalMat = new THREE.ShaderMaterial({
-            uniforms: {
-                uMask: { value: earthMask },
-                uColor: { value: new THREE.Color(0x10b981) },
-                uTime: { value: 0 }
-            },
-            vertexShader: `
-                varying vec2 vUv;
-                varying vec3 vNormal;
-                void main() {
-                    vUv = uv;
-                    vNormal = normalize(normalMatrix * normal);
-                    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-                }
-            `,
-            fragmentShader: `
-                uniform sampler2D uMask;
-                uniform vec3 uColor;
-                uniform float uTime;
-                varying vec2 vUv;
-                varying vec3 vNormal;
-                void main() {
-                    vec4 mask = texture2D(uMask, vUv);
-                    float land = mask.g; 
-                    
-                    float scan = smoothstep(0.48, 0.5, sin(vUv.y * 120.0 + uTime * 1.5));
-                    float grid = step(0.992, fract(vUv.x * 240.0)) + step(0.99, fract(vUv.y * 120.0));
-                    
-                    vec3 landColor = uColor * (0.2 + scan * 0.1 + grid * 0.3); 
-                    vec3 oceanColor = vec3(0.01, 0.02, 0.04); 
-                    
-                    vec3 baseColor = mix(oceanColor, landColor, land);
-                    float fresnel = pow(1.0 - dot(vNormal, vec3(0,0,1.0)), 4.0);
-                    baseColor += uColor * fresnel * 0.3;
-                    
-                    // Transparency: oceans are near-clear, land is solid glowing emerald
-                    float alpha = mix(0.1, 0.8, land) + fresnel * 0.4;
-                    gl_FragColor = vec4(baseColor, alpha);
-                }
-            `,
-            transparent: true,
-            blending: THREE.NormalBlending
-        });
+        // --- Custom globe material for specular highlights ---
+        const globeMaterial = globe.globeMaterial();
+        globeMaterial.bumpScale = 8;
 
-        const earth = new THREE.Mesh(new THREE.SphereGeometry(GLOBE_RADIUS, 128, 128), tacticalMat);
-        earthGroup.add(earth);
+        // --- Clouds layer (transparent sphere above the surface) ---
+        const CLOUDS_ALT = 0.004;
+        const CLOUDS_ROTATION_SPEED = -0.006; // deg/frame
+        let cloudsRef = null;
 
-        const atmosphereMat = new THREE.ShaderMaterial({
-            vertexShader: `
-                varying vec3 vNormal;
-                void main() {
-                    vNormal = normalize(normalMatrix * normal);
-                    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-                }
-            `,
-            fragmentShader: `
-                varying vec3 vNormal;
-                void main() {
-                    float intensity = pow(0.7 - dot(vNormal, vec3(0, 0, 1.0)), 10.0);
-                    gl_FragColor = vec4(0.06, 0.72, 0.5, 0.5) * intensity; 
-                }
-            `,
-            blending: THREE.AdditiveBlending,
-            side: THREE.BackSide,
-            transparent: true
-        });
-        const atmosphere = new THREE.Mesh(new THREE.SphereGeometry(GLOBE_RADIUS + 0.6, 64, 64), atmosphereMat);
-        earthGroup.add(atmosphere);
+        new THREE.TextureLoader().load(
+            '/globe.gl-master/example/clouds/clouds.png',
+            (cloudsTexture) => {
+                const clouds = new THREE.Mesh(
+                    new THREE.SphereGeometry(globe.getGlobeRadius() * (1 + CLOUDS_ALT), 75, 75),
+                    new THREE.MeshPhongMaterial({
+                        map: cloudsTexture,
+                        transparent: true,
+                        opacity: 0.65
+                    })
+                );
+                globe.scene().add(clouds);
+                cloudsRef = clouds;
 
-        function latLonToVector3(lat, lon, radius) {
-            const phi = (90 - lat) * (Math.PI / 180);
-            const theta = (lon + 180) * (Math.PI / 180);
-            const x = -(radius * Math.sin(phi) * Math.cos(theta));
-            const z = (radius * Math.sin(phi) * Math.sin(theta));
-            const y = (radius * Math.cos(phi));
-            return new THREE.Vector3(x, y, z);
-        }
+                // Slow independent rotation
+                (function rotateClouds() {
+                    if (!cloudsRef) return;
+                    clouds.rotation.y += CLOUDS_ROTATION_SPEED * Math.PI / 180;
+                    requestAnimationFrame(rotateClouds);
+                })();
+            }
+        );
 
-        const markerGroup = new THREE.Group();
-        earthGroup.add(markerGroup);
-        const markers = [];
-
-        DESTINATIONS.forEach((loc, i) => {
-            const pos = latLonToVector3(loc.lat, loc.lon, GLOBE_RADIUS);
-            const mContainer = new THREE.Group();
-            mContainer.position.copy(pos);
-            mContainer.lookAt(new THREE.Vector3(0, 0, 0));
-
-            const dot = new THREE.Mesh(
-                new THREE.SphereGeometry(0.04, 16, 16),
-                new THREE.MeshBasicMaterial({ color: 0x10b981 })
-            );
-            mContainer.add(dot);
-
-            const ring = new THREE.Mesh(
-                new THREE.RingGeometry(0.08, 0.1, 4, 1),
-                new THREE.MeshBasicMaterial({ color: 0x10b981, side: THREE.DoubleSide })
-            );
-            mContainer.add(ring);
-
-            markers.push({ group: mContainer, ring, id: i });
-            markerGroup.add(mContainer);
-        });
-
-        const arcGroup = new THREE.Group();
-        earthGroup.add(arcGroup);
-        const arcs = [];
-        DESTINATIONS.forEach((loc, i) => {
-            if (i === 0) return;
-            const prev = DESTINATIONS[i - 1];
-            const start = latLonToVector3(prev.lat, prev.lon, GLOBE_RADIUS);
-            const end = latLonToVector3(loc.lat, loc.lon, GLOBE_RADIUS);
-            const dist = start.distanceTo(end);
-            const mid = start.clone().add(end).multiplyScalar(0.5).normalize().setLength(GLOBE_RADIUS + (dist * 0.2));
-            const curve = new THREE.QuadraticBezierCurve3(start, mid, end);
-            const pts = curve.getPoints(50);
-            const geo = new THREE.BufferGeometry().setFromPoints(pts);
-            const mat = new THREE.LineBasicMaterial({ color: 0x10b981, transparent: true, opacity: 0 });
-            const line = new THREE.Line(geo, mat);
-            arcGroup.add(line);
-            arcs.push({ line, id: i });
-        });
-
+        // --- GSAP ScrollTrigger per destination ---
         let activeIdx = -1;
         const ctx = gsap.context(() => {
             const scroller = document.querySelector('[data-scroll-container]') || window;
+            ScrollTrigger.defaults({ scroller });
+            setTimeout(() => ScrollTrigger.refresh(), 600);
+
             const sections = document.querySelectorAll('.military-dest-section');
 
             sections.forEach((section, i) => {
                 const loc = DESTINATIONS[i];
-                const isEven = i % 2 === 0;
-                const xPos = isEven ? 4.5 : -4.5;
-                const parallax = Math.atan2(xPos, 18);
-                const targetRotY = -1 * (loc.lon * (Math.PI / 180)) - (Math.PI / 2) + parallax;
-                const targetRotX = (loc.lat * (Math.PI / 180));
 
-                const tl = gsap.timeline({
-                    scrollTrigger: {
-                        trigger: section,
-                        scroller: scroller,
-                        start: 'top 80%',
-                        end: 'bottom 20%',
-                        scrub: 1.5, // Smoother follow
-                        onEnter: () => { activeIdx = i; setActiveIndexState(i); },
-                        onEnterBack: () => { activeIdx = i; setActiveIndexState(i); },
-                        onLeave: () => { if (activeIdx === i) { activeIdx = -1; setActiveIndexState(-1); } },
-                        onLeaveBack: () => { if (activeIdx === i) { activeIdx = -1; setActiveIndexState(-1); } }
-                    }
+                ScrollTrigger.create({
+                    trigger: section,
+                    start: 'top 75%',
+                    end: 'bottom 25%',
+                    onEnter: () => activateDestination(i, loc),
+                    onEnterBack: () => activateDestination(i, loc),
+                    onLeave: () => { if (activeIdx === i) deactivate(); },
+                    onLeaveBack: () => { if (activeIdx === i) deactivate(); }
                 });
-
-                tl.to(earthGroup.rotation, { y: targetRotY, x: targetRotX, ease: "sine.inOut" }, "sync")
-                    .to(earthGroup.position, { x: xPos, ease: "sine.inOut" }, "sync");
-
-                if (i > 0) {
-                    const arc = arcs[i - 1];
-                    tl.to(arc.line.material, { opacity: 0.5, duration: 0.5 }, "sync");
-                }
             });
         });
 
-        let frameId;
-        const animate = (time) => {
-            frameId = requestAnimationFrame(animate);
-            tacticalMat.uniforms.uTime.value = time * 0.001;
+        function activateDestination(i, loc) {
+            activeIdx = i;
+            globe._activeIdx = i;
+            setActiveIndexState(i);
+            // Fly to the destination
+            globe.pointOfView({ lat: loc.lat, lng: loc.lon, altitude: 2.0 }, 1200);
+            // Show ring pulse at destination
+            globe.ringsData([{ lat: loc.lat, lng: loc.lon }]);
+        }
 
-            markers.forEach((m, i) => {
-                const active = i === activeIdx;
-                m.ring.rotation.z += 0.02;
-                m.ring.scale.setScalar(active ? 2.5 + Math.sin(time * 0.01) * 0.5 : 1.0);
+        function deactivate() {
+            activeIdx = -1;
+            globe._activeIdx = -1;
+            setActiveIndexState(-1);
+            globe.ringsData([]);
+        }
 
-                const div = labelContainerRef.current?.children[i];
-                if (div) {
-                    const p = m.group.position.clone();
-                    earthGroup.localToWorld(p);
-                    p.project(camera);
-                    const x = (p.x * 0.5 + 0.5) * w;
-                    const y = (-(p.y * 0.5 - 0.5)) * h;
-                    const dot = m.group.getWorldPosition(new THREE.Vector3()).normalize().dot(camera.position.clone().normalize());
-                    div.style.transform = `translate(-50%, -100%) translate(${x}px, ${y}px)`;
-                    div.style.opacity = (active && dot > 0.1) ? 1 : 0;
-                }
-            });
-
-            composer.render();
-        };
-        animate(0);
-
+        // --- Resize ---
         const handleResize = () => {
-            if (!containerRef.current) return;
-            const w = containerRef.current.clientWidth;
-            const h = containerRef.current.clientHeight;
-            camera.aspect = w / h;
-            camera.updateProjectionMatrix();
-            renderer.setSize(w, h);
-            composer.setSize(w, h);
+            if (!container) return;
+            globe.width(container.clientWidth);
+            globe.height(container.clientHeight);
         };
         window.addEventListener('resize', handleResize);
 
         return () => {
             window.removeEventListener('resize', handleResize);
-            cancelAnimationFrame(frameId);
             ctx.revert();
-            renderer.dispose();
-            tacticalMat.dispose();
-            atmosphereMat.dispose();
+            if (cloudsRef) {
+                globe.scene().remove(cloudsRef);
+                cloudsRef.geometry.dispose();
+                cloudsRef.material.dispose();
+                cloudsRef = null;
+            }
+            globe._destructor && globe._destructor();
         };
     }, []);
 
     return (
-        <div ref={containerRef} className="w-full h-full min-h-[600px] relative cursor-crosshair">
-            <div ref={labelContainerRef} className="absolute inset-0 pointer-events-none overflow-hidden z-20">
-                {DESTINATIONS.map((dest, i) => (
-                    <div key={i} className="absolute opacity-0 transition-opacity duration-500 will-change-transform">
-                        <div className="flex flex-col items-center">
-                            <div className="bg-black/90 backdrop-blur-2xl border border-emerald-500/40 px-5 py-3 rounded-none shadow-[0_0_40px_rgba(16,185,129,0.1)] whitespace-nowrap">
-                                <div className="flex justify-between items-center mb-1 gap-4">
-                                    <span className="text-[9px] text-emerald-400 font-mono tracking-widest uppercase">NODE_{i + 1}</span>
-                                    <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full" />
-                                </div>
-                                <span className="text-white font-black tracking-tight text-2xl italic uppercase leading-none block">
-                                    {dest.city}
-                                </span>
-                                <div className="h-px w-full bg-emerald-500/20 my-2" />
-                                <div className="flex justify-between items-center">
-                                    <span className="text-[9px] text-slate-500 font-mono uppercase">{dest.name}</span>
-                                    <span className="text-[9px] text-emerald-500 font-mono ml-4">{dest.year}</span>
-                                </div>
-                            </div>
-                            <div className="w-[1px] h-10 bg-gradient-to-t from-emerald-500/30 to-transparent" />
-                        </div>
-                    </div>
-                ))}
-            </div>
-        </div>
+        <div ref={containerRef} className="w-full h-full min-h-[600px] relative cursor-crosshair" />
     );
 };
 

@@ -89,3 +89,68 @@ export const spotlightHover = {
         }
     }
 };
+
+// ===== Scroll-reveal variants (replaces CSS .animate-on-scroll) =====
+
+export const scrollReveal = {
+    hidden: {
+        opacity: 0,
+        y: 18,
+    },
+    visible: {
+        opacity: 1,
+        y: 0,
+        transition: {
+            duration: 0.55,
+            ease: [0.22, 1, 0.36, 1],
+        },
+    },
+};
+
+export const revealScale = {
+    hidden: {
+        opacity: 0,
+        scale: 0.92,
+    },
+    visible: {
+        opacity: 1,
+        scale: 1,
+        transition: {
+            duration: 0.6,
+            ease: [0.22, 1, 0.36, 1],
+        },
+    },
+};
+
+export const revealLeft = {
+    hidden: {
+        opacity: 0,
+        x: -40,
+    },
+    visible: {
+        opacity: 1,
+        x: 0,
+        transition: {
+            duration: 0.7,
+            ease: [0.22, 1, 0.36, 1],
+        },
+    },
+};
+
+export const revealRight = {
+    hidden: {
+        opacity: 0,
+        x: 40,
+    },
+    visible: {
+        opacity: 1,
+        x: 0,
+        transition: {
+            duration: 0.7,
+            ease: [0.22, 1, 0.36, 1],
+        },
+    },
+};
+
+// Viewport config for whileInView — shared default
+export const viewportConfig = { once: true, amount: 0.15, margin: '0px 0px -8% 0px' };

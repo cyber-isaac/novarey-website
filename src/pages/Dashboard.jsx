@@ -8,7 +8,7 @@ import Logo from '../components/Logo';
 import Button from '../components/Button';
 import ProjectRequestForm from '../components/ProjectRequestForm';
 import AIStudioBrief from '../components/AIStudioBrief';
-import { staggerContainer, fadeInUp, scaleUp } from '../lib/animations';
+import { staggerContainer, fadeInUp, scaleUp, scrollReveal, viewportConfig } from '../lib/animations';
 
 
 
@@ -98,11 +98,11 @@ const Dashboard = () => {
             </motion.div>
 
             <div className="relative z-10">
-                <div className="animate-on-scroll">
+                <motion.div variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig}>
                     <VideoHero />
-                </div>
+                </motion.div>
 
-                <section className="px-4 sm:px-6 lg:px-8 pt-6 pb-2 animate-on-scroll">
+                <motion.section variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig} className="px-4 sm:px-6 lg:px-8 pt-6 pb-2">
                     <div className="max-w-6xl grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-8 lg:gap-10 items-start">
                         <div className="relative">
                             <span className="inline-flex items-center gap-2 rounded-full border border-[var(--border-1)] bg-[var(--surface-2)] px-3 py-1 text-[10px] sm:text-[11px] uppercase tracking-widest text-[var(--text-2)] backdrop-blur">
@@ -163,12 +163,12 @@ const Dashboard = () => {
                             </div>
                         </div>
                     </div>
-                </section>
+                </motion.section>
 
                 <section className="px-4 sm:px-6 lg:px-8 pb-8">
                     <div className="max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-10">
                         <div className="space-y-6">
-                            <div className="animate-on-scroll">
+                            <motion.div variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig}>
                                 <div className="text-xs font-mono uppercase tracking-widest text-[var(--text-3)]">What I Do</div>
                                 <h3 className="mt-3 text-2xl md:text-3xl font-bold text-[var(--text-1)]">
                                     AI design systems and human-grade execution.
@@ -176,7 +176,7 @@ const Dashboard = () => {
                                 <p className="mt-3 text-[var(--text-3)] leading-relaxed">
                                     A hybrid workflow: rapid ideation with AI, then refine with traditional craft for accuracy and clarity.
                                 </p>
-                            </div>
+                            </motion.div>
                             <motion.div
                                 className="space-y-4"
                                 variants={staggerContainer(0.1, 0.2)}
@@ -238,7 +238,7 @@ const Dashboard = () => {
                 </section>
 
                 <div className="pt-8 pr-8 pb-8 pl-8 space-y-10">
-                    <section className="animate-on-scroll">
+                    <motion.section variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig}>
                         <div className="flex items-center gap-4 mb-6">
                             <h2 className="text-lg font-semibold text-[var(--text-1)] tracking-tight">
                                 Generalist Designer · A.I. Venture Studio
@@ -285,17 +285,17 @@ const Dashboard = () => {
                                 <p className="text-sm text-[var(--text-3)]">Websites, components, and product UI built for speed and clarity.</p>
                             </motion.div>
                         </motion.div>
-                    </section>
+                    </motion.section>
 
-                    <section className="animate-on-scroll">
+                    <motion.section variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig}>
                         <AIStudioBrief />
-                    </section>
+                    </motion.section>
 
 
 
 
 
-                    <section className="animate-on-scroll">
+                    <motion.section variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig}>
                         <div className="flex items-center gap-4 mb-6">
                             <h2 className="text-lg font-semibold text-white tracking-tight">Mission Process</h2>
                             <div className="h-px bg-white/10 flex-1 ml-4"></div>
@@ -312,10 +312,10 @@ const Dashboard = () => {
                                 </div>
                             ))}
                         </div>
-                    </section>
+                    </motion.section>
 
 
-                    <section className="animate-on-scroll">
+                    <motion.section variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig}>
                         <div className="flex items-center gap-4 mb-6">
                             <h2 className="text-lg font-semibold text-white tracking-tight">Special Operations Artwork</h2>
                             <div className="h-px bg-white/10 flex-1 ml-4"></div>
@@ -394,9 +394,9 @@ const Dashboard = () => {
                                 </div>
                             </div>
                         </div>
-                    </section>
+                    </motion.section>
 
-                    <section className="animate-on-scroll">
+                    <motion.section variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig}>
                         <div className="rounded-3xl border border-[var(--border-1)] bg-[var(--surface-2)] p-8 md:p-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
                             <div>
                                 <div className="text-[10px] font-mono text-orange-400 uppercase tracking-widest">Writing · Intel Hub</div>
@@ -412,12 +412,12 @@ const Dashboard = () => {
                                 Enter the Archive
                             </Button>
                         </div>
-                    </section>
+                    </motion.section>
 
 
-                    <section className="animate-on-scroll">
+                    <motion.section variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig}>
                         <ProjectRequestForm />
-                    </section>
+                    </motion.section>
 
 
                 </div>

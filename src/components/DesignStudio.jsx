@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Play, Layers, Globe, Zap, MessageSquare, Monitor, Image as ImageIcon } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { scrollReveal, viewportConfig } from '../lib/animations';
 import VideoModal from './VideoModal';
 
 const TABS = [
@@ -129,7 +130,7 @@ const DesignStudio = () => {
     };
 
     return (
-        <section className="w-full py-16 animate-on-scroll">
+        <motion.section className="w-full py-16" variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig}>
             <VideoModal
                 isOpen={!!activeVideo}
                 onClose={() => setActiveVideo(null)}
@@ -244,7 +245,7 @@ const DesignStudio = () => {
                     </AnimatePresence>
                 </div>
             </div>
-        </section>
+        </motion.section>
     );
 };
 

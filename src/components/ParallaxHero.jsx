@@ -100,7 +100,7 @@ const ParallaxHero = ({
                         initial={{ opacity: 0, y: 40 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.4, duration: 0.8 }}
-                        className="text-5xl md:text-7xl lg:text-8xl font-black text-white uppercase italic tracking-tight leading-[0.9] mb-6"
+                        className="text-5xl md:text-7xl lg:text-8xl font-display font-black text-white uppercase italic tracking-tight leading-[0.9] mb-6"
                     >
                         {title}
                     </motion.h1>

@@ -88,7 +88,7 @@ const ProjectSection = ({ project, index }) => {
                         </div>
 
                         {/* Title */}
-                        <h2 className="text-4xl md:text-5xl font-black text-white uppercase italic tracking-tight leading-[0.95]">
+                        <h2 className="text-4xl md:text-5xl font-display font-black text-white uppercase italic tracking-tight leading-[0.95]">
                             {project.title}
                         </h2>
 

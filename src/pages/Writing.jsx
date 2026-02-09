@@ -1,5 +1,7 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import { BookOpen, FileText, Layers, Folder, ChevronRight } from 'lucide-react';
+import { scrollReveal, viewportConfig } from '../lib/animations';
 
 const Writing = () => {
     const navItems = [
@@ -34,7 +36,7 @@ const Writing = () => {
         <div className="flex-1 overflow-y-auto bg-[#0D0C12] h-full relative" data-scroll-container>
             <div className="absolute inset-0 pointer-events-none opacity-40 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.06),transparent_55%)]"></div>
             <div className="relative z-10 max-w-6xl mx-auto px-6 py-12">
-                <header className="mb-10 animate-on-scroll">
+                <motion.header className="mb-10" variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig}>
                     <div className="text-[10px] font-mono uppercase tracking-widest text-white/50">
                         Documentation Layout
                     </div>
@@ -45,7 +47,7 @@ const Writing = () => {
                         A transparent, declassified space for long-form posts, research logs, and design breakdowns.
                         This page is styled after the documentation template while keeping line lengths tight and readable.
                     </p>
-                </header>
+                </motion.header>
 
                 <div className="grid grid-cols-1 lg:grid-cols-[240px_1fr] gap-8">
                     <aside className="space-y-6">

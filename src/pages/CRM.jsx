@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import { Plus, MoreHorizontal, DollarSign, Calendar, Tag, RefreshCw } from 'lucide-react';
+import { scrollReveal, viewportConfig } from '../lib/animations';
 import { db } from '../lib/db';
 import ParticleBackground from '../components/ParticleBackground';
 import Button from '../components/Button';
 
 const Column = ({ title, count, items, onAdd }) => (
-    <div className="flex-1 min-w-[300px] bg-[#14121D] rounded-xl border border-white/5 flex flex-col animate-on-scroll">
+    <motion.div className="flex-1 min-w-[300px] bg-[#14121D] rounded-xl border border-white/5 flex flex-col" variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig}>
         {/* Column Header */}
         <div className="p-4 border-b border-white/5 flex justify-between items-center">
             <div className="flex items-center gap-2">
@@ -54,7 +56,7 @@ const Column = ({ title, count, items, onAdd }) => (
                 </button>
             )}
         </div>
-    </div>
+    </motion.div>
 );
 
 const CRM = () => {
@@ -86,7 +88,7 @@ const CRM = () => {
             <ParticleBackground />
 
             {/* Header */}
-            <div className="h-16 border-b border-white/5 flex items-center justify-between px-8 bg-[#0D0C12]/50 backdrop-blur animate-on-scroll">
+            <motion.div className="h-16 border-b border-white/5 flex items-center justify-between px-8 bg-[#0D0C12]/50 backdrop-blur" variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig}>
                 <h1 className="text-xl font-bold text-white flex items-center gap-3">
                     Deal Flow
                     <span className="text-xs font-normal text-slate-500 border-l border-white/10 pl-3">Internal CRM</span>
@@ -101,10 +103,10 @@ const CRM = () => {
                         New Startup
                     </Button>
                 </div>
-            </div>
+            </motion.div>
 
             {/* Board Area */}
-            <div className="flex-1 overflow-x-auto p-8 animate-on-scroll">
+            <motion.div className="flex-1 overflow-x-auto p-8" variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig}>
                 <div className="flex gap-6 h-full pb-4">
                     <Column title="New Leads" count={deals.leads.length} items={deals.leads} onAdd={handleAddLead} />
                     <Column title="Due Diligence" count={deals.diligence.length} items={deals.diligence} />
@@ -117,7 +119,7 @@ const CRM = () => {
                         </span>
                     </div>
                 </div>
-            </div>
+            </motion.div>
         </div>
     );
 };

@@ -27,7 +27,7 @@ const PortfolioHero = () => {
                     transition={{ duration: 0.8, delay: 0.1 }}
                     className="mx-auto max-w-3xl text-center mb-20"
                 >
-                    <h1 className="text-4xl sm:text-6xl lg:text-8xl leading-[1.06] tracking-tighter font-black text-white italic uppercase">
+                    <h1 className="text-4xl sm:text-6xl lg:text-8xl leading-[0.95] tracking-tight font-display font-black text-white italic uppercase">
                         Showcase your work to
                         <span className="block bg-gradient-to-r from-white to-neutral-500 bg-clip-text text-transparent"> the world.</span>
                     </h1>

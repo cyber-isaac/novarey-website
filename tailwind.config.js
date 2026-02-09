@@ -7,11 +7,9 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Syne', 'sans-serif'],
-                serif: ['"Instrument Serif"', 'serif'],
-                display: ['"Instrument Serif"', 'serif'],
-                jakarta: ['"Plus Jakarta Sans"', 'sans-serif'],
-                mono: ['"Space Grotesk"', 'monospace'],
+                sans: ['Outfit', 'sans-serif'],
+                display: ['Syne', 'sans-serif'],
+                mono: ['"Space Mono"', 'monospace'],
             },
             colors: {
                 void: '#050505',
