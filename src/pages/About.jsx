@@ -251,22 +251,25 @@ const About = () => {
                             const textAlign = isEven ? 'text-left' : 'text-right';
 
                             return (
-                                <div key={i} className={`military-dest-section min-h-[80vh] flex items-center ${isEven ? 'justify-start' : 'justify-end'}`}>
-                                    <div className={`max-w-xl p-8 border-l-2 ${isEven ? 'border-l-green-500 pl-8' : 'border-r-2 border-r-green-500 pr-8 border-l-0'} bg-black/40 backdrop-blur-md rounded-none transition-all duration-500 ${alignClass}`}>
-                                        <span className={`text-green-500 font-mono text-xs mb-1 block tracking-[0.5em] uppercase ${textAlign}`}>
-                                            MISSION // {dest.city}
+                                <div key={i} className={`military-dest-section min-h-[90vh] flex items-center ${isEven ? 'justify-start' : 'justify-end'}`}>
+                                    <div className={`max-w-xl p-10 border-l ${isEven ? 'border-l-emerald-500/30 pl-10' : 'border-r border-r-emerald-500/30 pr-10 border-l-0'} bg-black/20 backdrop-blur-sm rounded-none transition-all duration-700 ${alignClass}`}>
+                                        <span className={`text-emerald-500/60 font-mono text-[10px] mb-2 block tracking-[0.6em] uppercase ${textAlign}`}>
+                                            MISSION_NODE // {dest.city}
                                         </span>
-                                        <h3 className={`text-7xl md:text-9xl font-black text-white/10 mb-[-0.5em] relative z-0 select-none ${textAlign}`}>
+                                        <h3 className={`text-7xl md:text-9xl font-black text-white/[0.03] mb-[-0.4em] relative z-0 select-none ${textAlign}`}>
                                             {dest.year}
                                         </h3>
-                                        <h4 className={`text-3xl md:text-4xl font-bold text-white mb-4 relative z-10 ${textAlign}`}>{dest.name}</h4>
-                                        <p className={`text-base text-slate-300 leading-relaxed font-light ${textAlign} max-w-sm ml-auto`}>
+                                        <h4 className={`text-4xl md:text-5xl font-bold text-white mb-6 relative z-10 tracking-tight ${textAlign}`}>{dest.name}</h4>
+                                        <p className={`text-base text-slate-400 leading-relaxed font-light ${textAlign} max-w-sm ${isEven ? '' : 'ml-auto'}`}>
                                             {dest.desc}
                                         </p>
-                                        <div className={`mt-6 pt-6 border-t border-white/10 flex gap-6 text-[10px] font-mono text-white/40 uppercase ${isEven ? 'justify-start' : 'justify-end'}`}>
-                                            <span>MGRS: {dest.mgrs}</span>
-                                            <span className={dest.status === 'MISSION_COMPLETE' ? 'text-green-500' : 'text-green-500'}>
-                                                {dest.status.replace('_', ' ')}
+                                        <div className={`mt-8 pt-6 border-t border-white/5 flex gap-8 text-[9px] font-mono text-white/30 uppercase tracking-widest ${isEven ? 'justify-start' : 'justify-end'}`}>
+                                            <span className="flex items-center gap-2">
+                                                <div className="w-1.5 h-1.5 bg-emerald-500/40 rounded-full"></div>
+                                                MGRS: {dest.mgrs}
+                                            </span>
+                                            <span className="text-emerald-500/50">
+                                                STATUS: {dest.status.replace('_', ' ')}
                                             </span>
                                         </div>
                                     </div>

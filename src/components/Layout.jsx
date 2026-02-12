@@ -13,6 +13,8 @@ const PAGE_ACCENTS = {
     '/idrive': { accent: '#6366f1', soft: 'rgba(99, 102, 241, 0.18)', glow: 'rgba(99, 102, 241, 0.45)' },
     '/ai-strategy': { accent: '#ec4899', soft: 'rgba(236, 72, 153, 0.18)', glow: 'rgba(236, 72, 153, 0.45)' },
     '/about': { accent: '#22c55e', soft: 'rgba(34, 197, 94, 0.18)', glow: 'rgba(34, 197, 94, 0.45)' },
+    '/mind-palace': { accent: '#7c3aed', soft: 'rgba(124, 58, 237, 0.18)', glow: 'rgba(124, 58, 237, 0.45)' },
+    '/aether': { accent: '#06b6d4', soft: 'rgba(6, 182, 212, 0.18)', glow: 'rgba(6, 182, 212, 0.45)' },
     '/contact': { accent: '#14b8a6', soft: 'rgba(20, 184, 166, 0.18)', glow: 'rgba(20, 184, 166, 0.45)' },
     '/services/brand': { accent: '#f472b6', soft: 'rgba(244, 114, 182, 0.18)', glow: 'rgba(244, 114, 182, 0.45)' },
     '/services/web': { accent: '#60a5fa', soft: 'rgba(96, 165, 250, 0.18)', glow: 'rgba(96, 165, 250, 0.45)' },

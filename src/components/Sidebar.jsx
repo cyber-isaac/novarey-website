@@ -4,7 +4,7 @@ import {
     Home, Briefcase, Camera, LayoutGrid, HardDrive, Cpu,
     ChevronLeft, ChevronRight, Settings, LogOut, PanelLeftClose, PanelLeft,
     Image as ImageIcon, Menu, FileText, Layout, PenTool, Code2, Megaphone,
-    Monitor, Rocket, Zap, Palette, Hash, Mail
+    Monitor, Rocket, Zap, Palette, Hash, Mail, Castle, Waves
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Logo from './Logo';
@@ -84,6 +84,7 @@ const Sidebar = () => {
                     <NavItem icon={<ImageIcon className="w-5 h-5" />} label="Portfolio" to="/portfolio" accent="#38bdf8" soft="rgba(56, 189, 248, 0.18)" collapsed={isCollapsed} />
                     <NavItem icon={<HardDrive className="w-5 h-5" />} label="The i-Drive" to="/idrive" accent="#6366f1" soft="rgba(99, 102, 241, 0.18)" collapsed={isCollapsed} />
                     <NavItem icon={<Cpu className="w-5 h-5" />} label="A.I. Strategy" to="/ai-strategy" accent="#ec4899" soft="rgba(236, 72, 153, 0.18)" collapsed={isCollapsed} />
+                    <NavItem icon={<Waves className="w-5 h-5" />} label="Aether" to="/aether" accent="#06b6d4" soft="rgba(6, 182, 212, 0.18)" collapsed={isCollapsed} />
                     <NavItem icon={<Layout className="w-5 h-5" />} label="About" to="/about" accent="#f59e0b" soft="rgba(245, 158, 11, 0.18)" collapsed={isCollapsed} />
                     <NavItem icon={<Mail className="w-5 h-5" />} label="Contact" to="/contact" accent="#14b8a6" soft="rgba(20, 184, 166, 0.18)" collapsed={isCollapsed} />
                 </nav>

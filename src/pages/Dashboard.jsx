@@ -8,6 +8,7 @@ import Logo from '../components/Logo';
 import Button from '../components/Button';
 import ProjectRequestForm from '../components/ProjectRequestForm';
 import AIStudioBrief from '../components/AIStudioBrief';
+import SpecialOpsTheater from '../components/SpecialOpsTheater';
 import { staggerContainer, fadeInUp, scaleUp, scrollReveal, viewportConfig } from '../lib/animations';
 
 
@@ -165,77 +166,7 @@ const Dashboard = () => {
                     </div>
                 </motion.section>
 
-                <section className="px-4 sm:px-6 lg:px-8 pb-8">
-                    <div className="max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-10">
-                        <div className="space-y-6">
-                            <motion.div variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig}>
-                                <div className="text-xs font-mono uppercase tracking-widest text-[var(--text-3)]">What I Do</div>
-                                <h3 className="mt-3 text-2xl md:text-3xl font-bold text-[var(--text-1)]">
-                                    AI design systems and human-grade execution.
-                                </h3>
-                                <p className="mt-3 text-[var(--text-3)] leading-relaxed">
-                                    A hybrid workflow: rapid ideation with AI, then refine with traditional craft for accuracy and clarity.
-                                </p>
-                            </motion.div>
-                            <motion.div
-                                className="space-y-4"
-                                variants={staggerContainer(0.1, 0.2)}
-                                initial="hidden"
-                                whileInView="visible"
-                                viewport={{ once: true, margin: "-100px" }}
-                            >
-                                {WHAT_I_DO.map((item) => (
-                                    <motion.div
-                                        key={item.title}
-                                        variants={fadeInUp}
-                                        className="rounded-2xl border border-[var(--border-1)] bg-[var(--surface-2)] p-5 backdrop-blur-xl hover:border-[var(--page-accent)] transition-colors duration-500 group"
-                                    >
-                                        <div className="flex items-start gap-4">
-                                            <div className="mt-1 h-10 w-10 rounded-xl bg-[var(--surface-3)] border border-[var(--border-1)] flex items-center justify-center text-[var(--text-1)] group-hover:bg-[var(--page-accent-soft)] group-hover:text-[var(--page-accent)] transition-colors duration-500">
-                                                <item.icon className="w-5 h-5" />
-                                            </div>
-                                            <div>
-                                                <h4 className="text-lg font-semibold text-[var(--text-1)]">{item.title}</h4>
-                                                <p className="text-sm text-[var(--text-3)] mt-2">{item.desc}</p>
-                                            </div>
-                                        </div>
-                                    </motion.div>
-                                ))}
-                            </motion.div>
-                        </div>
 
-                        <div className="relative">
-                            <div className="absolute left-5 top-2 bottom-2 w-px bg-[var(--border-1)] storyline-line"></div>
-                            <motion.div
-                                className="space-y-6"
-                                variants={staggerContainer(0.15, 0.4)}
-                                initial="hidden"
-                                whileInView="visible"
-                                viewport={{ once: true, margin: "-100px" }}
-                            >
-                                {WORKFLOW_STEPS.map((step, index) => (
-                                    <motion.div
-                                        key={step.title}
-                                        variants={fadeInUp}
-                                        className="storyline-step relative pl-14 group"
-                                    >
-                                        <div className="absolute left-0 top-1">
-                                            <div className="h-10 w-10 rounded-full border border-[var(--border-1)] bg-[var(--surface-4)] flex items-center justify-center text-[var(--text-1)] group-hover:border-[var(--page-accent)] group-hover:text-[var(--page-accent)] transition-colors duration-500 relative z-10">
-                                                <step.icon className="w-5 h-5" />
-                                            </div>
-                                        </div>
-                                        <div className="rounded-2xl border border-[var(--border-1)] bg-[var(--surface-2)] p-5 backdrop-blur-xl hover:border-[var(--page-accent)] transition-colors duration-500 relative">
-                                            <div className="text-[10px] font-mono uppercase tracking-widest text-[var(--text-3)]">Step {index + 1}</div>
-                                            <h4 className="text-lg font-semibold text-[var(--text-1)] mt-2">{step.title}</h4>
-                                            <p className="text-sm text-[var(--text-3)] mt-2">{step.desc}</p>
-                                            <div className="mt-3 text-xs font-mono text-[var(--page-accent)]/60 bg-[var(--page-accent-soft)]/5 px-2 py-1 rounded inline-block">{step.tools}</div>
-                                        </div>
-                                    </motion.div>
-                                ))}
-                            </motion.div>
-                        </div>
-                    </div>
-                </section>
 
                 <div className="pt-8 pr-8 pb-8 pl-8 space-y-10">
                     <motion.section variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig}>
@@ -291,6 +222,7 @@ const Dashboard = () => {
                         <AIStudioBrief />
                     </motion.section>
 
+                    <SpecialOpsTheater />
 
 
 

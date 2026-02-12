@@ -1,48 +1,48 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Brain, Video, Volume2, Mic2, Target, Zap, MousePointer2 } from 'lucide-react';
+import { Code2, PenTool, Megaphone, Cpu, Mic2, Target, Zap, Shield, MousePointer2 } from 'lucide-react';
 import Button from './Button';
 
 const STUDIO_SERVICES = [
     {
-        id: 'rapid-prototyping',
-        title: 'Rapid Prototyping',
-        tag: 'Velocity Protocol',
-        desc: 'Moving from concept to production-ready design in hours, not weeks. We leverage AI-augmented workflows to iterate on complex UI and product systems at light speed.',
-        icon: Zap,
+        id: 'web-development',
+        title: 'Web Development',
+        tag: 'Alpha Sector',
+        desc: 'Every website is coded from scratch using AI coding agents like Antigravity and Cursor AI, powered by Claude Opus 4.6 and Google Gemini Pro 3.0. No templates, no page builders. Just clean, custom code built to spec.',
+        icon: Code2,
         accent: 'blue',
-        media: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2400&auto=format&fit=crop',
-        metric: '5x Turnaround'
+        media: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=2400&auto=format&fit=crop',
+        metric: 'Zero Templates'
     },
     {
-        id: 'complex-ops',
-        title: 'Complex Project Ops',
-        tag: 'Mission Strategy',
-        desc: 'Managing multifaceted technical projects with AI precision. We integrate multi-agent systems to orchestrate data, design, and deployment for high-stakes ventures.',
-        icon: Target,
+        id: 'branding-identity',
+        title: 'Branding & Identity',
+        tag: 'Bravo Sector',
+        desc: 'Full identity systems designed with Adobe Creative Suite and Canva Pro. AI-powered motion logos and branded video using Google Veo 3.0 and Nano Banana. From concept to brand kit delivery.',
+        icon: PenTool,
         accent: 'rose',
-        media: 'https://images.unsplash.com/photo-1523961131990-5ea7c61b2107?q=80&w=2400&auto=format&fit=crop',
-        metric: 'Precision Scale'
+        media: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?q=80&w=2400&auto=format&fit=crop',
+        metric: 'Full Brand Kits'
     },
     {
-        id: 'brand-ecosystems',
-        title: 'Brand Ecosystems',
-        tag: 'Systemic Identity',
-        desc: 'Building intelligent brand systems that adapt. We use generative logic to create identity kits that scale across every digital and physical touchpoint automatically.',
-        icon: Brain,
-        accent: 'emerald',
-        media: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2400&auto=format&fit=crop',
-        metric: 'Instant Scaling'
-    },
-    {
-        id: 'ai-audio',
-        title: 'A.I. Integrated Audio',
-        tag: 'Audio Systems',
-        desc: 'A.I. integrated audio features and custom effects designed for rapid content cycles. Precision audio engineering that perfectly aligns with your visual narrative.',
-        icon: Volume2,
+        id: 'strategic-marketing',
+        title: 'Strategic Marketing',
+        tag: 'Charlie Sector',
+        desc: 'SEO, social media, paid advertising, email funnels, and content strategy. Data-driven campaigns engineered to capture your target audience and convert leads into loyal customers.',
+        icon: Megaphone,
         accent: 'amber',
-        media: 'https://images.unsplash.com/photo-1557683316-973673baf926?q=80&w=2400&auto=format&fit=crop',
-        metric: 'Multi-Lingual'
+        media: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2400&auto=format&fit=crop',
+        metric: 'Growth Engine'
+    },
+    {
+        id: 'ai-solutions',
+        title: 'A.I. Solutions',
+        tag: 'Delta Sector',
+        desc: 'Custom AI tools built for your workflows. Chatbots, automation pipelines, content generation systems, and intelligent integrations using Claude, Gemini, GPT-4o, and LangChain.',
+        icon: Cpu,
+        accent: 'emerald',
+        media: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=2400&auto=format&fit=crop',
+        metric: 'Custom Pipelines'
     }
 ];
 
@@ -67,15 +67,15 @@ const AIStudioBrief = () => {
                     <div className="w-full lg:w-1/2 space-y-12">
                         <div>
                             <div className="flex items-center gap-3 text-[10px] uppercase font-bold tracking-[0.4em] text-white/40 mb-4">
-                                <Zap className="w-3 h-3 text-orange-500" />
-                                Design Domain // A.I. VENTURE STUDIO
+                                <Shield className="w-3 h-3 text-orange-500" />
+                                Service Sectors // OPERATIONS BRIEF
                             </div>
                             <h2 className="text-4xl md:text-6xl font-black text-white italic uppercase leading-[0.95]">
-                                Rapid <br />
-                                <span className="text-orange-500/80">Turnaround</span>
+                                Mission-Grade <br />
+                                <span className="text-orange-500/80">Execution</span>
                             </h2>
                             <p className="mt-6 text-slate-400 max-w-lg leading-relaxed text-sm md:text-base font-mono">
-                                A specialized production workflow built for speed. I leverage advanced AI orchestration to deliver complex projects with human-grade precision in record time.
+                                Special Forces trained. AI augmented. I approach every project like a mission: define the objective, select the right tools, execute with precision, and deliver results that exceed expectations.
                             </p>
                         </div>
 
@@ -198,7 +198,7 @@ const AIStudioBrief = () => {
 
                         {/* Floating Tech Decorative Card - Only for AI Audio */}
                         <AnimatePresence>
-                            {activeId === 'ai-audio' && (
+                            {activeId === 'ai-solutions' && (
                                 <motion.div
                                     initial={{ opacity: 0, x: -20, y: 0 }}
                                     animate={{
@@ -217,8 +217,8 @@ const AIStudioBrief = () => {
                                     className="absolute -bottom-10 -left-10 md:-left-20 p-6 rounded-2xl border border-white/10 bg-black/80 backdrop-blur-2xl max-w-[280px] hidden md:block"
                                 >
                                     <div className="flex items-center gap-3 mb-3">
-                                        <Mic2 className="w-4 h-4 text-orange-400" />
-                                        <div className="text-[10px] font-mono text-white/80 uppercase tracking-widest">Voice Synthesis Engaged</div>
+                                        <Cpu className="w-4 h-4 text-orange-400" />
+                                        <div className="text-[10px] font-mono text-white/80 uppercase tracking-widest">AI Pipeline Active</div>
                                     </div>
                                     <div className="flex items-end gap-1 h-8">
                                         {[...Array(12)].map((_, i) => (
@@ -231,7 +231,7 @@ const AIStudioBrief = () => {
                                         ))}
                                     </div>
                                     <p className="mt-4 text-[10px] font-mono text-slate-500 leading-relaxed uppercase">
-                                        Real-time sonic injection complete. Audio verified across frequency layer.
+                                        Automation deployed. Custom workflow processing across all integration layers.
                                     </p>
                                 </motion.div>
                             )}

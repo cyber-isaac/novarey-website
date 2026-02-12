@@ -51,17 +51,23 @@ body {
 }
 
 /* Smooth font-weight transitions for interactive elements */
-a, button, [role="button"] {
+a,
+button,
+[role="button"] {
   transition: font-variation-settings 0.3s ease, color 0.2s ease, opacity 0.2s ease;
 }
 
 /* ===== TYPOGRAPHY SCALE ===== */
 /* Display headings use Syne; body text uses Outfit */
 
-h1, .h1,
-h2, .h2,
-h3, .h3,
-h4, .h4 {
+h1,
+.h1,
+h2,
+.h2,
+h3,
+.h3,
+h4,
+.h4 {
   font-family: 'Syne', sans-serif;
 }
 
@@ -595,7 +601,17 @@ p,
   }
 }
 
+/* Page transition layer — GPU compositing */
+.page-transition-layer {
+  will-change: opacity, transform;
+  backface-visibility: hidden;
+}
+
 @media (prefers-reduced-motion: reduce) {
+
+  .page-transition-layer {
+    will-change: auto;
+  }
 
   .animate-on-scroll,
   .animate-on-scroll.is-visible {
