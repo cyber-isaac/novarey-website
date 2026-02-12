@@ -32,7 +32,7 @@ const ZONES = [
         content: {
             title: 'Project Showroom',
             subtitle: 'Selected Works',
-            body: 'Brand systems, product interfaces, marketing campaigns, and AI-enhanced creative work — crafted with operational discipline and modern visual craft.',
+            body: 'Brand systems, product interfaces, marketing campaigns, and AI-enhanced creative work. Crafted with operational discipline and modern visual craft.',
         },
     },
     {
@@ -366,8 +366,8 @@ const MindPalace = () => {
         const moonLight = new THREE.DirectionalLight(0x8888ff, 1.2);
         moonLight.position.set(30, 60, -40);
         moonLight.castShadow = true;
-        moonLight.shadow.mapSize.width = 2048;
-        moonLight.shadow.mapSize.height = 2048;
+        moonLight.shadow.mapSize.width = 1024;
+        moonLight.shadow.mapSize.height = 1024;
         moonLight.shadow.camera.near = 0.5;
         moonLight.shadow.camera.far = 150;
         moonLight.shadow.camera.left = -80;
@@ -984,6 +984,25 @@ const MindPalace = () => {
             window.removeEventListener('keydown', onKeyDown);
             window.removeEventListener('keyup', onKeyUp);
             window.removeEventListener('resize', onResize);
+            // Dispose all scene geometries, materials, and textures
+            scene.traverse((child) => {
+                if (child.geometry) child.geometry.dispose();
+                if (child.material) {
+                    if (Array.isArray(child.material)) {
+                        child.material.forEach(m => {
+                            if (m.map) m.map.dispose();
+                            if (m.normalMap) m.normalMap.dispose();
+                            if (m.emissiveMap) m.emissiveMap.dispose();
+                            m.dispose();
+                        });
+                    } else {
+                        if (child.material.map) child.material.map.dispose();
+                        if (child.material.normalMap) child.material.normalMap.dispose();
+                        if (child.material.emissiveMap) child.material.emissiveMap.dispose();
+                        child.material.dispose();
+                    }
+                }
+            });
             renderer.dispose();
             if (container.contains(renderer.domElement)) {
                 container.removeChild(renderer.domElement);

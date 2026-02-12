@@ -3,7 +3,6 @@ import { motion } from 'framer-motion';
 import { Cpu, Rocket, Activity, Zap, Shield, Microscope, Boxes, Gauge, ChevronRight, Binary } from 'lucide-react';
 import { scrollReveal, viewportConfig } from '../lib/animations';
 import IntegrationsShowcase from '../components/IntegrationsShowcase';
-import ParticleBackground from '../components/ParticleBackground';
 import Button from '../components/Button';
 import PortfolioCarousel from '../components/PortfolioCarousel';
 
@@ -59,6 +58,19 @@ const PROJECTS = [
         color: 'text-orange-400',
         bg: 'bg-orange-500/5',
         border: 'border-orange-500/20'
+    },
+    {
+        id: 'mission-planner',
+        name: 'MISSION PLANNER',
+        subtitle: 'AI-Powered MDMP Automation',
+        status: 'DEVELOPMENT',
+        progress: 45,
+        type: 'TACTICAL',
+        desc: 'A vibe-coded tactical planning app that walks you through the entire Military Decision Making Process. From mission analysis to COA comparison, every step is streamlined with AI so you can focus on decisions, not paperwork.',
+        tags: ['MDMP', 'OpenAI', 'React', 'Tactical AI'],
+        color: 'text-orange-400',
+        bg: 'bg-orange-500/5',
+        border: 'border-orange-500/20'
     }
 ];
 
@@ -77,9 +89,6 @@ const StatCard = ({ label, value, icon: Icon }) => (
 const AIStrategy = () => {
     return (
         <div className="flex-1 overflow-y-auto h-full p-8 relative selection:bg-orange-500/30 font-sans" data-scroll-container>
-            {/* Red Particle Background */}
-            <ParticleBackground />
-
             {/* Background Grain/Lines */}
             <div className="absolute inset-0 pointer-events-none opacity-[0.02] bg-[linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:40px_40px]"></div>
 
@@ -107,7 +116,7 @@ const AIStrategy = () => {
 
             {/* Quick Stats HUD */}
             <motion.div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-12 relative z-10" variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig}>
-                <StatCard label="Active Projects" value="04" icon={Boxes} />
+                <StatCard label="Active Projects" value="05" icon={Boxes} />
                 <StatCard label="Compute Status" value="OPTIMAL" icon={Activity} />
                 <StatCard label="Lab Uptime" value="99.9%" icon={Gauge} />
                 <StatCard label="Clearance" value="LVL_7" icon={Shield} />
@@ -136,7 +145,8 @@ const AIStrategy = () => {
                                 <div className={`p-3 rounded-2xl bg-white/5 ${project.color}`}>
                                     {project.id === 'tars' ? <Cpu className="w-6 h-6" /> :
                                         project.id === 'jm-app' ? <Rocket className="w-6 h-6" /> :
-                                            <Binary className="w-6 h-6" />}
+                                            project.id === 'mission-planner' ? <Shield className="w-6 h-6" /> :
+                                                <Binary className="w-6 h-6" />}
                                 </div>
                                 <div>
                                     <h3 className="text-2xl font-black text-white tracking-tight uppercase">

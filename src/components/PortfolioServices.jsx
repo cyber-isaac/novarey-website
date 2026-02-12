@@ -5,21 +5,21 @@ const SERVICES = [
     {
         icon: Layout,
         title: 'Precision Web Design',
-        desc: 'Mission-critical interfaces that convert visitors into loyal users with stunning visuals and frictionless UX.',
+        desc: 'High-impact interfaces that turn visitors into loyal users with clean visuals and smooth UX.',
         tags: ['E-commerce', 'SaaS', 'Marketing'],
         gradient: 'from-blue-500/20 via-indigo-500/10 to-transparent'
     },
     {
         icon: Palette,
         title: 'Brand Systems',
-        desc: 'Complete visual identities that capture the essence of your vision and resonate with high-intent audiences.',
+        desc: 'Full visual identities that capture the heart of your vision and connect with the right audience.',
         tags: ['Logos', 'Typography', 'Style Guides'],
         gradient: 'from-orange-500/20 via-red-500/10 to-transparent'
     },
     {
         icon: Target,
         title: 'Strategic UX',
-        desc: 'User-centered design backed by deep physiological research for optimal engagement and mission success.',
+        desc: 'User-first design grounded in real research, built for genuine engagement and lasting results.',
         tags: ['Research', 'Audit', 'Prototypes'],
         gradient: 'from-emerald-500/20 via-teal-500/10 to-transparent'
     }

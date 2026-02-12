@@ -16,13 +16,13 @@ const SERVICES = {
         accentSoft: 'rgba(96, 165, 250, 0.12)',
         title: 'Web Development',
         tagline: 'CODED FROM SCRATCH',
-        subtitle: 'AI-powered websites built from the ground up \u2014 not dragged and dropped.',
-        description: 'I do not use page builders or cookie-cutter templates. Every website is coded from scratch using the latest AI coding assistants \u2014 Antigravity and Cursor AI \u2014 powered by Claude Opus 4.6 and Google Gemini Pro 3.0 (including Flash). This means pixel-perfect, blazing-fast, custom-built sites that look and feel exactly the way you envision them. Need to replicate a design you love? I can reverse-engineer any template or site and rebuild it with clean, modern code.',
+        subtitle: 'AI-powered websites built from the ground up, not dragged and dropped.',
+        description: 'I don\'t use page builders or cookie-cutter templates. Every website is hand-coded using the latest AI coding assistants like Antigravity and Cursor AI, powered by Claude Opus 4.6 and Google Gemini Pro 3.0 (including Flash). That means pixel-perfect, blazing-fast sites that look and feel exactly the way you want them to. Got a design you love? Send me the link and I\'ll rebuild it from scratch with clean, modern code.',
         process: [
-            { step: 'Discovery & Blueprint', desc: 'We define your vision, audience, and goals. I study any reference sites or templates you want to emulate and create a project blueprint.' },
-            { step: 'AI-Accelerated Build', desc: 'Using Antigravity + Cursor AI with Claude Opus 4.6 and Gemini Pro 3.0, I code your site from scratch \u2014 React, Next.js, or vanilla stack \u2014 at 10x traditional speed.' },
+            { step: 'Discovery & Blueprint', desc: 'We define your vision, audience, and goals. I study any reference sites or templates you want to match and put together a clear project blueprint.' },
+            { step: 'AI-Accelerated Build', desc: 'Using Antigravity + Cursor AI with Claude Opus 4.6 and Gemini Pro 3.0, I code your site from scratch in React, Next.js, or vanilla stack at 10x traditional speed.' },
             { step: 'Design & Polish', desc: 'Every page is hand-tuned with premium animations, responsive layouts, dark/light themes, and micro-interactions that make your site feel alive.' },
-            { step: 'Launch & Support', desc: 'Deployed to Netlify, Vercel, or your hosting of choice. I provide a walkthrough and ongoing support to keep things running smooth.' },
+            { step: 'Launch & Support', desc: 'Deployed to Netlify, Vercel, or your hosting of choice. I walk you through everything and stay available for ongoing support.' },
         ],
         tools: [
             { name: 'Antigravity', desc: 'AI coding agent' },
@@ -35,9 +35,9 @@ const SERVICES = {
             { name: 'Netlify / Vercel', desc: 'Edge deployment' },
         ],
         features: [
-            { icon: Zap, title: 'Zero Templates', desc: 'Every line of code is written specifically for your project. No WordPress, no Wix, no Squarespace \u2014 just clean, custom code.' },
-            { icon: Monitor, title: 'Template Replication', desc: 'Love a site you have seen? Send me the link and I will rebuild it from scratch with modern tech, customized to your brand.' },
-            { icon: Rocket, title: '10x Build Speed', desc: 'AI coding tools let me deliver in days what traditionally takes weeks \u2014 without sacrificing quality or attention to detail.' },
+            { icon: Zap, title: 'Zero Templates', desc: 'Every line of code is written specifically for your project. No WordPress, no Wix, no Squarespace. Just clean, custom code.' },
+            { icon: Monitor, title: 'Template Replication', desc: 'Love a site you\'ve seen? Send me the link and I\'ll rebuild it from scratch with modern tech, customized to your brand.' },
+            { icon: Rocket, title: '10x Build Speed', desc: 'AI coding tools let me deliver in days what traditionally takes weeks, without sacrificing quality or attention to detail.' },
             { icon: Shield, title: 'Future-Proof Stack', desc: 'React, Next.js, responsive CSS, and modern deployment. Your site will scale and perform for years to come.' },
         ],
     },
@@ -48,13 +48,13 @@ const SERVICES = {
         accentSoft: 'rgba(244, 114, 182, 0.12)',
         title: 'Branding & Identity',
         tagline: 'VISUAL IDENTITY SYSTEMS',
-        subtitle: 'Craft a brand identity that is unmistakably yours \u2014 powered by design tools and AI.',
-        description: 'Your brand is more than a logo \u2014 it is a system that speaks across every touchpoint. I combine the precision of the full Adobe Creative Suite and Canva Pro with cutting-edge AI tools like Google Veo 3.0 and Nano Banana to create logos, motion graphics, branded videos, and complete visual identity packages. From concept to final delivery, every asset is designed to make your brand unforgettable.',
+        subtitle: 'Craft a brand identity that\'s unmistakably yours, powered by design tools and AI.',
+        description: 'Your brand is more than a logo. It\'s a system that speaks across every touchpoint. I combine the full Adobe Creative Suite and Canva Pro with cutting-edge AI tools like Google Veo 3.0 and Nano Banana to create logos, motion graphics, branded videos, and complete visual identity packages. From concept to final delivery, every asset is built to make your brand unforgettable.',
         process: [
-            { step: 'Brand Discovery', desc: 'Deep dive into your business, audience, competitors, and vision. We define your brand voice, color DNA, and visual direction.' },
-            { step: 'Logo & Mark Design', desc: 'Hand-crafted logos and brand marks using Illustrator and Photoshop \u2014 refined with AI generation for rapid concept exploration.' },
-            { step: 'Motion & Video', desc: 'Animated logos, branded intros, and video content created with Google Veo 3.0, Nano Banana, and After Effects for dynamic brand presence.' },
-            { step: 'Brand Kit Delivery', desc: 'Complete brand package: logo suite, color palette, typography guide, social templates, and usage guidelines.' },
+            { step: 'Brand Discovery', desc: 'Deep dive into your business, audience, competitors, and vision. We nail down your brand voice, color palette, and visual direction.' },
+            { step: 'Logo & Mark Design', desc: 'Hand-crafted logos and brand marks using Illustrator and Photoshop, refined with AI generation for rapid concept exploration.' },
+            { step: 'Motion & Video', desc: 'Animated logos, branded intros, and video content created with Google Veo 3.0, Nano Banana, and After Effects to give your brand real energy.' },
+            { step: 'Brand Kit Delivery', desc: 'You get the whole package: logo suite, color palette, typography guide, social templates, and usage guidelines.' },
         ],
         tools: [
             { name: 'Adobe Photoshop', desc: 'Photo + graphics' },
@@ -67,9 +67,9 @@ const SERVICES = {
             { name: 'Adobe Firefly', desc: 'Generative AI' },
         ],
         features: [
-            { icon: Palette, title: 'Complete Identity Systems', desc: 'Logos, color palettes, typography, iconography, and brand guidelines that work everywhere \u2014 web, print, social, and video.' },
-            { icon: Video, title: 'AI-Powered Motion', desc: 'Animated logos and branded video content using Google Veo 3.0 and Nano Banana, giving your brand dynamic energy without the production studio cost.' },
-            { icon: Sparkles, title: 'Rapid Concept Exploration', desc: 'AI image generation lets us explore dozens of directions in hours, not weeks. You see more options and pick the perfect one.' },
+            { icon: Palette, title: 'Complete Identity Systems', desc: 'Logos, color palettes, typography, iconography, and brand guidelines that work everywhere: web, print, social, and video.' },
+            { icon: Video, title: 'AI-Powered Motion', desc: 'Animated logos and branded video content using Google Veo 3.0 and Nano Banana. Dynamic brand energy without the production studio cost.' },
+            { icon: Sparkles, title: 'Rapid Concept Exploration', desc: 'AI image generation lets us explore dozens of directions in hours, not weeks. You see more options and pick the one that feels right.' },
             { icon: Layers, title: 'Multi-Platform Ready', desc: 'Every asset delivered in the right formats for web, social media, print collateral, and digital campaigns.' },
         ],
     },
@@ -81,11 +81,11 @@ const SERVICES = {
         title: 'Strategic Marketing',
         tagline: 'GROWTH ENGINEERED',
         subtitle: 'Get in front of the right people with campaigns that actually convert.',
-        description: 'Marketing is not about shouting louder \u2014 it is about reaching the right audience with the right message at the right time. I build marketing strategies that combine SEO, social media management, paid advertising, email campaigns, and content funnels into a cohesive growth engine. Every campaign is data-driven, AI-assisted, and designed to deliver measurable results.',
+        description: 'Marketing isn\'t about shouting louder. It\'s about reaching the right audience with the right message at the right time. I build marketing strategies that combine SEO, social media management, paid advertising, email campaigns, and content funnels into one cohesive growth engine. Every campaign is data-driven, AI-assisted, and built to deliver real results.',
         process: [
             { step: 'Market Analysis', desc: 'Competitor research, audience profiling, keyword mapping, and opportunity identification to find where your business can win.' },
             { step: 'Strategy & Channels', desc: 'Custom marketing plan selecting the right mix of SEO, social, paid ads, email, and content based on your budget and goals.' },
-            { step: 'Content & Campaigns', desc: 'Campaign creation with AI-assisted copywriting, visual assets, landing pages, and ad creative \u2014 all aligned with your brand.' },
+            { step: 'Content & Campaigns', desc: 'Campaign creation with AI-assisted copywriting, visual assets, landing pages, and ad creative, all aligned with your brand.' },
             { step: 'Measure & Optimize', desc: 'Analytics dashboards, A/B testing, and continuous optimization to maximize ROI and scale what works.' },
         ],
         tools: [
@@ -113,10 +113,10 @@ const SERVICES = {
         title: 'A.I. Solutions',
         tagline: 'INTELLIGENT SYSTEMS',
         subtitle: 'Custom AI tools and automations built for your specific business needs.',
-        description: 'AI is not one-size-fits-all. I build custom AI solutions tailored to your workflows \u2014 from intelligent chatbots and content pipelines to data processing automations and internal copilots. Using the latest models from OpenAI, Anthropic, and Google, I create tools that save you hours every week and unlock capabilities you did not think were possible for a business your size.',
+        description: 'AI isn\'t one-size-fits-all. I build custom solutions tailored to your workflows, from intelligent chatbots and content pipelines to data processing automations and internal copilots. Using the latest models from OpenAI, Anthropic, and Google, I create tools that save you hours every week and unlock capabilities you didn\'t think were possible for a business your size.',
         process: [
-            { step: 'Workflow Audit', desc: 'I map your current processes, identify bottlenecks, and find the highest-impact opportunities for AI automation.' },
-            { step: 'Solution Design', desc: 'Custom architecture for your AI pipeline \u2014 choosing the right models, integrations, and interfaces for your specific use case.' },
+            { step: 'Workflow Audit', desc: 'I map out your current processes, find the bottlenecks, and identify where AI can make the biggest impact.' },
+            { step: 'Solution Design', desc: 'Custom architecture for your AI pipeline, choosing the right models, integrations, and interfaces for your specific use case.' },
             { step: 'Build & Train', desc: 'Development of your custom AI tools, including prompt engineering, fine-tuning, API integrations, and user interface design.' },
             { step: 'Deploy & Iterate', desc: 'Launch with monitoring, usage analytics, and continuous improvement as your needs evolve.' },
         ],
@@ -131,10 +131,10 @@ const SERVICES = {
             { name: 'Custom APIs', desc: 'Bespoke integrations' },
         ],
         features: [
-            { icon: Bot, title: 'Custom Chatbots', desc: 'AI-powered chat interfaces trained on your data \u2014 for customer support, lead qualification, or internal knowledge bases.' },
-            { icon: BrainCircuit, title: 'Workflow Automation', desc: 'Connect your tools with intelligent automation \u2014 from document processing to content generation to data analysis pipelines.' },
-            { icon: Wand2, title: 'Content Pipelines', desc: 'Automated content creation systems that generate, edit, and publish \u2014 blog posts, social content, email sequences, and more.' },
-            { icon: Globe, title: 'AI-Enhanced Products', desc: 'Embed intelligence directly into your product or service \u2014 recommendation engines, smart search, and predictive features.' },
+            { icon: Bot, title: 'Custom Chatbots', desc: 'AI-powered chat interfaces trained on your data for customer support, lead qualification, or internal knowledge bases.' },
+            { icon: BrainCircuit, title: 'Workflow Automation', desc: 'Connect your tools with intelligent automation, from document processing to content generation to data analysis pipelines.' },
+            { icon: Wand2, title: 'Content Pipelines', desc: 'Automated content creation systems that generate, edit, and publish blog posts, social content, email sequences, and more.' },
+            { icon: Globe, title: 'AI-Enhanced Products', desc: 'Embed intelligence directly into your product or service with recommendation engines, smart search, and predictive features.' },
         ],
     },
 };
@@ -148,7 +148,7 @@ const ServicePage = () => {
             <div className="flex-1 overflow-y-auto bg-[#0D0C12] h-full flex items-center justify-center" data-scroll-container>
                 <div className="text-center">
                     <h1 className="text-3xl font-bold text-white mb-3">Service Not Found</h1>
-                    <p className="text-slate-400 mb-6">The service you are looking for does not exist.</p>
+                    <p className="text-slate-400 mb-6">The service you're looking for doesn't exist.</p>
                     <Link to="/" className="text-sm font-mono uppercase tracking-widest text-blue-400 hover:text-blue-300 transition-colors">
                         Back to Home
                     </Link>

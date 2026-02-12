@@ -173,9 +173,9 @@ const PortfolioCarousel = () => {
     const intervalRef = useRef(null);
 
     // Auto-rotation
-    const AUTO_ROTATE_INTERVAL = 3000; // 3 seconds
-    const SLOW_ROTATE_INTERVAL = 6000; // 6 seconds when hovering
-    const VIDEO_PAUSE_INTERVAL = 15000; // 15 seconds for video cards to let them play
+    const AUTO_ROTATE_INTERVAL = 2200; // 2.2 seconds
+    const SLOW_ROTATE_INTERVAL = 4000; // 4 seconds when hovering
+    const VIDEO_PAUSE_INTERVAL = 10000; // 10 seconds for video cards
 
     const next = () => setCurrent((prev) => (prev + 1) % CARDS.length);
     const prev = () => setCurrent((prev) => (prev - 1 + CARDS.length) % CARDS.length);
@@ -312,9 +312,9 @@ const PortfolioCarousel = () => {
                                         }}
                                         transition={{
                                             type: 'spring',
-                                            stiffness: 200,
-                                            damping: 25,
-                                            mass: 1
+                                            stiffness: 350,
+                                            damping: 30,
+                                            mass: 0.8
                                         }}
                                         className={`absolute sm:w-[400px] ${card.landscape ? 'aspect-[16/9]' : 'aspect-[4/5]'} w-[80%] rounded-3xl overflow-hidden bg-[#14121D] border group cursor-pointer shadow-2xl transition-all duration-300 ${isCenter
                                             ? 'border-orange-500/50 hover:border-orange-400'

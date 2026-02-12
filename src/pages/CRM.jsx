@@ -3,7 +3,6 @@ import { motion } from 'framer-motion';
 import { Plus, MoreHorizontal, DollarSign, Calendar, Tag, RefreshCw } from 'lucide-react';
 import { scrollReveal, viewportConfig } from '../lib/animations';
 import { db } from '../lib/db';
-import ParticleBackground from '../components/ParticleBackground';
 import Button from '../components/Button';
 
 const Column = ({ title, count, items, onAdd }) => (
@@ -84,9 +83,6 @@ const CRM = () => {
 
     return (
         <div className="flex-1 overflow-hidden h-full flex flex-col" data-scroll-container>
-            {/* Red Particle Background */}
-            <ParticleBackground />
-
             {/* Header */}
             <motion.div className="h-16 border-b border-white/5 flex items-center justify-between px-8 bg-[#0D0C12]/50 backdrop-blur" variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig}>
                 <h1 className="text-xl font-bold text-white flex items-center gap-3">

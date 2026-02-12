@@ -16,8 +16,23 @@ const UnifiedBackground = () => {
     const spotlight1Ref = useRef(null);
     const spotlight2Ref = useRef(null);
     const scrollProgressRef = useRef(0);
+    const accentColorRef = useRef('#1fb6ff');
+    const pathnameRef = useRef('/');
+    const pausedRef = useRef(false);
     const [isReady, setIsReady] = useState(false);
     const location = useLocation();
+
+    // Keep accent color and pathname in refs (avoids getComputedStyle every frame)
+    useEffect(() => {
+        pathnameRef.current = location.pathname;
+        const accent = getComputedStyle(document.documentElement)
+            .getPropertyValue('--page-accent').trim();
+        if (accent) accentColorRef.current = accent;
+
+        // Pause render loop on pages with their own heavy WebGL
+        const heavyPages = ['/aether', '/mind-palace'];
+        pausedRef.current = heavyPages.includes(location.pathname);
+    }, [location.pathname]);
 
     useEffect(() => {
         if (!mountRef.current) return;
@@ -152,25 +167,37 @@ const UnifiedBackground = () => {
         };
 
         let scroller = document.querySelector('[data-scroll-container]');
-        const getScrollProgress = () => {
+        // Cache scroll progress via event listener instead of reading layout properties every frame
+        const onScroll = () => {
             if (!scroller || !scroller.isConnected) {
                 scroller = document.querySelector('[data-scroll-container]');
             }
             if (scroller) {
                 const maxScroll = Math.max(1, scroller.scrollHeight - scroller.clientHeight);
-                return Math.min(1, Math.max(0, scroller.scrollTop / maxScroll));
+                scrollProgressRef.current = Math.min(1, Math.max(0, scroller.scrollTop / maxScroll));
             }
-            const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
-            return Math.min(1, Math.max(0, window.scrollY / maxScroll));
         };
+        // Attach scroll listener (passive for performance)
+        const attachScrollListener = () => {
+            scroller = document.querySelector('[data-scroll-container]');
+            if (scroller) {
+                scroller.addEventListener('scroll', onScroll, { passive: true });
+            } else {
+                requestAnimationFrame(attachScrollListener);
+            }
+        };
+        attachScrollListener();
 
         // --- Animation Loop ---
         let animationFrameId;
         const animate = () => {
             animationFrameId = requestAnimationFrame(animate);
 
+            // Skip rendering on pages with their own heavy WebGL
+            if (pausedRef.current) return;
+
             const time = Date.now() * 0.001;
-            const scrollBoost = getScrollProgress();
+            const scrollBoost = scrollProgressRef.current;
             const p = Math.min(scrollBoost * 1.4, 1);
             const waveAmplitude = 0.12 + p * 0.6;
             scrollProgressRef.current = scrollBoost;
@@ -199,21 +226,18 @@ const UnifiedBackground = () => {
             particlesMesh.rotation.y = time * (0.03 + p * 0.08);
             particlesMesh.rotation.x = Math.sin(time * 0.12) * 0.04;
 
-            const accent = getComputedStyle(document.documentElement)
-                .getPropertyValue('--page-accent')
-                .trim();
+            // Use cached accent color from ref (updated on route change, not every frame)
+            const accent = accentColorRef.current;
 
             // Special Override for 'About' page to get White Space particles
             let targetColor;
-            if (location.pathname === '/about') {
-                targetColor = new THREE.Color(0xffffff); // Force White
-                // Force immediate update to clear any orange history
+            if (pathnameRef.current === '/about') {
+                targetColor = new THREE.Color(0xffffff);
                 particlesMaterial.color.setHex(0xffffff);
                 if (spotlight1Ref.current) spotlight1Ref.current.color.setHex(0xffffff);
                 if (spotlight2Ref.current) spotlight2Ref.current.color.setHex(0xffffff);
             } else {
                 targetColor = accent ? new THREE.Color(accent) : new THREE.Color('#3b82f6');
-                // Standard Lerp for other pages
                 particlesMaterial.color.lerp(targetColor, 0.2 + p * 0.6);
                 if (spotlight1Ref.current) spotlight1Ref.current.color.lerp(targetColor, 0.1);
                 if (spotlight2Ref.current) spotlight2Ref.current.color.lerp(targetColor, 0.1);
@@ -225,7 +249,7 @@ const UnifiedBackground = () => {
 
             // Adjust opacity for About page specifically
             let targetOpacity = target.opacity;
-            if (location.pathname === '/about') targetOpacity = 0.5; // Slightly clearer
+            if (pathnameRef.current === '/about') targetOpacity = 0.5; // Slightly clearer
 
             particlesMaterial.opacity = base.opacity + (targetOpacity - base.opacity) * p + Math.sin(time * 1.1) * 0.04;
 
@@ -251,6 +275,7 @@ const UnifiedBackground = () => {
 
         // --- Cleanup ---
         return () => {
+            if (scroller) scroller.removeEventListener('scroll', onScroll);
             window.removeEventListener('resize', handleResize);
             cancelAnimationFrame(animationFrameId);
             morphTween.kill();
@@ -285,4 +310,4 @@ const UnifiedBackground = () => {
     );
 };
 
-export default UnifiedBackground;
+export default React.memo(UnifiedBackground);

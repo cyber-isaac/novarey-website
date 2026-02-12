@@ -1,19 +1,21 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import Layout from './components/Layout';
-import Dashboard from './pages/Dashboard';
-import Work from './pages/Work';
-import About from './pages/About';
-import Portfolio from './pages/Portfolio';
-import IDrive from './pages/IDrive';
-import FileViewer from './pages/FileViewer';
-import AIStrategy from './pages/AIStrategy';
-import ServicePage from './pages/ServicePage';
-import CRM from './pages/CRM';
-import Contact from './pages/Contact';
-import MindPalace from './pages/MindPalace';
-import Aether from './pages/Aether';
+
+// Lazy-load all pages for code splitting
+const Dashboard = lazy(() => import('./pages/Dashboard'));
+const Work = lazy(() => import('./pages/Work'));
+const About = lazy(() => import('./pages/About'));
+const Portfolio = lazy(() => import('./pages/Portfolio'));
+const IDrive = lazy(() => import('./pages/IDrive'));
+const FileViewer = lazy(() => import('./pages/FileViewer'));
+const AIStrategy = lazy(() => import('./pages/AIStrategy'));
+const ServicePage = lazy(() => import('./pages/ServicePage'));
+const CRM = lazy(() => import('./pages/CRM'));
+const Contact = lazy(() => import('./pages/Contact'));
+const MindPalace = lazy(() => import('./pages/MindPalace'));
+const Aether = lazy(() => import('./pages/Aether'));
 
 const pageVariants = {
     initial: { opacity: 0, y: 10 },
@@ -25,7 +27,7 @@ const pageVariants = {
     exit: {
         opacity: 0,
         y: -6,
-        transition: { duration: 0.15, ease: [0.25, 0.1, 0.25, 1] },
+        transition: { duration: 0.1, ease: [0.25, 0.1, 0.25, 1] },
     },
 };
 
@@ -39,6 +41,7 @@ function AnimatedRoutes() {
     const location = useLocation();
 
     return (
+        <Suspense fallback={null}>
         <AnimatePresence mode="sync" onExitComplete={() => {
             const sc = document.querySelector('[data-scroll-container]');
             if (sc) sc.scrollTop = 0;
@@ -77,6 +80,7 @@ function AnimatedRoutes() {
                 </Routes>
             </motion.div>
         </AnimatePresence>
+        </Suspense>
     );
 }
 

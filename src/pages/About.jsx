@@ -16,7 +16,6 @@ import {
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import DesignStudio from '../components/DesignStudio';
-import ParticleBackground from '../components/ParticleBackground';
 import AuraBackground from '../components/AuraBackground';
 import Button from '../components/Button';
 import GlitchReveal from '../components/GlitchReveal';
@@ -54,7 +53,6 @@ const SERVICES = [
 const About = () => {
     return (
         <div className="flex-1 overflow-y-auto h-full p-8 pb-20 selection:bg-orange-500/30 font-sans relative" data-scroll-container>
-            <ParticleBackground />
             <AuraBackground />
 
             {/* Hero Media */}
@@ -251,7 +249,7 @@ const About = () => {
                             const textAlign = isEven ? 'text-left' : 'text-right';
 
                             return (
-                                <div key={i} className={`military-dest-section min-h-[90vh] flex items-center ${isEven ? 'justify-start' : 'justify-end'}`}>
+                                <div key={i} className={`military-dest-section min-h-[70vh] flex items-center ${isEven ? 'justify-start' : 'justify-end'}`}>
                                     <div className={`max-w-xl p-10 border-l ${isEven ? 'border-l-emerald-500/30 pl-10' : 'border-r border-r-emerald-500/30 pr-10 border-l-0'} bg-black/20 backdrop-blur-sm rounded-none transition-all duration-700 ${alignClass}`}>
                                         <span className={`text-emerald-500/60 font-mono text-[10px] mb-2 block tracking-[0.6em] uppercase ${textAlign}`}>
                                             MISSION_NODE // {dest.city}

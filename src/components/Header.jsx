@@ -98,4 +98,4 @@ const Header = ({ theme, onThemeChange }) => {
     );
 };
 
-export default Header;
+export default React.memo(Header);

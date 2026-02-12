@@ -3,14 +3,10 @@ import { motion } from 'framer-motion';
 import { Mail, Send, Calendar, Twitter, Instagram, Dribbble, Linkedin, Globe, Shield, User } from 'lucide-react';
 import { scrollReveal, viewportConfig } from '../lib/animations';
 import Button from '../components/Button';
-import ParticleBackground from '../components/ParticleBackground';
 
 const Contact = () => {
     return (
         <div className="flex-1 overflow-y-auto h-full selection:bg-orange-500/30 font-sans" data-scroll-container>
-            {/* Red Particle Background */}
-            <ParticleBackground />
-
             <motion.section
                 className="md:pt-40 bg-center z-10 bg-[url(https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/77f55872-adf5-4910-9a7c-d21c0041bbe1_3840w.webp)] bg-cover pt-40 pb-40 relative"
                 variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig}

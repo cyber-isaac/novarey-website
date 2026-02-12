@@ -8,23 +8,49 @@ gsap.registerPlugin(ScrollTrigger);
 
 // Military Operations & Career Timeline
 export const DESTINATIONS = [
-    { name: 'CAMP CASEY', city: 'South Korea', lat: 37.91, lon: 127.07, year: '2002', desc: 'First overseas assignment: Field Artillery Fire Direction Specialist. Established foundational discipline in high-tempo logistics near the DMZ.', mgrs: '52S DT 044 982', status: 'MISSION_COMPLETE' },
     { name: 'FORT SILL', city: 'Oklahoma, USA', lat: 34.65, lon: -98.40, year: '2004', desc: 'Advanced leadership development in Fire Support systems. Honed technical precision required for complex kinetic operations.', mgrs: '14S LG 462 381', status: 'STATIONED' },
-    { name: 'FORT BRAGG', city: 'North Carolina, USA', lat: 35.13, lon: -79.00, year: '2005', desc: 'Selected for Special Forces Assessment & Selection (SFAS). The definitive transition into elite Special Operations.', mgrs: '17S PV 593 782', status: 'SELECTION' },
-    { name: 'COTABATO CITY', city: 'Philippines', lat: 7.22, lon: 124.24, year: '2008', desc: 'JSOTF-Philippines. Leveraged Tagalog fluency for civil-military operations and high-stakes negotiation in conflict zones.', mgrs: '51N UK 605 982', status: 'OPERATED' },
+    { name: 'CAMP CASEY', city: 'South Korea', lat: 37.91, lon: 127.07, year: '2004', desc: 'Field Artillery Fire Direction Specialist. Established foundational discipline in high-tempo logistics near the DMZ.', mgrs: '52S DT 044 982', status: 'DEPLOYED' },
+    { name: 'FORT BRAGG', city: 'North Carolina, USA', lat: 35.13, lon: -79.00, year: '2005', desc: 'Attended the Special Forces Qualification Course (SFQC). The definitive transition into elite Special Operations.', mgrs: '17S PV 593 782', status: 'SELECTION' },
+    { name: 'JBLM', city: 'Washington, USA', lat: 47.09, lon: -122.58, year: '2006', desc: '1st Special Forces Group (Airborne). Assigned to the Pacific-oriented SF unit focused on Indo-Pacific theater operations and partner force engagement.', mgrs: '10T ET 549 173', status: 'STATIONED' },
+    { name: 'COTABATO CITY', city: 'Philippines', lat: 7.22, lon: 124.24, year: '2008 / 2012', desc: 'JSOTF-Philippines. Two deployments leveraging Tagalog fluency for civil-military operations, counterinsurgency advisory missions, and high-stakes negotiation in Mindanao.', mgrs: '51N UK 605 982', status: 'OPERATED' },
     { name: 'SINGAPORE', city: 'Singapore', lat: 1.35, lon: 103.81, year: '2009', desc: 'Joint Combined Exchange Training (JCET). Partnered with Singaporean Commandos to refine urban warfare and counter-terrorism tactics.', mgrs: '48N PK 123 456', status: 'OPERATED' },
-    { name: 'KANDAHAR', city: 'Afghanistan', lat: 31.62, lon: 65.71, year: '2010', desc: 'Operation Enduring Freedom. SF Communications Sergeant managing intelligence fusion and kinetic operations with Afghan partner forces.', mgrs: '41R PQ 672 018', status: 'OPERATED' },
-    { name: 'KAMPONG SPEU', city: 'Cambodia', lat: 11.45, lon: 104.52, year: '2012', desc: 'Royal Cambodian Armed Forces training. Facilitated multi-national engagement and stability operations through cultural diplomacy.', mgrs: '48P VU 883 121', status: 'OPERATED' },
+    { name: 'KANDAHAR', city: 'Afghanistan', lat: 31.62, lon: 65.71, year: '2010 / 2018', desc: 'Two combat deployments. OEF: SF Communications Sergeant managing intelligence fusion. OFS: Advisory and assist operations supporting Afghan NDSF.', mgrs: '41R PQ 672 018', status: 'OPERATED' },
+    { name: 'PHNOM PENH', city: 'Cambodia', lat: 11.56, lon: 104.92, year: '2011', desc: 'Royal Cambodian Armed Forces training. Facilitated multi-national engagement and stability operations through cultural diplomacy.', mgrs: '48P VU 927 133', status: 'OPERATED' },
     { name: 'FORT BRAGG', city: 'North Carolina, USA', lat: 35.13, lon: -79.00, year: '2013', desc: 'SFQC Instructor. Trained 300+ U.S. and Allied officers in doctrine and operational planning. Managed $1M+ in sensitive property.', mgrs: '17S PV 593 782', status: 'INSTRUCTOR' },
-    { name: 'LOPBURI', city: 'Thailand', lat: 14.80, lon: 100.62, year: '2017', desc: 'Cobra Gold & Balance Torch Exercises. Led multi-national force integration and strategic interoperability drills.', mgrs: '47P PS 462 381', status: 'OPERATED' },
+    { name: 'LOPBURI', city: 'Thailand', lat: 14.80, lon: 100.62, year: '2017 / 2019', desc: 'Two deployments for Cobra Gold & Balance Torch exercises. Led multi-national force integration and strategic interoperability drills with Royal Thai Armed Forces.', mgrs: '47P PS 462 381', status: 'OPERATED' },
+    { name: 'CAMP HUMPHREYS', city: 'South Korea', lat: 36.96, lon: 127.03, year: '2019', desc: 'Second tour in South Korea. Supported rotational force operations and regional security cooperation across the Korean Peninsula.', mgrs: '52S DT 008 876', status: 'DEPLOYED' },
     { name: 'KABUL', city: 'Afghanistan', lat: 34.55, lon: 69.20, year: '2021', desc: 'HKIA Evacuation (Aug 2021). Critical crisis response during the withdrawal. Facilitated non-combatant evacuation under extreme pressure.', mgrs: '42S WD 123 987', status: 'OPERATED' },
-    { name: 'DOHA', city: 'Qatar', lat: 25.28, lon: 51.52, year: '2021', desc: 'Director, Counter-Terrorism Task Force. Integrated JSOC, CIA, DIA, and FBI efforts for Over-The-Horizon operations.', mgrs: '39R XH 318 842', status: 'OPERATED' },
+    { name: 'SPARTAN BASE', city: 'Qatar', lat: 25.12, lon: 51.31, year: '2021', desc: 'Director, Counter-Terrorism Task Force at Spartan Base. Integrated JSOC, CIA, DIA, and FBI efforts for Over-The-Horizon operations.', mgrs: '39R XH 284 661', status: 'OPERATED' },
     { name: 'TEXAS', city: 'USA', lat: 31.96, lon: -99.90, year: '2023', desc: 'Founded Novarey Ventures. Leading AI-enhanced design strategy & managing multi-million dollar renewable energy projects (Engie/Scout Clean Energy).', mgrs: '14R LP 123 456', status: 'FOUNDED' }
 ];
+
+// Globe theme
+const THEME = {
+    matColor: '#152030',
+    matEmissive: 0xffcc33,
+    matEmissiveIntensity: 0.5,
+    atmosphere: 'rgba(245, 158, 11, 0.4)',
+    atmosphereAlt: 0.15,
+    arcColor: ['rgba(245, 158, 11, 0.3)', 'rgba(245, 158, 11, 0.7)'],
+    pointColor: 'rgba(245, 158, 11, 1)',
+    ringColor: (t) => `rgba(245, 158, 11, ${0.6 * (1 - t)})`,
+    graticule: 'rgba(245, 158, 11, 0.06)',
+    sunColor: 0xfff5e0,
+    sunIntensity: 2.0,
+    rimColor: 0xf59e0b,
+    rimIntensity: 6,
+    ambientColor: 0x060610,
+    ambientIntensity: 0.3,
+    markerBorder: 'rgba(245, 158, 11, 0.3)',
+    markerShadow: 'rgba(245, 158, 11, 0.1)',
+    markerAccent: '#f59e0b',
+    markerLine: 'rgba(245, 158, 11, 0.5)',
+};
 
 const MilitaryHistoryGlobe = () => {
     const containerRef = useRef(null);
     const globeRef = useRef(null);
+    const lightsRef = useRef({ sun: null, rim: null, ambient: null });
     const [activeIndexState, setActiveIndexState] = useState(-1);
 
     useEffect(() => {
@@ -45,20 +71,23 @@ const MilitaryHistoryGlobe = () => {
         let cloudsRef = null;
 
         try {
-            // --- Build Data Sets ---
+            const initThemeData = THEME;
+
+            // --- Build Data Sets (uses theme colors) ---
             const arcsData = DESTINATIONS.slice(1).map((dest, i) => ({
                 startLat: DESTINATIONS[i].lat,
                 startLng: DESTINATIONS[i].lon,
                 endLat: dest.lat,
                 endLng: dest.lon,
-                color: ['rgba(16, 185, 129, 0.3)', 'rgba(16, 185, 129, 0.7)']
+                color: initThemeData.arcColor,
+                order: i
             }));
 
             const pointsData = DESTINATIONS.map((d, i) => ({
                 lat: d.lat,
                 lng: d.lon,
                 size: 0.6,
-                color: 'rgba(16, 185, 129, 1)',
+                color: initThemeData.pointColor,
                 idx: i
             }));
 
@@ -79,22 +108,22 @@ const MilitaryHistoryGlobe = () => {
             // --- Configure Globe (Safely) ---
             safeApply(globeInstance, 'width', container.clientWidth);
             safeApply(globeInstance, 'height', container.clientHeight);
-            safeApply(globeInstance, 'globeImageUrl', '//cdn.jsdelivr.net/npm/three-globe/example/img/earth-night.jpg');
+            safeApply(globeInstance, 'globeImageUrl', '//cdn.jsdelivr.net/npm/three-globe/example/img/earth-blue-marble.jpg');
             safeApply(globeInstance, 'bumpImageUrl', '//cdn.jsdelivr.net/npm/three-globe/example/img/earth-topology.png');
             safeApply(globeInstance, 'backgroundColor', 'rgba(0,0,0,0)');
 
             safeApply(globeInstance, 'showAtmosphere', true);
-            safeApply(globeInstance, 'atmosphereColor', 'rgba(16, 185, 129, 0.35)');
-            safeApply(globeInstance, 'atmosphereAltitude', 0.12);
+            safeApply(globeInstance, 'atmosphereColor', initThemeData.atmosphere);
+            safeApply(globeInstance, 'atmosphereAltitude', initThemeData.atmosphereAlt);
 
-            // --- Arcs ---
-            safeApply(globeInstance, 'arcsData', arcsData);
+            // --- Arcs (start empty, reveal progressively on scroll) ---
+            safeApply(globeInstance, 'arcsData', []);
             safeApply(globeInstance, 'arcColor', 'color');
-            safeApply(globeInstance, 'arcDashLength', 0.6);
-            safeApply(globeInstance, 'arcDashGap', 0.3);
-            safeApply(globeInstance, 'arcDashAnimateTime', 2000);
-            safeApply(globeInstance, 'arcStroke', 0.5);
-            safeApply(globeInstance, 'arcsTransitionDuration', 0);
+            safeApply(globeInstance, 'arcDashLength', 1.0);
+            safeApply(globeInstance, 'arcDashGap', 0.4);
+            safeApply(globeInstance, 'arcDashAnimateTime', 4000);
+            safeApply(globeInstance, 'arcStroke', 0.6);
+            safeApply(globeInstance, 'arcsTransitionDuration', 800);
 
             // --- Points ---
             safeApply(globeInstance, 'pointsData', pointsData);
@@ -104,24 +133,13 @@ const MilitaryHistoryGlobe = () => {
             safeApply(globeInstance, 'pointAltitude', 0.01);
             safeApply(globeInstance, 'pointRadius', 'size');
 
-            // --- Labels ---
-            safeApply(globeInstance, 'labelsData', labelsData);
-            safeApply(globeInstance, 'labelLat', 'lat');
-            safeApply(globeInstance, 'labelLng', 'lng');
-            safeApply(globeInstance, 'labelText', 'text');
-            safeApply(globeInstance, 'labelSize', 'size');
-            safeApply(globeInstance, 'labelColor', 'color');
-            safeApply(globeInstance, 'labelDotRadius', 0.4);
-            safeApply(globeInstance, 'labelAltitude', 0.02);
-            safeApply(globeInstance, 'labelResolution', 3);
-
             // --- Graticules ---
             safeApply(globeInstance, 'showGraticules', true);
-            safeApply(globeInstance, 'graticuleColor', () => 'rgba(16, 185, 129, 0.08)');
+            safeApply(globeInstance, 'graticuleColor', () => initThemeData.graticule);
 
             // --- Rings ---
-            safeApply(globeInstance, 'ringsData', []); // Start empty
-            safeApply(globeInstance, 'ringColor', () => t => `rgba(16, 185, 129, ${0.6 * (1 - t)})`);
+            safeApply(globeInstance, 'ringsData', []);
+            safeApply(globeInstance, 'ringColor', () => initThemeData.ringColor);
             safeApply(globeInstance, 'ringMaxRadius', 4);
             safeApply(globeInstance, 'ringPropagationSpeed', 3);
             safeApply(globeInstance, 'ringRepeatPeriod', 1200);
@@ -142,20 +160,20 @@ const MilitaryHistoryGlobe = () => {
                     el.innerHTML = `
                             <div style="display:flex;flex-direction:column;align-items:center;transform:translateY(10px);">
                                 <div style="
-                                    background:rgba(5, 15, 10, 0.85);
+                                    background:rgba(10, 8, 5, 0.85);
                                     backdrop-filter:blur(20px);
-                                    border:1px solid rgba(16, 185, 129, 0.3);
+                                    border:1px solid rgba(245, 158, 11, 0.3);
                                     padding:12px 18px;
                                     white-space:nowrap;
-                                    box-shadow:0 0 20px rgba(16, 185, 129, 0.1);
+                                    box-shadow:0 0 20px rgba(245, 158, 11, 0.1);
                                     border-radius: 2px;
                                 ">
                                     <span style="color:#fff;font-weight:900;font-size:16px;text-transform:uppercase;display:block;font-family:'Syne',sans-serif;">
                                         ${d.city}
                                     </span>
-                                     <span style="font-size:10px;color:#10b981;font-family:'Space Mono',monospace;display:block;margin-top:4px;">${d.year}</span>
+                                     <span style="font-size:10px;color:#f59e0b;font-family:'Space Mono',monospace;display:block;margin-top:4px;">${d.year}</span>
                                 </div>
-                                <div style="width:1px;height:30px;background:linear-gradient(to top, rgba(16, 185, 129, 0.5), transparent);"></div>
+                                <div style="width:1px;height:30px;background:linear-gradient(to top, rgba(245, 158, 11, 0.5), transparent);"></div>
                             </div>
                         `;
                     el.dataset.labelIdx = d.idx;
@@ -175,39 +193,109 @@ const MilitaryHistoryGlobe = () => {
             // Mount to container
             globeInstance(container);
 
-            // --- Custom Material ---
+            // --- Custom Material (Sun-lit colorful globe, high quality) ---
+            const initTheme = THEME;
+            const loadedTextures = []; // Track for disposal
             if (globeInstance.globeMaterial) {
                 const mat = globeInstance.globeMaterial();
                 if (mat) {
-                    mat.color = new THREE.Color('#0a1510');
-                    mat.emissive = new THREE.Color('#022212');
-                    mat.emissiveIntensity = 0.2;
-                    mat.transparent = true;
-                    mat.opacity = 0.8;
+                    const texLoader = new THREE.TextureLoader();
+                    const applyAniso = (tex) => { tex.anisotropy = 4; loadedTextures.push(tex); return tex; };
+                    const specTexture = applyAniso(texLoader.load('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/planets/earth_specular_2048.jpg'));
+                    const lightsTexture = applyAniso(texLoader.load('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/planets/earth_lights_2048.png'));
+                    const normalTexture = applyAniso(texLoader.load('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/planets/earth_normal_2048.jpg'));
+
+                    mat.specularMap = specTexture;
+                    mat.specular = new THREE.Color(0x666666);
+                    mat.shininess = 15;
+                    mat.normalMap = normalTexture;
+                    mat.normalScale = new THREE.Vector2(0.8, 0.8);
+                    mat.emissiveMap = lightsTexture;
+                    mat.emissive = new THREE.Color(initTheme.matEmissive);
+                    mat.emissiveIntensity = initTheme.matEmissiveIntensity;
+                    mat.color = new THREE.Color(initTheme.matColor);
+                    mat.transparent = false;
+                    mat.opacity = 1.0;
+                    mat.needsUpdate = true;
                 }
             }
 
-            // --- Clouds ---
-            const CLOUDS_ALT = 0.01;
-            const CLOUDS_ROTATION_SPEED = -0.015;
+            // --- Sun & Rim Lighting (remove defaults first for strong sun effect) ---
+            if (globeInstance.scene && globeInstance.scene()) {
+                const sceneObj = globeInstance.scene();
+
+                // Remove globe.gl default lights so our sun dominates
+                const lightsToRemove = [];
+                sceneObj.traverse((child) => {
+                    if (child.isLight) lightsToRemove.push(child);
+                });
+                lightsToRemove.forEach((l) => sceneObj.remove(l));
+
+                // Strong sun directional light — creates the day/night terminator
+                const sunLight = new THREE.DirectionalLight(initTheme.sunColor, initTheme.sunIntensity);
+                sunLight.position.set(10, 5, 10);
+                sceneObj.add(sunLight);
+
+                // Amber/red rim light for warm edge glow
+                const rimLight = new THREE.PointLight(initTheme.rimColor, initTheme.rimIntensity, 50);
+                rimLight.position.set(-8, 6, -8);
+                sceneObj.add(rimLight);
+
+                // Very subtle ambient so the dark side isn't pure black
+                const ambientLight = new THREE.AmbientLight(initTheme.ambientColor, initTheme.ambientIntensity);
+                sceneObj.add(ambientLight);
+
+                lightsRef.current = { sun: sunLight, rim: rimLight, ambient: ambientLight };
+            }
+
+            // --- Clouds (high quality) ---
+            const CLOUDS_ALT = 0.008;
+            const CLOUDS_ROTATION_SPEED = -0.012;
             if (globeInstance.scene) {
-                new THREE.TextureLoader().load(
-                    'https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/planets/earth_clouds_1024.png',
+                const cloudTexLoader = new THREE.TextureLoader();
+                cloudTexLoader.load(
+                    'https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/planets/earth_clouds_2048.png',
                     (cloudsTexture) => {
                         if (!globeRef.current) return;
+                        cloudsTexture.anisotropy = 4;
                         const clouds = new THREE.Mesh(
-                            new THREE.SphereGeometry(globeInstance.getGlobeRadius() * (1 + CLOUDS_ALT), 75, 75),
+                            new THREE.SphereGeometry(globeInstance.getGlobeRadius() * (1 + CLOUDS_ALT), 64, 64),
                             new THREE.MeshPhongMaterial({
                                 map: cloudsTexture,
                                 transparent: true,
-                                opacity: 0.4,
-                                blending: THREE.AdditiveBlending
+                                opacity: 0.35,
+                                blending: THREE.AdditiveBlending,
+                                depthWrite: false
                             })
                         );
                         if (globeInstance.scene()) {
                             globeInstance.scene().add(clouds);
                             cloudsRef = clouds;
                         }
+                    },
+                    undefined,
+                    () => {
+                        // Fallback to 1024 if 2048 not available
+                        cloudTexLoader.load(
+                            'https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/planets/earth_clouds_1024.png',
+                            (cloudsTexture) => {
+                                if (!globeRef.current) return;
+                                const clouds = new THREE.Mesh(
+                                    new THREE.SphereGeometry(globeInstance.getGlobeRadius() * (1 + CLOUDS_ALT), 64, 64),
+                                    new THREE.MeshPhongMaterial({
+                                        map: cloudsTexture,
+                                        transparent: true,
+                                        opacity: 0.35,
+                                        blending: THREE.AdditiveBlending,
+                                        depthWrite: false
+                                    })
+                                );
+                                if (globeInstance.scene()) {
+                                    globeInstance.scene().add(clouds);
+                                    cloudsRef = clouds;
+                                }
+                            }
+                        );
                     }
                 );
             }
@@ -222,6 +310,20 @@ const MilitaryHistoryGlobe = () => {
             }
             safeApply(globeInstance, 'pointOfView', { lat: 20, lng: 0, altitude: 2.5 });
 
+            // --- Helper: build arcs up to a given index using current theme ---
+            const getArcsUpTo = (idx) => {
+                const theme = THEME;
+                if (idx < 0) return [];
+                return DESTINATIONS.slice(1, idx + 1).map((dest, i) => ({
+                    startLat: DESTINATIONS[i].lat,
+                    startLng: DESTINATIONS[i].lon,
+                    endLat: dest.lat,
+                    endLng: dest.lon,
+                    color: theme.arcColor,
+                    order: i
+                }));
+            };
+
             // --- Helper Functions for Scroll Interaction ---
             const activateDestination = (i, loc) => {
                 if (globeInstance._activeIdx === i) return;
@@ -229,15 +331,21 @@ const MilitaryHistoryGlobe = () => {
                 globeInstance._activeIdx = i;
                 setActiveIndexState(i);
 
-                // Stop auto-rotation when focusing
-                if (globeInstance.controls()) globeInstance.controls().autoRotate = false;
+                // Slow auto-rotation when focusing (keep subtle spin)
+                if (globeInstance.controls()) {
+                    globeInstance.controls().autoRotate = true;
+                    globeInstance.controls().autoRotateSpeed = 0.08;
+                }
 
-                // Move POV with smooth duration (1500ms)
+                // Snappy POV transition (800ms)
                 safeApply(globeInstance, 'pointOfView', {
                     lat: loc.lat,
                     lng: loc.lon,
                     altitude: 1.5
-                }, 1500);
+                }, 800);
+
+                // Progressive arcs: reveal path up to current destination
+                safeApply(globeInstance, 'arcsData', getArcsUpTo(i));
 
                 safeApply(globeInstance, 'ringsData', [{ lat: loc.lat, lng: loc.lon }]);
             };
@@ -246,20 +354,32 @@ const MilitaryHistoryGlobe = () => {
                 globeInstance._activeIdx = -1;
                 setActiveIndexState(-1);
 
-                // Resume auto-rotation
-                if (globeInstance.controls()) globeInstance.controls().autoRotate = true;
+                // Resume full auto-rotation speed
+                if (globeInstance.controls()) {
+                    globeInstance.controls().autoRotate = true;
+                    globeInstance.controls().autoRotateSpeed = 0.5;
+                }
 
+                safeApply(globeInstance, 'arcsData', []);
                 safeApply(globeInstance, 'ringsData', []);
-                safeApply(globeInstance, 'pointOfView', { lat: 20, lng: 0, altitude: 2.5 }, 1500);
+                safeApply(globeInstance, 'pointOfView', { lat: 20, lng: 0, altitude: 2.5 }, 800);
             };
 
 
             // --- ScrollTrigger Setup ---
             const ctx = gsap.context(() => {
+                let retryCount = 0;
+                const MAX_RETRIES = 120; // ~2 seconds at 60fps
                 const initScrollTriggers = () => {
+                    const scrollContainer = document.querySelector('[data-scroll-container]');
                     const sections = document.querySelectorAll('.military-dest-section');
-                    if (sections.length === 0) {
-                        requestAnimationFrame(initScrollTriggers);
+                    if (sections.length === 0 || !scrollContainer) {
+                        retryCount++;
+                        if (retryCount < MAX_RETRIES) {
+                            requestAnimationFrame(initScrollTriggers);
+                        } else {
+                            console.warn('MilitaryHistoryGlobe: Could not find scroll sections or container after max retries.');
+                        }
                         return;
                     }
 
@@ -269,8 +389,9 @@ const MilitaryHistoryGlobe = () => {
 
                         ScrollTrigger.create({
                             trigger: section,
-                            start: 'top 60%',
-                            end: 'bottom 40%',
+                            scroller: scrollContainer,
+                            start: 'top 70%',
+                            end: 'bottom 30%',
                             onEnter: () => activateDestination(i, dest),
                             onEnterBack: () => activateDestination(i, dest),
                             onLeave: () => {
@@ -315,11 +436,17 @@ const MilitaryHistoryGlobe = () => {
                 ctx.revert(); // Cleanup GSAP
                 container.innerHTML = '';
 
+                // Dispose loaded textures (~16MB GPU each)
+                loadedTextures.forEach(tex => tex.dispose());
+
                 // Dispose specific cloud layer
                 if (cloudsRef) {
                     if (globeInstance.scene()) globeInstance.scene().remove(cloudsRef);
                     if (cloudsRef.geometry) cloudsRef.geometry.dispose();
-                    if (cloudsRef.material) cloudsRef.material.dispose();
+                    if (cloudsRef.material) {
+                        if (cloudsRef.material.map) cloudsRef.material.map.dispose();
+                        cloudsRef.material.dispose();
+                    }
                 }
 
                 if (globeInstance._destructor) globeInstance._destructor();
@@ -333,7 +460,9 @@ const MilitaryHistoryGlobe = () => {
     }, []);
 
     return (
-        <div ref={containerRef} className="w-full h-full min-h-[600px] relative cursor-crosshair overflow-hidden" />
+        <div className="w-full h-full min-h-[600px] relative cursor-crosshair overflow-hidden">
+            <div ref={containerRef} className="w-full h-full" />
+        </div>
     );
 };
 

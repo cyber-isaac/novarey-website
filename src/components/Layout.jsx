@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import Header from './Header';
-import UnifiedBackground from './UnifiedBackground';
+import ParticleBackground from './ParticleBackground';
 import Footer from './Footer';
 
 const PAGE_ACCENTS = {
@@ -53,7 +53,7 @@ const Layout = ({ children }) => {
 
     return (
         <div className={`theme-${theme} text-slate-300 w-full h-screen overflow-hidden flex selection:bg-neon/30 selection:text-neon-200`}>
-            <UnifiedBackground />
+            <ParticleBackground />
             <Sidebar />
             <main className="flex-1 flex flex-col h-full overflow-hidden relative z-10">
                 <Header theme={theme} onThemeChange={setTheme} />

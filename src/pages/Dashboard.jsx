@@ -1,9 +1,8 @@
 import React, { useRef } from 'react';
 import { ArrowRight, Brain, Boxes, PenTool, Wand2, Shield, Sparkles, Target, Monitor, Check, Zap, Layers, Compass } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion } from 'framer-motion';
 import VideoHero from '../components/VideoHero';
-import ParticleBackground from '../components/ParticleBackground';
 import Logo from '../components/Logo';
 import Button from '../components/Button';
 import ProjectRequestForm from '../components/ProjectRequestForm';
@@ -80,13 +79,6 @@ const WORKFLOW_STEPS = [
 
 const Dashboard = () => {
     const containerRef = useRef(null);
-    const { scrollYProgress } = useScroll({
-        container: containerRef,
-        offset: ["start start", "end start"]
-    });
-
-    // Keep the background visible while still giving a subtle depth fade.
-    const backgroundOpacity = useTransform(scrollYProgress, [0, 1], [1, 0.85]);
 
     return (
         <div
@@ -94,10 +86,6 @@ const Dashboard = () => {
             data-scroll-container
             className="flex-1 overflow-y-auto surface-panel h-full relative"
         >
-            <motion.div style={{ opacity: backgroundOpacity }} className="absolute inset-0 z-0 pointer-events-none">
-                <ParticleBackground />
-            </motion.div>
-
             <div className="relative z-10">
                 <motion.div variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig}>
                     <VideoHero />
@@ -254,7 +242,7 @@ const Dashboard = () => {
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                             <div className="group relative rounded-2xl overflow-hidden border border-[var(--border-1)] bg-[var(--surface-2)]">
-                                <img src="https://i.etsystatic.com/45034429/r/il/847430/7235012828/il_1140xN.7235012828_o0tj.jpg" alt="1st Special Forces Group Black Mug" className="w-full h-56 object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
+                                <img src="https://i.etsystatic.com/45034429/r/il/847430/7235012828/il_1140xN.7235012828_o0tj.jpg" alt="1st Special Forces Group Black Mug" loading="lazy" className="w-full h-56 object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
                                 <div className="p-6">
                                     <div className="text-[10px] font-mono text-[var(--text-3)] uppercase tracking-widest">Merch Drop</div>
                                     <h3 className="text-xl font-bold text-[var(--text-1)] mt-2">1st Special Forces Group Mug</h3>
@@ -272,7 +260,7 @@ const Dashboard = () => {
                                 </div>
                             </div>
                             <div className="group relative rounded-2xl overflow-hidden border border-[var(--border-1)] bg-[var(--surface-2)]">
-                                <img src="https://i.etsystatic.com/45034429/r/il/b48618/5907143193/il_1140xN.5907143193_4z4k.jpg" alt="1st Special Service Force Black Devils Mug" className="w-full h-56 object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
+                                <img src="https://i.etsystatic.com/45034429/r/il/b48618/5907143193/il_1140xN.5907143193_4z4k.jpg" alt="1st Special Service Force Black Devils Mug" loading="lazy" className="w-full h-56 object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
                                 <div className="p-6">
                                     <div className="text-[10px] font-mono text-[var(--text-3)] uppercase tracking-widest">Black Devils Series</div>
                                     <h3 className="text-xl font-bold text-[var(--text-1)] mt-2">1st Special Service Force Mug</h3>
@@ -290,7 +278,7 @@ const Dashboard = () => {
                                 </div>
                             </div>
                             <div className="group relative rounded-2xl overflow-hidden border border-[var(--border-1)] bg-[var(--surface-2)]">
-                                <img src="https://i.etsystatic.com/45034429/r/il/0c7a68/5306378755/il_794xN.5306378755_6wpa.jpg" alt="Devils Brigade Legacy Logo" className="w-full h-56 object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
+                                <img src="https://i.etsystatic.com/45034429/r/il/0c7a68/5306378755/il_794xN.5306378755_6wpa.jpg" alt="Devils Brigade Legacy Logo" loading="lazy" className="w-full h-56 object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
                                 <div className="p-6">
                                     <div className="text-[10px] font-mono text-[var(--text-3)] uppercase tracking-widest">Legacy Poster</div>
                                     <h3 className="text-xl font-bold text-[var(--text-1)] mt-2">Devils Brigade Legacy</h3>
@@ -308,7 +296,7 @@ const Dashboard = () => {
                                 </div>
                             </div>
                             <div className="group relative rounded-2xl overflow-hidden border border-[var(--border-1)] bg-[var(--surface-2)]">
-                                <img src="https://i.etsystatic.com/45034429/r/il/0816ab/5859092760/il_1140xN.5859092760_hrxf.jpg" alt="Special Forces Patch Sticker" className="w-full h-56 object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
+                                <img src="https://i.etsystatic.com/45034429/r/il/0816ab/5859092760/il_1140xN.5859092760_hrxf.jpg" alt="Special Forces Patch Sticker" loading="lazy" className="w-full h-56 object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
                                 <div className="p-6">
                                     <div className="text-[10px] font-mono text-[var(--text-3)] uppercase tracking-widest">Patch Archive</div>
                                     <h3 className="text-xl font-bold text-[var(--text-1)] mt-2">Special Forces Patch Sticker</h3>

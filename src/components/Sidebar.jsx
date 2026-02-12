@@ -179,4 +179,4 @@ function EcoItem({ icon, label, color, collapsed }) {
     )
 }
 
-export default Sidebar;
+export default React.memo(Sidebar);

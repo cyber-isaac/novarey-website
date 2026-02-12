@@ -1,9 +1,7 @@
 import React from 'react';
 import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import ParticleBackground from '../components/ParticleBackground';
 import Button from '../components/Button';
-import AppFlow from '../components/AppFlow';
 import { motion } from 'framer-motion';
 import { staggerContainer, fadeInUp, scrollReveal, viewportConfig } from '../lib/animations';
 
@@ -155,9 +153,6 @@ const HERITAGE_ART = [
 const Work = () => {
     return (
         <div className="flex-1 overflow-y-auto h-full p-8 pb-20" data-scroll-container>
-            {/* Red Particle Background */}
-            <ParticleBackground />
-
             {/* Hero */}
             <motion.div variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig} className="flex flex-col gap-6 mb-12">
                 <div>
@@ -192,12 +187,6 @@ const Work = () => {
                 <div className="flex items-center gap-4">
                     <h2 className="text-xl font-bold text-white tracking-tight">Apps + Tools</h2>
                     <div className="h-px bg-white/10 flex-1"></div>
-                </div>
-                <div className="relative border border-white/10 rounded-3xl bg-[#0D0C12]/50 backdrop-blur-sm overflow-hidden py-12">
-                    <AppFlow />
-                    <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-center pointer-events-none">
-                        <div className="text-[10px] font-mono text-orange-500/50 uppercase tracking-[0.3em]">Neural App Pipeline</div>
-                    </div>
                 </div>
             </motion.section>
 

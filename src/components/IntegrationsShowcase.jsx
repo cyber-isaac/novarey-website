@@ -5,13 +5,13 @@ import { Plug, Github, Zap, Workflow, ShieldCheck, Gauge, MousePointerClick, Lay
 const IntegrationsShowcase = () => {
     // Custom Icons for specialized tools
     const CursorIcon = () => (
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5 text-white">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6 text-white">
             <path d="M4 4l11.733 11.733-3.733.267 3.2 5.067-1.333.8-3.2-5.067-2.933 2.933L4 4z" />
         </svg>
     );
 
     const VSCodeIcon = () => (
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5 text-white">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6 text-white">
             <path d="M16 3l-13 13 4 4 14-14-5-3z" />
             <path d="M16 3v16l5-3" />
             <path d="M3 16l5-3" />
@@ -19,7 +19,7 @@ const IntegrationsShowcase = () => {
     );
 
     const ChatGPTIcon = () => (
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5 text-white">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6 text-white">
             <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z" />
             <path d="M12 6a6 6 0 1 0 6 6 6 6 0 0 0-6-6zm0 10a4 4 0 1 1 4-4 4 4 0 0 1-4 4z" />
             <circle cx="12" cy="12" r="1.5" />
@@ -27,19 +27,19 @@ const IntegrationsShowcase = () => {
     );
 
     const PerplexityIcon = () => (
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5 text-white">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6 text-white">
             <path d="M12 2v20M2 12h20M5.6 5.6l12.8 12.8M18.4 5.6L5.6 18.4" />
         </svg>
     );
 
     const AntigravityIcon = () => (
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5 text-white">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6 text-white">
             <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
         </svg>
     );
 
     const AdobeIcon = () => (
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5 text-white">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6 text-white">
             <path d="M15.5 5.5l5 13h-4l-1-2.5h-5.5l-1 2.5h-4l5-13h5.5zM12 9l-2 5h4l-2-5z" />
         </svg>
     );
@@ -135,42 +135,54 @@ const IntegrationsShowcase = () => {
                     </div>
 
                     {/* Animated Connection SVG */}
-                    <div className="relative mt-6 h-64 w-full">
-                        <svg viewBox="0 0 900 360" className="absolute inset-0 w-full h-full text-pink-400" fill="none" preserveAspectRatio="xMidYMid meet">
+                    <div className="relative mt-8 h-64 w-full">
+                        <svg viewBox="0 0 900 360" className="absolute inset-0 w-full h-full text-white" fill="none" preserveAspectRatio="xMidYMid meet">
                             <defs>
                                 <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
                                     <feGaussianBlur stdDeviation="3" result="blur" />
                                     <feComposite in="SourceGraphic" in2="blur" operator="over" />
                                 </filter>
+                                <linearGradient id="lineGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                                    <stop offset="0%" stopColor="white" stopOpacity="0.6" />
+                                    <stop offset="100%" stopColor="white" stopOpacity="0.1" />
+                                </linearGradient>
                             </defs>
 
-                            {/* Node Points - 7 items */}
+                            {/* Static guide lines (faint) for structure */}
                             {nodePoints.map((x, i) => (
-                                <circle key={i} cx={x} cy="30" r="6" fill="currentColor" filter="url(#glow)">
-                                    <animate attributeName="opacity" values="0.4;1;0.4" dur="2s" begin={`${i * 0.2}s`} repeatCount="indefinite" />
-                                </circle>
+                                <path key={`guide-${i}`} d={`M450 300 Q ${450 + (x - 450) * 0.3} 160, ${x} 30`} stroke="white" strokeWidth="0.5" opacity="0.06" />
                             ))}
 
-                            {/* Connection Paths - 7 paths to center */}
-                            <ConnectionPath d={`M450 300 C 450 200, 250 120, ${nodePoints[0]} 30`} delay="0s" length={660} />
-                            <ConnectionPath d={`M450 300 C 450 210, 310 130, ${nodePoints[1]} 30`} delay="0.2s" length={580} />
-                            <ConnectionPath d={`M450 300 C 450 150, 380 80, ${nodePoints[2]} 30`} delay="0.4s" length={520} />
-                            <ConnectionPath d={`M450 300 L ${nodePoints[3]} 30`} delay="0.6s" length={320} />
-                            <ConnectionPath d={`M450 300 C 450 150, 520 80, ${nodePoints[4]} 30`} delay="0.8s" length={520} />
-                            <ConnectionPath d={`M450 300 C 450 210, 590 130, ${nodePoints[5]} 30`} delay="1s" length={580} />
-                            <ConnectionPath d={`M450 300 C 450 200, 650 120, ${nodePoints[6]} 30`} delay="1.2s" length={660} />
+                            {/* Node Points */}
+                            {nodePoints.map((x, i) => (
+                                <g key={i}>
+                                    <circle cx={x} cy="30" r="4" fill="white" opacity="0.15" />
+                                    <circle cx={x} cy="30" r="3" fill="white" filter="url(#glow)">
+                                        <animate attributeName="opacity" values="0.3;0.9;0.3" dur="2.5s" begin={`${i * 0.3}s`} repeatCount="indefinite" />
+                                    </circle>
+                                </g>
+                            ))}
+
+                            {/* Connection Paths - smooth quadratic curves */}
+                            <ConnectionPath d={`M450 300 Q ${450 + (nodePoints[0] - 450) * 0.3} 150, ${nodePoints[0]} 30`} delay="0s" length={500} />
+                            <ConnectionPath d={`M450 300 Q ${450 + (nodePoints[1] - 450) * 0.3} 150, ${nodePoints[1]} 30`} delay="0.3s" length={450} />
+                            <ConnectionPath d={`M450 300 Q ${450 + (nodePoints[2] - 450) * 0.3} 140, ${nodePoints[2]} 30`} delay="0.6s" length={400} />
+                            <ConnectionPath d={`M450 300 Q 450 140, ${nodePoints[3]} 30`} delay="0.9s" length={300} />
+                            <ConnectionPath d={`M450 300 Q ${450 + (nodePoints[4] - 450) * 0.3} 140, ${nodePoints[4]} 30`} delay="0.6s" length={400} />
+                            <ConnectionPath d={`M450 300 Q ${450 + (nodePoints[5] - 450) * 0.3} 150, ${nodePoints[5]} 30`} delay="0.3s" length={450} />
+                            <ConnectionPath d={`M450 300 Q ${450 + (nodePoints[6] - 450) * 0.3} 150, ${nodePoints[6]} 30`} delay="0s" length={500} />
                         </svg>
 
                         {/* Central Hub Icon */}
                         <div className="absolute bottom-2 left-1/2 -translate-x-1/2 z-30">
                             <motion.span
                                 animate={{
-                                    boxShadow: ["0 0 20px rgba(236,72,153,0.4)", "0 0 40px rgba(236,72,153,0.7)", "0 0 20px rgba(236,72,153,0.4)"]
+                                    boxShadow: ["0 0 20px rgba(251,146,60,0.3)", "0 0 40px rgba(251,146,60,0.6)", "0 0 20px rgba(251,146,60,0.3)"]
                                 }}
                                 transition={{ duration: 2, repeat: Infinity }}
-                                className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-pink-500/20 ring-2 ring-pink-400/40 backdrop-blur-md"
+                                className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-orange-500/20 ring-2 ring-orange-400/40 backdrop-blur-md"
                             >
-                                <Zap className="h-7 w-7 text-pink-300" />
+                                <Zap className="h-7 w-7 text-orange-300" />
                             </motion.span>
                         </div>
                     </div>
@@ -197,12 +209,13 @@ const ToolIcon = React.forwardRef(({ icon: Icon, label }, ref) => (
     <motion.div
         ref={ref}
         whileHover={{ y: -5 }}
-        className="flex flex-col items-center gap-3 group flex-1"
+        className="flex flex-col items-center gap-3 group"
+        style={{ flex: '1 1 0', minWidth: 0 }}
     >
-        <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-white/[0.03] ring-1 ring-white/10 backdrop-blur-sm group-hover:bg-white/10 group-hover:ring-orange-500/30 transition-all duration-300">
+        <span className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-white/[0.04] ring-1 ring-white/10 backdrop-blur-sm group-hover:bg-white/10 group-hover:ring-orange-500/30 transition-all duration-300">
             <Icon />
         </span>
-        <span className="text-[10px] font-mono text-neutral-500 group-hover:text-orange-400 transition-colors uppercase tracking-widest whitespace-nowrap">
+        <span className="text-xs font-semibold text-neutral-400 group-hover:text-orange-400 transition-colors tracking-wide whitespace-nowrap">
             {label}
         </span>
     </motion.div>
@@ -211,31 +224,33 @@ const ToolIcon = React.forwardRef(({ icon: Icon, label }, ref) => (
 const ConnectionPath = ({ d, delay, length }) => (
     <path
         d={d}
-        stroke="currentColor"
-        strokeWidth="2.4"
+        stroke="white"
+        strokeWidth="1.5"
         strokeLinecap="round"
         fill="none"
         style={{
             strokeDasharray: length,
             strokeDashoffset: length,
-            opacity: 0.3
+            opacity: 0.15
         }}
     >
         <animate
             attributeName="stroke-dashoffset"
             values={`${length};0;${length}`}
-            dur="4s"
+            dur="5s"
             begin={delay}
             repeatCount="indefinite"
             calcMode="spline"
-            keySplines="0.42 0 0.58 1; 0.42 0 0.58 1"
+            keySplines="0.25 0.1 0.25 1; 0.25 0.1 0.25 1"
         />
         <animate
             attributeName="opacity"
-            values="0.1;0.5;0.1"
-            dur="4s"
+            values="0.05;0.4;0.05"
+            dur="5s"
             begin={delay}
             repeatCount="indefinite"
+            calcMode="spline"
+            keySplines="0.25 0.1 0.25 1; 0.25 0.1 0.25 1"
         />
     </path>
 );

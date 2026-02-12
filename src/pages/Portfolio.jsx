@@ -8,7 +8,6 @@ import { PortfolioFAQ } from '../components/PortfolioPricing';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { scrollReveal, viewportConfig } from '../lib/animations';
 import { Play, Globe, X, ArrowUpRight, Radio, Shield, Sparkles, ArrowRight } from 'lucide-react';
-import ParticleBackground from '../components/ParticleBackground';
 import Button from '../components/Button';
 import ParallaxHero from '../components/ParallaxHero';
 import StickyProjectTheater from '../components/StickyProjectTheater';
@@ -165,9 +164,6 @@ const Portfolio = () => {
 
     return (
         <div className="flex-1 overflow-y-auto h-full selection:bg-orange-500/30 font-sans" data-scroll-container>
-            {/* Red Particle Background */}
-            <ParticleBackground />
-
             {/* Cinematic Parallax Hero - Goonies Style */}
             <ParallaxHero
                 title="Portfolio"
@@ -255,6 +251,7 @@ const Portfolio = () => {
                             <img
                                 src="/me.png"
                                 alt="Portrait"
+                                loading="lazy"
                                 className="absolute inset-0 w-full h-full object-cover grayscale contrast-125"
                             />
                             <div className="absolute bottom-6 left-6 right-6 bg-black/60 backdrop-blur-md border border-white/10 p-4 rounded-2xl">
@@ -327,6 +324,7 @@ const Portfolio = () => {
                                     <img
                                         src="https://images.unsplash.com/photo-1523961131990-5ea7c61b2107?q=80&w=1600&auto=format&fit=crop"
                                         alt="Desktop interface preview"
+                                        loading="lazy"
                                         className="w-full h-full object-cover opacity-85 transition-transform duration-500 group-hover:scale-105"
                                     />
                                 </div>
@@ -378,11 +376,13 @@ const Portfolio = () => {
                             <img
                                 src="/ODA-3.png"
                                 alt="Special operations art"
+                                loading="lazy"
                                 className="rounded-xl border border-white/10 bg-black/40 object-cover"
                             />
                             <img
                                 src="/ODAbaby.jpg"
                                 alt="Special operations art"
+                                loading="lazy"
                                 className="rounded-xl border border-white/10 bg-black/40 object-cover"
                             />
                         </div>
