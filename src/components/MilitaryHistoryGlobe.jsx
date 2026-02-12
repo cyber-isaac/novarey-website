@@ -24,27 +24,27 @@ export const DESTINATIONS = [
     { name: 'TEXAS', city: 'USA', lat: 31.96, lon: -99.90, year: '2023', desc: 'Founded Novarey Ventures. Leading AI-enhanced design strategy & managing multi-million dollar renewable energy projects (Engie/Scout Clean Energy).', mgrs: '14R LP 123 456', status: 'FOUNDED' }
 ];
 
-// Globe theme
+// Globe theme — clean blue
 const THEME = {
     matColor: '#152030',
-    matEmissive: 0xffcc33,
-    matEmissiveIntensity: 0.5,
-    atmosphere: 'rgba(245, 158, 11, 0.4)',
-    atmosphereAlt: 0.15,
-    arcColor: ['rgba(245, 158, 11, 0.3)', 'rgba(245, 158, 11, 0.7)'],
-    pointColor: 'rgba(245, 158, 11, 1)',
-    ringColor: (t) => `rgba(245, 158, 11, ${0.6 * (1 - t)})`,
-    graticule: 'rgba(245, 158, 11, 0.06)',
-    sunColor: 0xfff5e0,
-    sunIntensity: 2.0,
-    rimColor: 0xf59e0b,
-    rimIntensity: 6,
-    ambientColor: 0x060610,
-    ambientIntensity: 0.3,
-    markerBorder: 'rgba(245, 158, 11, 0.3)',
-    markerShadow: 'rgba(245, 158, 11, 0.1)',
-    markerAccent: '#f59e0b',
-    markerLine: 'rgba(245, 158, 11, 0.5)',
+    matEmissive: 0xddeeff,
+    matEmissiveIntensity: 0.35,
+    atmosphere: 'rgba(100, 180, 255, 0.25)',
+    atmosphereAlt: 0.12,
+    arcColor: ['rgba(96, 165, 250, 0.3)', 'rgba(96, 165, 250, 0.7)'],
+    pointColor: 'rgba(96, 165, 250, 1)',
+    ringColor: (t) => `rgba(96, 165, 250, ${0.6 * (1 - t)})`,
+    graticule: 'rgba(100, 180, 255, 0.05)',
+    sunColor: 0xfff8f0,
+    sunIntensity: 2.2,
+    rimColor: 0x88bbff,
+    rimIntensity: 2.5,
+    ambientColor: 0x0a0a1a,
+    ambientIntensity: 0.35,
+    markerBorder: 'rgba(96, 165, 250, 0.3)',
+    markerShadow: 'rgba(96, 165, 250, 0.1)',
+    markerAccent: '#60a5fa',
+    markerLine: 'rgba(96, 165, 250, 0.5)',
 };
 
 const MilitaryHistoryGlobe = () => {
@@ -160,20 +160,20 @@ const MilitaryHistoryGlobe = () => {
                     el.innerHTML = `
                             <div style="display:flex;flex-direction:column;align-items:center;transform:translateY(10px);">
                                 <div style="
-                                    background:rgba(10, 8, 5, 0.85);
-                                    backdrop-filter:blur(20px);
-                                    border:1px solid rgba(245, 158, 11, 0.3);
-                                    padding:12px 18px;
+                                    background:rgba(5, 10, 20, 0.12);
+                                    backdrop-filter:blur(8px);
+                                    border:1px solid rgba(255, 255, 255, 0.08);
+                                    padding:16px 24px;
                                     white-space:nowrap;
-                                    box-shadow:0 0 20px rgba(245, 158, 11, 0.1);
-                                    border-radius: 2px;
+                                    box-shadow:0 0 30px rgba(0, 0, 0, 0.1);
+                                    border-radius: 4px;
                                 ">
-                                    <span style="color:#fff;font-weight:900;font-size:16px;text-transform:uppercase;display:block;font-family:'Syne',sans-serif;">
+                                    <span style="color:#fff;font-weight:900;font-size:22px;text-transform:uppercase;display:block;font-family:'Syne',sans-serif;letter-spacing:0.02em;">
                                         ${d.city}
                                     </span>
-                                     <span style="font-size:10px;color:#f59e0b;font-family:'Space Mono',monospace;display:block;margin-top:4px;">${d.year}</span>
+                                     <span style="font-size:14px;color:#60a5fa;font-family:'Space Mono',monospace;display:block;margin-top:6px;">${d.year}</span>
                                 </div>
-                                <div style="width:1px;height:30px;background:linear-gradient(to top, rgba(245, 158, 11, 0.5), transparent);"></div>
+                                <div style="width:1px;height:30px;background:linear-gradient(to top, rgba(96, 165, 250, 0.5), transparent);"></div>
                             </div>
                         `;
                     el.dataset.labelIdx = d.idx;
@@ -257,13 +257,13 @@ const MilitaryHistoryGlobe = () => {
                     'https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/planets/earth_clouds_2048.png',
                     (cloudsTexture) => {
                         if (!globeRef.current) return;
-                        cloudsTexture.anisotropy = 4;
+                        cloudsTexture.anisotropy = 16;
                         const clouds = new THREE.Mesh(
-                            new THREE.SphereGeometry(globeInstance.getGlobeRadius() * (1 + CLOUDS_ALT), 64, 64),
+                            new THREE.SphereGeometry(globeInstance.getGlobeRadius() * (1 + CLOUDS_ALT), 128, 128),
                             new THREE.MeshPhongMaterial({
                                 map: cloudsTexture,
                                 transparent: true,
-                                opacity: 0.35,
+                                opacity: 0.45,
                                 blending: THREE.AdditiveBlending,
                                 depthWrite: false
                             })
@@ -281,11 +281,11 @@ const MilitaryHistoryGlobe = () => {
                             (cloudsTexture) => {
                                 if (!globeRef.current) return;
                                 const clouds = new THREE.Mesh(
-                                    new THREE.SphereGeometry(globeInstance.getGlobeRadius() * (1 + CLOUDS_ALT), 64, 64),
+                                    new THREE.SphereGeometry(globeInstance.getGlobeRadius() * (1 + CLOUDS_ALT), 128, 128),
                                     new THREE.MeshPhongMaterial({
                                         map: cloudsTexture,
                                         transparent: true,
-                                        opacity: 0.35,
+                                        opacity: 0.45,
                                         blending: THREE.AdditiveBlending,
                                         depthWrite: false
                                     })
@@ -331,18 +331,19 @@ const MilitaryHistoryGlobe = () => {
                 globeInstance._activeIdx = i;
                 setActiveIndexState(i);
 
-                // Slow auto-rotation when focusing (keep subtle spin)
+                // Gently ease auto-rotation down when focusing
                 if (globeInstance.controls()) {
-                    globeInstance.controls().autoRotate = true;
-                    globeInstance.controls().autoRotateSpeed = 0.08;
+                    const ctrl = globeInstance.controls();
+                    ctrl.autoRotate = true;
+                    gsap.to(ctrl, { autoRotateSpeed: 0.06, duration: 1.2, ease: 'power2.out' });
                 }
 
-                // Snappy POV transition (800ms)
+                // Cinematic POV transition (1800ms)
                 safeApply(globeInstance, 'pointOfView', {
                     lat: loc.lat,
                     lng: loc.lon,
-                    altitude: 1.5
-                }, 800);
+                    altitude: 1.8
+                }, 1800);
 
                 // Progressive arcs: reveal path up to current destination
                 safeApply(globeInstance, 'arcsData', getArcsUpTo(i));
@@ -354,15 +355,16 @@ const MilitaryHistoryGlobe = () => {
                 globeInstance._activeIdx = -1;
                 setActiveIndexState(-1);
 
-                // Resume full auto-rotation speed
+                // Gently ease auto-rotation back up
                 if (globeInstance.controls()) {
-                    globeInstance.controls().autoRotate = true;
-                    globeInstance.controls().autoRotateSpeed = 0.5;
+                    const ctrl = globeInstance.controls();
+                    ctrl.autoRotate = true;
+                    gsap.to(ctrl, { autoRotateSpeed: 0.5, duration: 1.5, ease: 'power2.inOut' });
                 }
 
                 safeApply(globeInstance, 'arcsData', []);
                 safeApply(globeInstance, 'ringsData', []);
-                safeApply(globeInstance, 'pointOfView', { lat: 20, lng: 0, altitude: 2.5 }, 800);
+                safeApply(globeInstance, 'pointOfView', { lat: 20, lng: 0, altitude: 2.5 }, 1500);
             };
 
 
@@ -390,8 +392,8 @@ const MilitaryHistoryGlobe = () => {
                         ScrollTrigger.create({
                             trigger: section,
                             scroller: scrollContainer,
-                            start: 'top 70%',
-                            end: 'bottom 30%',
+                            start: 'top 60%',
+                            end: 'bottom 20%',
                             onEnter: () => activateDestination(i, dest),
                             onEnterBack: () => activateDestination(i, dest),
                             onLeave: () => {
