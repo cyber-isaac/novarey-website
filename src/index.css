@@ -336,25 +336,26 @@ p,
   position: absolute;
   inset: 0;
   border-radius: 0.75rem;
-  background: linear-gradient(90deg, var(--nav-accent-soft), transparent 70%);
+  background: linear-gradient(90deg, var(--nav-accent-soft), transparent 60%);
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.2s ease;
   z-index: 0;
 }
 
 .nav-item::after {
   content: "";
   position: absolute;
-  left: 0.6rem;
+  left: 0.5rem;
   top: 50%;
-  transform: translateY(-50%);
-  width: 0.25rem;
-  height: 1rem;
+  transform: translateY(-50%) scaleY(0.6);
+  width: 0.2rem;
+  height: 1.2rem;
   border-radius: 999px;
   background: var(--nav-accent);
   opacity: 0;
-  transition: opacity 0.3s ease, height 0.3s ease;
+  transition: opacity 0.2s ease, transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
   z-index: 1;
+  box-shadow: 0 0 8px var(--nav-accent-soft);
 }
 
 .nav-item:hover::before,
@@ -365,26 +366,28 @@ p,
 .nav-item:hover::after,
 .nav-item.nav-item-active::after {
   opacity: 1;
-  height: 1.35rem;
+  transform: translateY(-50%) scaleY(1);
 }
 
 .nav-item:hover,
 .nav-item.nav-item-active {
   color: #ffffff;
-  border-left: 2px solid var(--nav-accent);
-  background-color: transparent;
+  border-left: none;
+  background-color: rgba(255, 255, 255, 0.03);
 }
 
 .nav-item .nav-icon {
-  color: #94a3b8;
+  color: #64748b;
   position: relative;
   z-index: 2;
+  transition: color 0.2s ease, transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .nav-item:hover .nav-icon,
 .nav-item.nav-item-active .nav-icon {
   color: var(--nav-accent);
-  transform: translateX(2px);
+  transform: translateX(2px) scale(1.08);
+  filter: drop-shadow(0 0 4px var(--nav-accent-soft));
 }
 
 .phone-mockup {

@@ -373,8 +373,12 @@ const MilitaryHistoryGlobe = () => {
                 let retryCount = 0;
                 const MAX_RETRIES = 120; // ~2 seconds at 60fps
                 const initScrollTriggers = () => {
-                    const scrollContainer = document.querySelector('[data-scroll-container]');
-                    const sections = document.querySelectorAll('.military-dest-section');
+                    if (!containerRef.current) return;
+                    // Fix: Use .closest() to ensure we get the active page's scroll container, 
+                    // not a stale one from a page currently animating out
+                    const scrollContainer = containerRef.current.closest('[data-scroll-container]');
+                    const sections = scrollContainer ? scrollContainer.querySelectorAll('.military-dest-section') : [];
+
                     if (sections.length === 0 || !scrollContainer) {
                         retryCount++;
                         if (retryCount < MAX_RETRIES) {
@@ -404,6 +408,12 @@ const MilitaryHistoryGlobe = () => {
                             }
                         });
                     });
+
+                    // Refresh ScrollTrigger slightly after initialization to ensure page transition animations
+                    // haven't messed up the layout geometry.
+                    setTimeout(() => {
+                        ScrollTrigger.refresh();
+                    }, 500);
                 };
                 initScrollTriggers();
             });

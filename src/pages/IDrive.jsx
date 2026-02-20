@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, Folder, Atom, Zap, Globe, Hammer, FileText, HardDrive, Shield, ChevronRight } from 'lucide-react';
+import { Search, Folder, Atom, Globe, Shield, Eye, Database, ChevronRight, HardDrive } from 'lucide-react';
 import { db } from '../lib/db';
 import { motion } from 'framer-motion';
 import { staggerContainer, fadeInUp } from '../lib/animations';
@@ -8,11 +8,11 @@ import ConstellationBackground from '../components/ConstellationBackground';
 import Button from '../components/Button';
 
 const CATEGORIES = [
-    { id: 'all', label: 'All Files', icon: Folder },
-    { id: 'mycology', label: 'Mycology', icon: Atom },
-    { id: 'ai', label: 'Intelligence', icon: Zap },
-    { id: 'geopolitics', label: 'Geopolitics', icon: Globe },
-    { id: 'design', label: 'A.I. Design', icon: Hammer }
+    { id: 'all', label: 'All Files', icon: Folder, theme: 'default' },
+    { id: 'ai', label: 'A.I.', icon: Database, theme: 'tech' },
+    { id: 'politics', label: 'Politics & Military', icon: Globe, theme: 'tactical' },
+    { id: 'mycology', label: 'Mycology', icon: Atom, theme: 'bio' },
+    { id: 'uncanny', label: 'The Uncanny', icon: Eye, theme: 'glitch' }
 ];
 
 const IDrive = () => {
@@ -55,8 +55,9 @@ const IDrive = () => {
         'Bio Lab': 'bg-teal-500/15 text-teal-300 border-teal-500/30',
         Protocols: 'bg-green-500/15 text-green-300 border-green-500/30',
         DIY: 'bg-amber-500/15 text-amber-300 border-amber-500/30',
-        Hardware: 'bg-orange-500/15 text-orange-300 border-orange-500/30',
-        'Build Log': 'bg-rose-500/15 text-rose-300 border-rose-500/30'
+        Conspiracy: 'bg-purple-500/15 text-purple-300 border-purple-500/30',
+        'Ancient Tech': 'bg-rose-500/15 text-rose-300 border-rose-500/30',
+        Tesla: 'bg-cyan-500/15 text-cyan-300 border-cyan-500/30'
     };
 
     const getTagClasses = (tag, isActive) => {
@@ -65,6 +66,16 @@ const IDrive = () => {
             return 'bg-white text-black border-white shadow-[0_0_20px_rgba(255,255,255,0.12)]';
         }
         return `${themed} hover:text-white hover:bg-white/10 hover:border-white/30`;
+    };
+
+    const getThemeAccent = (theme) => {
+        switch (theme) {
+            case 'tactical': return 'border-emerald-500 text-emerald-400 shadow-[0_0_16px_rgba(16,185,129,0.2)] bg-emerald-500/10';
+            case 'bio': return 'border-green-400 text-green-300 shadow-[0_0_16px_rgba(74,222,128,0.2)] bg-green-500/10';
+            case 'glitch': return 'border-purple-500 text-purple-300 shadow-[0_0_16px_rgba(168,85,247,0.2)] bg-purple-500/10';
+            case 'tech': return 'border-sky-500 text-sky-400 shadow-[0_0_16px_rgba(14,165,233,0.2)] bg-sky-500/10';
+            default: return 'border-white text-black shadow-[0_0_16px_rgba(255,255,255,0.12)] bg-white';
+        }
     };
 
     const featuredPost = filteredPosts[0];
@@ -226,11 +237,11 @@ const IDrive = () => {
                                                     key={cat.id}
                                                     onClick={() => setActiveCategory(cat.id)}
                                                     className={`flex items-center gap-2 px-3 py-1.5 rounded-xl text-[10px] font-mono uppercase tracking-widest border transition-all ${isActive
-                                                        ? 'bg-white text-black border-white shadow-[0_0_16px_rgba(255,255,255,0.12)]'
+                                                        ? getThemeAccent(cat.theme)
                                                         : 'bg-white/5 text-slate-400 border-white/10 hover:text-white hover:bg-white/10'
                                                         }`}
                                                 >
-                                                    <Icon className={`w-3 h-3 ${isActive ? 'text-black' : 'text-slate-400'}`} />
+                                                    <Icon className={`w-3 h-3 ${isActive ? '' : 'text-slate-400'}`} />
                                                     {cat.label}
                                                 </button>
                                             );

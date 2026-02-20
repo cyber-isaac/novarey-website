@@ -312,9 +312,9 @@ const PortfolioCarousel = () => {
                                         }}
                                         transition={{
                                             type: 'spring',
-                                            stiffness: 350,
-                                            damping: 30,
-                                            mass: 0.8
+                                            stiffness: 120,
+                                            damping: 20,
+                                            mass: 1.2
                                         }}
                                         className={`absolute sm:w-[400px] ${card.landscape ? 'aspect-[16/9]' : 'aspect-[4/5]'} w-[80%] rounded-3xl overflow-hidden bg-[#14121D] border group cursor-pointer shadow-2xl transition-all duration-300 ${isCenter
                                             ? 'border-orange-500/50 hover:border-orange-400'

@@ -53,66 +53,98 @@ const FileViewer = () => {
                 </div>
             </div>
 
-            {/* Document area */}
-            <div className="max-w-4xl mx-auto py-20 px-8 relative">
-                {/* Secure Watermark */}
-                <div className="fixed inset-0 pointer-events-none z-0 flex items-center justify-center opacity-[0.03] select-none">
-                    <h1 className="text-[20vw] font-black -rotate-45 border-8 border-white p-10">CONFIDENTIAL</h1>
-                </div>
-
-                <motion.article
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="relative z-10"
-                >
-                    <motion.header className="mb-12 border-l-4 border-white/20 pl-8" variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig}>
-                        <div className="text-xs font-mono text-slate-500 uppercase tracking-widest mb-2">
-                            Subject-ID: {post.id} / Type: DOC_RESEARCH
+            {/* Content Body - Styled as a premium editorial read */}
+            <div className="relative">
+                {/* Parallax Hero Image */}
+                {post.coverImage && (
+                    <div className="relative w-full h-[60vh] max-h-[600px] min-h-[400px] overflow-hidden">
+                        <div className="absolute inset-0 bg-black/40 z-10" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#0A090F] via-[#0A090F]/60 to-transparent z-10" />
+                        <motion.img
+                            initial={{ scale: 1.1 }}
+                            animate={{ scale: 1 }}
+                            transition={{ duration: 1.5, ease: 'easeOut' }}
+                            src={post.coverImage}
+                            alt={post.title}
+                            className="w-full h-full object-cover"
+                        />
+                        <div className="absolute bottom-0 left-0 right-0 z-20 max-w-4xl mx-auto px-8 pb-12">
+                            <motion.div
+                                initial={{ opacity: 0, y: 30 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.8, delay: 0.2 }}
+                            >
+                                <div className="text-xs font-mono text-[var(--page-accent)] uppercase tracking-widest mb-4">
+                                    {post.category} // {post.date}
+                                </div>
+                                <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-white tracking-tighter leading-[1.1] mb-6 font-display italic">
+                                    {post.title}
+                                </h1>
+                                <div className="flex flex-wrap gap-3 items-center text-[10px] font-mono uppercase tracking-widest text-white/50">
+                                    <span className="flex items-center gap-1.5 bg-white/5 px-2 py-1 rounded-md border border-white/10">
+                                        <Clock className="w-3 h-3" /> 8 MIN READ
+                                    </span>
+                                    <span className="flex items-center gap-1.5 bg-emerald-500/10 text-emerald-400 px-2 py-1 rounded-md border border-emerald-500/20">
+                                        <ShieldCheck className="w-3 h-3" /> {post.clearance}
+                                    </span>
+                                </div>
+                            </motion.div>
                         </div>
-                        <h1 className="text-4xl md:text-5xl font-bold text-white tracking-tight mb-4">
-                            {post.title}
-                        </h1>
-                        <div className="flex flex-wrap gap-2">
-                            <span className="px-2 py-1 bg-white/5 text-slate-400 rounded text-[10px] font-mono border border-white/5">
-                                CAT: {post.category.toUpperCase()}
-                            </span>
-                            <span className="px-2 py-1 bg-white/5 text-slate-400 rounded text-[10px] font-mono border border-white/5">
-                                SIZE: {post.size}
-                            </span>
-                            {post.tags?.map((tag) => (
-                                <span key={tag} className="px-2 py-1 bg-white/10 text-slate-300 rounded text-[10px] font-mono border border-white/10">
-                                    TAG: {tag.toUpperCase()}
-                                </span>
-                            ))}
-                        </div>
-                    </motion.header>
+                    </div>
+                )}
 
-                    {post.coverImage && (
-                        <div className="mb-10 rounded-2xl overflow-hidden border border-white/10 bg-white/5">
-                            <img src={post.coverImage} alt={post.title} className="w-full h-[360px] object-cover" />
-                        </div>
-                    )}
+                {/* Article Content */}
+                <div className="max-w-3xl mx-auto py-16 px-8 relative z-20">
+                    <motion.article
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8, delay: 0.4 }}
+                        className="prose prose-invert prose-lg md:prose-xl max-w-none 
+                            prose-headings:font-bold prose-headings:tracking-tight prose-headings:text-white prose-headings:font-display prose-headings:italic
+                            prose-h3:text-2xl prose-h3:mt-12 prose-h3:mb-6
+                            prose-p:text-slate-300 prose-p:leading-relaxed prose-p:mb-8 prose-p:font-light
+                            prose-a:text-[var(--page-accent)] prose-a:no-underline hover:prose-a:underline
+                            prose-strong:text-white prose-strong:font-semibold
+                            prose-ul:text-slate-300 prose-li:my-2
+                            prose-img:rounded-2xl prose-img:border prose-img:border-white/10 prose-img:shadow-2xl prose-img:my-12
+                            prose-code:text-emerald-400 prose-code:bg-emerald-950/30 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded
+                            font-sans
+                        "
+                    >
+                        {/* Excerpt as a lead paragraph if present */}
+                        {post.excerpt && !post.contentHtml && (
+                            <p className="text-xl md:text-2xl text-white/80 leading-relaxed font-medium pb-8 border-b border-white/10 mb-8">
+                                {post.excerpt}
+                            </p>
+                        )}
 
-                    {/* Content Body - Styled as a declassified report */}
-                    <div className="prose prose-invert prose-slate max-w-none 
-                        prose-headings:font-bold prose-headings:tracking-tight prose-headings:text-white
-                        prose-p:text-slate-400 prose-p:leading-relaxed
-                        prose-code:text-emerald-400 prose-code:bg-emerald-950/30 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded
-                        whitespace-pre-wrap font-sans text-lg
-                    ">
                         {post.contentHtml ? (
                             <div dangerouslySetInnerHTML={{ __html: post.contentHtml }} />
                         ) : (
-                            post.content
+                            <div className="whitespace-pre-wrap">{post.content}</div>
                         )}
-                    </div>
+                    </motion.article>
+
+                    {/* Tags at bottom */}
+                    {post.tags && post.tags.length > 0 && (
+                        <div className="mt-16 pt-8 border-t border-white/10">
+                            <h4 className="text-[10px] font-mono uppercase tracking-widest text-slate-500 mb-4">Associated Tags</h4>
+                            <div className="flex flex-wrap gap-2">
+                                {post.tags.map((tag) => (
+                                    <span key={tag} className="px-3 py-1.5 bg-white/5 hover:bg-white/10 transition-colors text-slate-300 rounded-full text-xs font-mono border border-white/10">
+                                        {tag}
+                                    </span>
+                                ))}
+                            </div>
+                        </div>
+                    )}
 
                     <motion.footer className="mt-20 pt-10 border-t border-white/5 text-center" variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig}>
                         <div className="text-[10px] font-mono text-slate-600 uppercase tracking-[0.5em]">
                             End of Transmission // Novarey Ventures Declassified
                         </div>
                     </motion.footer>
-                </motion.article>
+                </div>
             </div>
 
             {/* Scanline Effect Overlay */}

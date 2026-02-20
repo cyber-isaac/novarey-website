@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Play, Layers, Globe, Zap, MessageSquare, Monitor, Image as ImageIcon } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { scrollReveal, viewportConfig } from '../lib/animations';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import VideoModal from './VideoModal';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const TABS = [
     { id: 'MARKETING', label: 'Marketing Video', icon: Play },
@@ -124,13 +127,37 @@ const DesignStudio = () => {
     const [activeTab, setActiveTab] = useState('MARKETING');
     const [activeVideo, setActiveVideo] = useState(null);
     const [hoveredCard, setHoveredCard] = useState(null);
+    const sectionRef = useRef(null);
+    const headerRef = useRef(null);
+
+    useEffect(() => {
+        const ctx = gsap.context(() => {
+            gsap.fromTo(headerRef.current,
+                { opacity: 0, y: 50 },
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: 1.5,
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: sectionRef.current,
+                        start: "top 80%",
+                        end: "top 40%",
+                        scrub: 1
+                    }
+                }
+            );
+        }, sectionRef);
+
+        return () => ctx.revert();
+    }, []);
 
     const handleVideoClick = (src, title) => {
         setActiveVideo({ src, title });
     };
 
     return (
-        <motion.section className="w-full py-16" variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig}>
+        <section ref={sectionRef} className="w-full py-16">
             <VideoModal
                 isOpen={!!activeVideo}
                 onClose={() => setActiveVideo(null)}
@@ -140,7 +167,7 @@ const DesignStudio = () => {
 
             {/* Full-width header section */}
             <div className="max-w-7xl mx-auto px-4 md:px-8">
-                <div className="flex flex-col gap-8 mb-12">
+                <div ref={headerRef} className="flex flex-col gap-8 mb-12 opacity-0">
                     <div>
                         <div className="text-sm font-mono text-orange-400 uppercase tracking-widest mb-3">
                             Creative Portfolio
@@ -245,7 +272,7 @@ const DesignStudio = () => {
                     </AnimatePresence>
                 </div>
             </div>
-        </motion.section>
+        </section>
     );
 };
 
