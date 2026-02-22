@@ -4,6 +4,8 @@ import { db } from '../lib/db';
 import { ArrowLeft, Share2, Download, ShieldCheck, Printer, Clock } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { scrollReveal, viewportConfig } from '../lib/animations';
+import { Helmet } from 'react-helmet-async';
+import { products } from '../content/products';
 
 const FileViewer = () => {
     const { id } = useParams();
@@ -19,6 +21,15 @@ const FileViewer = () => {
 
     return (
         <div className="flex-1 overflow-y-auto bg-[#0A090F] h-full selection:bg-yellow-500/30 selection:text-yellow-200" data-scroll-container>
+            <Helmet>
+                <title>{post.title} | NovaRey</title>
+                <meta name="description" content={post.excerpt || 'NovaRey Ventures Digital Archive'} />
+                {post.coverImage && <meta property="og:image" content={post.coverImage} />}
+                <meta property="og:title" content={post.title} />
+                <meta property="og:description" content={post.excerpt} />
+                <meta name="twitter:card" content="summary_large_image" />
+            </Helmet>
+
             {/* Toolbar */}
             <div className="sticky top-0 z-50 bg-[#0D0C12]/80 backdrop-blur-md border-b border-white/5 px-8 py-3 flex items-center justify-between">
                 <button
@@ -138,6 +149,43 @@ const FileViewer = () => {
                             </div>
                         </div>
                     )}
+
+                    {/* Support the Lab (Cross-Link) */}
+                    <motion.div
+                        className="mt-20 pt-16 border-t border-white/5"
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                    >
+                        <div className="text-center mb-12">
+                            <h3 className="text-3xl font-display font-medium text-white mb-4">Support the Lab</h3>
+                            <p className="text-slate-400 max-w-xl mx-auto">Grab some fieldwork gear and heritage merch directly from our Etsy supply. All proceeds fuel the research.</p>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            {products.slice(0, 3).map((item) => (
+                                <a
+                                    key={item.id}
+                                    href={item.href}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="group relative rounded-2xl border border-white/10 bg-[#16141F] overflow-hidden hover:border-emerald-500/50 transition-all duration-300 flex flex-col"
+                                >
+                                    <div className="aspect-square w-full overflow-hidden bg-white/5">
+                                        <img src={item.image} alt={item.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 hover:opacity-90" />
+                                    </div>
+                                    <div className="p-5 flex-1 flex flex-col">
+                                        <div className="text-[10px] font-mono text-emerald-400/80 uppercase tracking-widest mb-2">{item.subtitle}</div>
+                                        <h4 className="text-white font-medium mb-1 group-hover:text-emerald-400 transition-colors">{item.title}</h4>
+                                        <p className="text-xs text-slate-400 mb-6 line-clamp-2">{item.description}</p>
+                                        <div className="mt-auto flex items-center text-xs font-mono text-white/50 group-hover:text-emerald-400/80 transition-colors uppercase tracking-wider">
+                                            {item.cta} <ArrowLeft className="w-3 h-3 ml-2 rotate-180" />
+                                        </div>
+                                    </div>
+                                </a>
+                            ))}
+                        </div>
+                    </motion.div>
 
                     <motion.footer className="mt-20 pt-10 border-t border-white/5 text-center" variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig}>
                         <div className="text-[10px] font-mono text-slate-600 uppercase tracking-[0.5em]">
