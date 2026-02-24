@@ -17,7 +17,7 @@ const VideoHero = () => {
                     src="https://play.gumlet.io/embed/69795dc011ec7dfcb9832b4f?background=false&autoplay=true&loop=true&disableControls=false"
                     className="absolute inset-0 w-full h-full z-0"
                     style={{ border: 'none' }}
-                    loading="lazy"
+
                     referrerPolicy="origin"
                     allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture; fullscreen"
                 ></iframe>

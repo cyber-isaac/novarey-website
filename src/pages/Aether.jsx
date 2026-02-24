@@ -54,12 +54,21 @@ const TRACKS = [
         url: '/sirens.mp4',
         description: 'Original composition, haunting melodic drift',
     },
+    {
+        id: 'ascension',
+        title: 'Ascension',
+        artist: 'Novarey',
+        duration: '3:05',
+        type: 'url',
+        url: 'https://video.gumlet.io/64b781e9fccf18bce9351dee/699d75e757a7b7f9b08cdf3b/main.mp4',
+        description: 'Soaring ambient track for the ascension cross',
+    },
 ];
 
 const VIZ_MODES = [
     { name: 'Nebula', code: 'NEBULA CLOUD' },
     { name: 'Torus', code: 'QUANTUM TORUS' },
-    { name: 'Lattice', code: 'CYBER LATTICE' },
+    { name: 'Cross', code: 'ASCENSION CROSS' },
     { name: 'Vortex', code: 'WARP VORTEX' },
     { name: 'Pyramid', code: 'ANCIENT PRISM' },
     { name: 'DNA', code: 'HELIX STRAND' },
@@ -358,6 +367,13 @@ class GenerativeAudio {
         });
     }
 
+    // Used for iframe tracks where audio plays natively in the DOM
+    playSilence() {
+        this.init();
+        this.stopAll();
+        this.playing = true;
+    }
+
     setVolume(v) {
         if (this.gainNode && this.ctx) {
             this.gainNode.gain.linearRampToValueAtTime(v, this.ctx.currentTime + 0.1);
@@ -467,13 +483,47 @@ function getVertexShader(particleCount) {
             );
         }
 
-        vec3 getPosLattice(float idx) {
-            float size = 25.0;
-            float step = pow(${particleCount}.0, 1.0/3.0);
-            float x = mod(idx, step);
-            float y = mod(floor(idx/step), step);
-            float z = floor(idx/(step*step));
-            return (vec3(x, y, z) / step - 0.5) * size;
+        vec3 getPosCross(float idx) {
+            float norm = idx / ${particleCount}.0;
+            // Precise allocation: 40% for the crossbar, 60% for the vertical stem
+            float isHorizontal = step(0.60, aRandom.x);
+            
+            // Divine Proportions for a traditional cross (using Golden Ratio roughly)
+            float stemHeight = 40.0;
+            float barWidth = 24.0;
+            float thickness = 0.5; // Very thin depth so it remains sharp from the front
+            float beamWidth = 3.0; // The actual width of the intersecting bars
+
+            // To make the particles evenly distribute and form a solid structure,
+            // we use the particle's index to map across the surface area.
+            vec3 pos;
+            
+            if (isHorizontal > 0.5) {
+                // Horizontal crossbar
+                // Map position evenly along the X axis
+                float xPos = mix(-barWidth/2.0, barWidth/2.0, aRandom.y);
+                float yPos = 6.0 + (aRandom.z - 0.5) * beamWidth; // Placed at upper third
+                pos = vec3(xPos, yPos, (aRandom.x - 0.5) * thickness);
+            } else {
+                // Vertical stem
+                // Map position evenly along the Y axis
+                float xPos = (aRandom.y - 0.5) * beamWidth;
+                float yPos = mix(-stemHeight/2.0, stemHeight/2.0, aRandom.z);
+                pos = vec3(xPos, yPos, (aRandom.x - 0.5) * thickness);
+            }
+
+            // Scatter just the very edges to give it a slight radiant/ethereal fringe,
+            // but keep the solid core intact.
+            float fringe = aRandom.z * aRandom.y * 1.5;
+            pos += vec3(fringe - 0.75, fringe - 0.75, (aRandom.x - 0.5) * 0.5);
+
+            // Ascension animation - continuous slow rise with clean wrap-around
+            // We use 'norm' instead of random for the lift so the entire cross moves as one solid piece,
+            // rather than particles swirling upward chaotically.
+            float ascendTime = fract(uTime * 0.05);
+            pos.y += (ascendTime * 30.0 - 15.0); // Drift within a 30-unit vertical space
+            
+            return pos;
         }
 
         vec3 getPosVortex(float idx) {
@@ -782,7 +832,7 @@ function getVertexShader(particleCount) {
             float m = uMode;
             vec3 pSphere = getPosSphere(aIndex);
             vec3 pTorus = getPosTorus(aIndex);
-            vec3 pLattice = getPosLattice(aIndex);
+            vec3 pLattice = getPosCross(aIndex);
             vec3 pVortex = getPosVortex(aIndex);
             vec3 pPyramid = getPosPyramid(aIndex);
             vec3 pDNA = getPosDNA(aIndex);
@@ -797,7 +847,7 @@ function getVertexShader(particleCount) {
 
             pSphere += noiseBase * 4.0;
             pTorus += noiseBase * 2.0;
-            pLattice += noiseBase * 1.5;
+            // Intentionally omit pLattice (Cross) from global noise displacement so it holds its shape
             pVortex += noiseBase * 2.0;
             pPyramid += noiseBase * 1.0;
             pDNA += noiseBase * 1.0;
@@ -865,6 +915,12 @@ function getVertexShader(particleCount) {
             float depthFade = smoothstep(60.0, 10.0, -mvPosition.z);
             vAlpha = depthFade * (0.2 + aRandom.z * 0.6);
             vColor = pos;
+
+            // Make the Cross much brighter
+            if (m > 1.0 && m <= 2.0) {
+                vColor *= 2.5; // Boost color intensity
+                vAlpha *= 1.5; // Make the cross itself more dense
+            }
         }
     `;
 }
@@ -955,7 +1011,7 @@ const Aether = () => {
         const W = container.clientWidth;
         const H = container.clientHeight;
         const isMobile = W < 768;
-        const PARTICLE_COUNT = isMobile ? 65000 : 120000;
+        const PARTICLE_COUNT = isMobile ? 35000 : 60000;
 
         // ── Core ──
         const scene = new THREE.Scene();
@@ -972,7 +1028,7 @@ const Aether = () => {
             stencil: false,
             depth: true,
         });
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
         renderer.setSize(W, H);
         renderer.toneMapping = THREE.CineonToneMapping;
         renderer.toneMappingExposure = 1.2;
@@ -1348,7 +1404,7 @@ const Aether = () => {
                             <span className="text-white/70">{VIZ_MODES[activeMode].code}</span>
                             <span className="w-px h-2 bg-white/10 hidden sm:inline" />
                             <span className="opacity-60 hidden sm:inline">
-                                {window.innerWidth < 768 ? '65K' : '120K'} NODES
+                                {window.innerWidth < 768 ? '35K' : '60K'} NODES
                             </span>
                         </div>
                     </div>

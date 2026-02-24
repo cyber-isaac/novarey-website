@@ -44,23 +44,12 @@ const Sidebar = () => {
             variants={sidebarVariants}
             initial={false}
             animate={isCollapsed ? 'collapsed' : 'expanded'}
-            className="h-full flex flex-col flex-shrink-0 border-r border-white/[0.06] relative z-20"
-            style={{
-                background: 'rgba(8, 8, 14, 0.55)',
-                backdropFilter: 'blur(24px) saturate(1.4)',
-                WebkitBackdropFilter: 'blur(24px) saturate(1.4)',
-            }}
+            className="sidebar-panel blurred-panel h-full flex flex-col flex-shrink-0 border-r relative z-20"
         >
             {/* Toggle Button */}
             <button
                 onClick={() => setIsCollapsed(!isCollapsed)}
-                className="absolute -right-3 top-8 w-6 h-6 rounded-full flex items-center justify-center text-slate-500 hover:text-white hover:scale-110 active:scale-95 transition-all duration-200 z-30"
-                style={{
-                    background: 'rgba(15, 15, 25, 0.8)',
-                    backdropFilter: 'blur(12px)',
-                    border: '1px solid rgba(255, 255, 255, 0.08)',
-                    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.3)',
-                }}
+                className="sidebar-toggle-btn absolute -right-3 top-8 w-6 h-6 rounded-full flex items-center justify-center hover:scale-110 active:scale-95 transition-all duration-200 z-30"
             >
                 {isCollapsed ? <ChevronRight className="w-3 h-3" /> : <ChevronLeft className="w-3 h-3" />}
             </button>
@@ -81,7 +70,7 @@ const Sidebar = () => {
                     )}
                     <div className="flex items-center gap-2.5">
                         <div className="w-6 h-6 flex items-center justify-center">
-                            <Logo className="w-6 h-6 opacity-90" />
+                            <Logo className="w-6 h-6 logo-svg opacity-90" />
                         </div>
                         <AnimatePresence mode="wait">
                             {!isCollapsed && (
@@ -90,7 +79,7 @@ const Sidebar = () => {
                                     animate={{ opacity: 1, x: 0 }}
                                     exit={{ opacity: 0, x: -6 }}
                                     transition={{ duration: 0.25 }}
-                                    className="text-base font-bold text-white tracking-wide uppercase whitespace-nowrap"
+                                    className="text-base font-bold nav-text-active tracking-wide uppercase whitespace-nowrap"
                                 >
                                     Novarey
                                 </motion.h1>
@@ -137,52 +126,7 @@ const Sidebar = () => {
                     </motion.nav>
                 </div>
 
-                {/* Studio OS (Internal) */}
-                <div className="pt-6 pb-2">
-                    <AnimatePresence mode="wait">
-                        {!isCollapsed && (
-                            <motion.h3
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                exit={{ opacity: 0 }}
-                                transition={{ duration: 0.2 }}
-                                className="uppercase text-[10px] font-semibold text-slate-600 tracking-[0.2em] mb-3 pr-3 pl-3 whitespace-nowrap"
-                            >
-                                Studio OS
-                            </motion.h3>
-                        )}
-                    </AnimatePresence>
-                    <nav className="space-y-0.5">
-                        <NavItem icon={<Monitor className="w-4 h-4" />} label="Deal Flow CRM" size="sm" to="/crm" collapsed={isCollapsed} />
-                    </nav>
-                </div>
 
-                {/* Ecosystem */}
-                <div>
-                    <AnimatePresence mode="wait">
-                        {!isCollapsed && (
-                            <motion.h3
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                exit={{ opacity: 0 }}
-                                transition={{ duration: 0.2 }}
-                                className="px-3 text-[10px] font-semibold text-slate-600 uppercase tracking-[0.2em] mb-3 whitespace-nowrap"
-                            >
-                                Ecosystem
-                            </motion.h3>
-                        )}
-                    </AnimatePresence>
-                    <nav className="space-y-0.5">
-                        <EcoItem icon={<Rocket className="w-3 h-3" />} color="text-violet-400 bg-violet-500/15" label="Antigravity" collapsed={isCollapsed} />
-                        <EcoItem icon={<Zap className="w-3 h-3" />} color="text-indigo-400 bg-indigo-500/15" label="Cursor AI" collapsed={isCollapsed} />
-                        <EcoItem icon={<Code2 className="w-3 h-3" />} color="text-blue-500 bg-blue-600/15" label="Visual Studio Code 2" collapsed={isCollapsed} />
-                        <EcoItem icon={<Zap className="w-3 h-3" />} color="text-cyan-400 bg-cyan-500/15" label="Gemini Flash 3.0 Pro" collapsed={isCollapsed} />
-                        <EcoItem icon={<Palette className="w-3 h-3" />} color="text-fuchsia-400 bg-fuchsia-500/15" label="Opus 4.5" collapsed={isCollapsed} />
-                        <EcoItem icon={<Hash className="w-3 h-3" />} color="text-zinc-300 bg-zinc-700/40" label="Grok" collapsed={isCollapsed} />
-                        <EcoItem icon={<Code2 className="w-3 h-3" />} color="text-emerald-400 bg-emerald-500/15" label="GPT 5.2 Codex" collapsed={isCollapsed} />
-                        <EcoItem icon={<Palette className="w-3 h-3" />} color="text-teal-400 bg-teal-500/15" label="Canva" collapsed={isCollapsed} />
-                    </nav>
-                </div>
             </div>
         </motion.aside>
     );
@@ -190,8 +134,8 @@ const Sidebar = () => {
 
 function NavItem({ icon, label, to, accent, soft, size = 'md', collapsed }) {
     const baseClasses = "nav-item flex items-center gap-4 px-3 py-2.5 rounded-xl transition-all duration-200 group cursor-pointer relative overflow-hidden";
-    const activeClasses = "nav-item-active font-medium text-white";
-    const inactiveClasses = "text-slate-400";
+    const activeClasses = "nav-item-active font-medium nav-text-active";
+    const inactiveClasses = "nav-text-inactive";
 
     return (
         <motion.div variants={navItemVariant}>
