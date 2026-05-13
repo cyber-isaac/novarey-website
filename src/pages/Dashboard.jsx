@@ -1,81 +1,69 @@
-import React, { useRef } from 'react';
-import { ArrowRight, Brain, Boxes, PenTool, Wand2, Shield, Sparkles, Target, Monitor, Check, Zap, Layers, Compass } from 'lucide-react';
+import React, { lazy, Suspense, useEffect, useRef, useState } from 'react';
+import { ArrowRight, Brain, Boxes, PenTool, Wand2, Target, Monitor, Check } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import VideoHero from '../components/VideoHero';
-import Logo from '../components/Logo';
-import Button from '../components/Button';
-import ProjectRequestForm from '../components/ProjectRequestForm';
-import AIStudioBrief from '../components/AIStudioBrief';
-import SpecialOpsTheater from '../components/SpecialOpsTheater';
-import { staggerContainer, fadeInUp, scaleUp, scrollReveal, viewportConfig } from '../lib/animations';
+import VideoHero from '../components/sections/VideoHero';
+import Button from '../components/ui/Button';
+import { staggerContainer, fadeInUp, scrollReveal, viewportConfig } from '../lib/animations';
+
+const AIStudioBrief = lazy(() => import('../components/features/AIStudioBrief'));
+const SpecialOpsTheater = lazy(() => import('../components/sections/SpecialOpsTheater'));
+const ProjectRequestForm = lazy(() => import('../components/features/ProjectRequestForm'));
 
 
 
 const PROCESS_STEPS = [
     {
-        title: 'Recon & Strategy',
-        desc: 'Discovery, constraints, objectives, and mission definition.',
-        icon: Shield
+        title: 'Strategy & Scope',
+        desc: 'Clarify the audience, goals, constraints, and the fastest path to a polished launch.',
+        icon: Boxes
     },
     {
         title: 'Design & Build',
-        desc: 'UI, brand, systems, and AI-enabled product delivery.',
+        desc: 'Create the brand, interface, content system, and AI-enabled workflow in one connected pass.',
         icon: Monitor
     },
     {
-        title: 'Deploy & Scale',
-        desc: 'Handoff, automation, performance tuning, and growth.',
+        title: 'Launch & Improve',
+        desc: 'Ship the experience, tune performance, simplify handoff, and keep the system easy to expand.',
         icon: Target
     }
 ];
 
 
 
-const WHAT_I_DO = [
-    {
-        title: 'AI-first Product Design',
-        desc: 'UI systems, landing pages, and product flows built fast with design intelligence.',
-        icon: Zap
-    },
-    {
-        title: 'Automations + Workflow Design',
-        desc: 'Custom AI pipelines for small business ops, content, and customer journeys.',
-        icon: Layers
-    },
-    {
-        title: 'Brand + Motion Systems',
-        desc: 'Identity systems and motion assets that scale across web, video, and campaigns.',
-        icon: Sparkles
-    }
-];
+const LazyMount = ({ children, minHeight = 360 }) => {
+    const ref = useRef(null);
+    const [isVisible, setIsVisible] = useState(false);
 
-const WORKFLOW_STEPS = [
-    {
-        title: 'Idea and Inception',
-        desc: 'Define the mission, audience, and outcome with a clear design brief.',
-        tools: 'Strategy, discovery, creative direction',
-        icon: Compass
-    },
-    {
-        title: 'Tool Selection',
-        desc: 'Choose the right stack: AI for speed, traditional tools for precision.',
-        tools: 'Gemini 3.0 Pro, Veo 3, Google Flow, Canva Pro, Adobe Firefly',
-        icon: Layers
-    },
-    {
-        title: 'Prompt Generation (if warranted)',
-        desc: 'Build prompts, variations, and style anchors to explore directions fast.',
-        tools: 'Grok Video, ChatGPT Image, Sora',
-        icon: Zap
-    },
-    {
-        title: 'Production + Polish',
-        desc: 'Finalize assets in Adobe Suite, align with the system, and deliver.',
-        tools: 'Photoshop, Illustrator, After Effects, Figma',
-        icon: Sparkles
-    }
-];
+    useEffect(() => {
+        if (isVisible) return undefined;
+        const node = ref.current;
+        if (!node || !('IntersectionObserver' in window)) {
+            setIsVisible(true);
+            return undefined;
+        }
+
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    setIsVisible(true);
+                    observer.disconnect();
+                }
+            },
+            { rootMargin: '560px 0px' }
+        );
+
+        observer.observe(node);
+        return () => observer.disconnect();
+    }, [isVisible]);
+
+    return (
+        <div ref={ref} style={{ minHeight: isVisible ? undefined : minHeight }}>
+            {isVisible ? <Suspense fallback={null}>{children}</Suspense> : null}
+        </div>
+    );
+};
 
 const Dashboard = () => {
     const containerRef = useRef(null);
@@ -97,17 +85,17 @@ const Dashboard = () => {
                             <span className="inline-flex items-center gap-2 rounded-full border border-[var(--border-1)] bg-[var(--surface-2)] px-3 py-1 text-[10px] sm:text-[11px] uppercase tracking-widest text-[var(--text-2)] backdrop-blur">
                                 General Designer
                             </span>
-                            <h2 className="mt-6 text-[clamp(2rem,6vw,3.25rem)] font-semibold text-[var(--text-1)] tracking-tight leading-[1.05]">
-                                A.I. Powered Designer
+                            <h2 className="mt-6 max-w-3xl font-display text-[2.15rem] font-bold leading-[1.04] tracking-normal text-[var(--text-1)] md:text-[3.25rem]">
+                                Design direction for AI-forward brands.
                             </h2>
-                            <h3 className="text-[clamp(2rem,6vw,3.25rem)] font-semibold text-[var(--text-3)] tracking-tight leading-[1.05]">
-                                A.I. Automations Developer
+                            <h3 className="mt-2 max-w-3xl font-display text-[2.15rem] font-bold leading-[1.04] tracking-normal text-[var(--text-3)] md:text-[3.25rem]">
+                                Automation systems for work that repeats.
                             </h3>
                             <p className="mt-4 text-sm sm:text-base md:text-lg text-[var(--text-2)] max-w-3xl leading-relaxed">
-                                Leveraging cutting-edge AI tools to enhance, not replace, original design.
+                                I combine visual systems, web builds, and AI tooling into clean production workflows.
                             </p>
                             <p className="mt-3 text-sm sm:text-base md:text-lg text-[var(--text-3)] max-w-3xl leading-relaxed">
-                                A.I. Automations for small businesses to automate custom workflows.
+                                The result is practical creative infrastructure: faster content, sharper launches, and fewer manual handoffs.
                             </p>
 
                             <div className="mt-6 space-y-3 text-xs sm:text-sm text-[var(--text-2)]">
@@ -130,8 +118,8 @@ const Dashboard = () => {
                                     Discover Isaac
                                 </Button>
                                 <div className="flex items-center gap-3 text-[var(--text-2)]">
-                                    <div className="text-[11px] sm:text-sm tracking-[0.3em] text-[var(--text-1)] font-mono" aria-label="Five stars">
-                                        *****
+                                    <div className="text-[11px] sm:text-sm tracking-[0.2em] text-[var(--text-1)] font-mono" aria-label="Five out of five rating">
+                                        5/5
                                     </div>
                                     <div className="text-[10px] sm:text-xs uppercase tracking-widest text-[var(--text-3)]">Top Rated</div>
                                 </div>
@@ -143,10 +131,16 @@ const Dashboard = () => {
                                 <div className="absolute -inset-4 rounded-[32px] bg-emerald-500/15 blur-3xl"></div>
                                 <div className="absolute -inset-0.5 rounded-[28px] border border-white/10"></div>
                                 <div className="relative rounded-[28px] border border-[var(--border-1)] bg-[var(--surface-2)] p-2 shadow-[0_20px_60px_rgba(0,0,0,0.6)] backdrop-blur-xl animate-float">
-                                    <img
-                                        src="/ODAbaby.jpg"
-                                        alt="ODA Mascot"
-                                        className="w-full rounded-[22px] bg-black/40"
+                                    <video
+                                        src="/meanimated.mp4"
+                                        poster="/ODAbaby.jpg"
+                                        autoPlay
+                                        muted
+                                        loop
+                                        playsInline
+                                        preload="metadata"
+                                        aria-label="Animated NovaRey character video"
+                                        className="aspect-square w-full rounded-[22px] bg-black/40 object-cover"
                                     />
                                 </div>
                             </div>
@@ -156,7 +150,7 @@ const Dashboard = () => {
 
 
 
-                <div className="pt-8 pr-8 pb-8 pl-8 space-y-10">
+                <div className="px-4 sm:px-6 lg:px-8 py-8 space-y-10">
                     <motion.section variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig}>
                         <div className="flex items-center gap-4 mb-6">
                             <h2 className="text-lg font-semibold text-[var(--text-1)] tracking-tight">
@@ -206,18 +200,20 @@ const Dashboard = () => {
                         </motion.div>
                     </motion.section>
 
-                    <motion.section variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig}>
+                    <LazyMount minHeight={520}>
                         <AIStudioBrief />
-                    </motion.section>
+                    </LazyMount>
 
-                    <SpecialOpsTheater />
+                    <LazyMount minHeight={480}>
+                        <SpecialOpsTheater />
+                    </LazyMount>
 
 
 
 
                     <motion.section variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig}>
                         <div className="flex items-center gap-4 mb-6">
-                            <h2 className="text-lg font-semibold text-white tracking-tight">Mission Process</h2>
+                            <h2 className="text-lg font-semibold text-[var(--text-1)] tracking-tight">Studio Process</h2>
                             <div className="h-px bg-white/10 flex-1 ml-4"></div>
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -237,16 +233,16 @@ const Dashboard = () => {
 
                     <motion.section variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig}>
                         <div className="flex items-center gap-4 mb-6">
-                            <h2 className="text-lg font-semibold text-white tracking-tight">Special Operations Artwork</h2>
+                            <h2 className="text-lg font-semibold text-[var(--text-1)] tracking-tight">Heritage Artwork</h2>
                             <div className="h-px bg-white/10 flex-1 ml-4"></div>
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                             <div className="group relative rounded-2xl overflow-hidden border border-[var(--border-1)] bg-[var(--surface-2)]">
-                                <img src="https://i.etsystatic.com/45034429/r/il/847430/7235012828/il_1140xN.7235012828_o0tj.jpg" alt="1st Special Forces Group Black Mug" loading="lazy" className="w-full h-56 object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
+                                <img src="https://i.etsystatic.com/45034429/r/il/847430/7235012828/il_1140xN.7235012828_o0tj.jpg" alt="Heritage black mug design" loading="lazy" decoding="async" className="w-full h-56 object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
                                 <div className="p-6">
                                     <div className="text-[10px] font-mono text-[var(--text-3)] uppercase tracking-widest">Merch Drop</div>
-                                    <h3 className="text-xl font-bold text-[var(--text-1)] mt-2">1st Special Forces Group Mug</h3>
-                                    <p className="text-sm text-[var(--text-3)] mt-2">Black mug with a green beret motif for daily fieldwork fuel.</p>
+                                    <h3 className="text-xl font-bold text-[var(--text-1)] mt-2">Heritage Mark Mug</h3>
+                                    <p className="text-sm text-[var(--text-3)] mt-2">Black mug with a bold emblem treatment for everyday studio use.</p>
                                     <Button
                                         as="a"
                                         href="https://www.etsy.com/listing/4376935562/1st-special-forces-group-black-mug-green?click_key=40c75940ce7415a7f13e448387128724b162a1a7%3A4376935562&click_sum=22d6ef53&sr_prefetch=1&pf_from=shop_home&ref=shop_home_active_5"
@@ -260,7 +256,7 @@ const Dashboard = () => {
                                 </div>
                             </div>
                             <div className="group relative rounded-2xl overflow-hidden border border-[var(--border-1)] bg-[var(--surface-2)]">
-                                <img src="https://i.etsystatic.com/45034429/r/il/b48618/5907143193/il_1140xN.5907143193_4z4k.jpg" alt="1st Special Service Force Black Devils Mug" loading="lazy" className="w-full h-56 object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
+                                <img src="https://i.etsystatic.com/45034429/r/il/b48618/5907143193/il_1140xN.5907143193_4z4k.jpg" alt="1st Special Service Force Black Devils Mug" loading="lazy" decoding="async" className="w-full h-56 object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
                                 <div className="p-6">
                                     <div className="text-[10px] font-mono text-[var(--text-3)] uppercase tracking-widest">Black Devils Series</div>
                                     <h3 className="text-xl font-bold text-[var(--text-1)] mt-2">1st Special Service Force Mug</h3>
@@ -278,7 +274,7 @@ const Dashboard = () => {
                                 </div>
                             </div>
                             <div className="group relative rounded-2xl overflow-hidden border border-[var(--border-1)] bg-[var(--surface-2)]">
-                                <img src="https://i.etsystatic.com/45034429/r/il/0c7a68/5306378755/il_794xN.5306378755_6wpa.jpg" alt="Devils Brigade Legacy Logo" loading="lazy" className="w-full h-56 object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
+                                <img src="https://i.etsystatic.com/45034429/r/il/0c7a68/5306378755/il_794xN.5306378755_6wpa.jpg" alt="Devils Brigade Legacy Logo" loading="lazy" decoding="async" className="w-full h-56 object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
                                 <div className="p-6">
                                     <div className="text-[10px] font-mono text-[var(--text-3)] uppercase tracking-widest">Legacy Poster</div>
                                     <h3 className="text-xl font-bold text-[var(--text-1)] mt-2">Devils Brigade Legacy</h3>
@@ -296,10 +292,10 @@ const Dashboard = () => {
                                 </div>
                             </div>
                             <div className="group relative rounded-2xl overflow-hidden border border-[var(--border-1)] bg-[var(--surface-2)]">
-                                <img src="https://i.etsystatic.com/45034429/r/il/0816ab/5859092760/il_1140xN.5859092760_hrxf.jpg" alt="Special Forces Patch Sticker" loading="lazy" className="w-full h-56 object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
+                                <img src="https://i.etsystatic.com/45034429/r/il/0816ab/5859092760/il_1140xN.5859092760_hrxf.jpg" alt="Vector patch sticker design" loading="lazy" decoding="async" className="w-full h-56 object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
                                 <div className="p-6">
                                     <div className="text-[10px] font-mono text-[var(--text-3)] uppercase tracking-widest">Patch Archive</div>
-                                    <h3 className="text-xl font-bold text-[var(--text-1)] mt-2">Special Forces Patch Sticker</h3>
+                                    <h3 className="text-xl font-bold text-[var(--text-1)] mt-2">Patch Sticker Study</h3>
                                     <p className="text-sm text-[var(--text-3)] mt-2">Sticker design derived from an original unit patch layout.</p>
                                     <Button
                                         as="a"
@@ -319,8 +315,8 @@ const Dashboard = () => {
                     <motion.section variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig}>
                         <div className="rounded-3xl border border-[var(--border-1)] bg-[var(--surface-2)] p-8 md:p-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
                             <div>
-                                <div className="text-[10px] font-mono text-orange-400 uppercase tracking-widest">Writing · Intel Hub</div>
-                                <h3 className="text-2xl md:text-3xl font-bold text-[var(--text-1)] mt-2">Field notes, research, and system breakdowns.</h3>
+                                <div className="text-[10px] font-mono text-orange-400 uppercase tracking-widest">Writing · Research Hub</div>
+                                <h3 className="text-2xl md:text-3xl font-bold text-[var(--text-1)] mt-2">Essays, research, and system breakdowns.</h3>
                                 <p className="text-sm text-[var(--text-3)] mt-2 max-w-xl">A living archive of experiments, frameworks, and deep dives across AI, design, and product.</p>
                             </div>
                             <Button
@@ -335,9 +331,9 @@ const Dashboard = () => {
                     </motion.section>
 
 
-                    <motion.section variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig}>
+                    <LazyMount minHeight={360}>
                         <ProjectRequestForm />
-                    </motion.section>
+                    </LazyMount>
 
 
                 </div>

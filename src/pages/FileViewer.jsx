@@ -19,6 +19,36 @@ const FileViewer = () => {
 
     if (!post) return <div className="p-20 text-white">Access Denied. File not found.</div>;
 
+    const handleShare = async () => {
+        const shareUrl = window.location.href;
+        const shareData = {
+            title: post.title,
+            text: post.excerpt || 'NovaRey Ventures field note',
+            url: shareUrl,
+        };
+
+        if (navigator.share) {
+            await navigator.share(shareData);
+            return;
+        }
+
+        await navigator.clipboard?.writeText(shareUrl);
+    };
+
+    const handleDownload = () => {
+        const html = post.contentHtml || post.content || post.excerpt || '';
+        const text = html.replace(/<[^>]+>/g, '').replace(/\n{3,}/g, '\n\n').trim();
+        const blob = new Blob([
+            `${post.title}\n${post.date || ''}\n\n${text}`,
+        ], { type: 'text/plain;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const anchor = document.createElement('a');
+        anchor.href = url;
+        anchor.download = `${post.id || 'novarey-field-note'}.txt`;
+        anchor.click();
+        URL.revokeObjectURL(url);
+    };
+
     return (
         <div className="flex-1 overflow-y-auto bg-[#0A090F] h-full selection:bg-yellow-500/30 selection:text-yellow-200" data-scroll-container>
             <Helmet>
@@ -51,13 +81,28 @@ const FileViewer = () => {
                         </span>
                     </div>
                     <div className="flex gap-4">
-                        <button className="text-slate-400 hover:text-white transition-colors">
+                        <button
+                            type="button"
+                            onClick={handleShare}
+                            className="text-slate-400 hover:text-white transition-colors"
+                            aria-label="Share this article"
+                        >
                             <Share2 className="w-4 h-4" />
                         </button>
-                        <button className="text-slate-400 hover:text-white transition-colors">
+                        <button
+                            type="button"
+                            onClick={handleDownload}
+                            className="text-slate-400 hover:text-white transition-colors"
+                            aria-label="Download this article as text"
+                        >
                             <Download className="w-4 h-4" />
                         </button>
-                        <button className="text-slate-400 hover:text-white transition-colors">
+                        <button
+                            type="button"
+                            onClick={() => window.print()}
+                            className="text-slate-400 hover:text-white transition-colors"
+                            aria-label="Print this article"
+                        >
                             <Printer className="w-4 h-4" />
                         </button>
                     </div>
@@ -85,10 +130,10 @@ const FileViewer = () => {
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.8, delay: 0.2 }}
                             >
-                                <div className="text-xs font-mono text-[var(--page-accent)] uppercase tracking-widest mb-4">
+                                <div className="hero-kicker text-[var(--page-accent)] mb-4">
                                     {post.category} // {post.date}
                                 </div>
-                                <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-white tracking-tighter leading-[1.1] mb-6 font-display italic">
+                                <h1 className="hero-title-compact text-white mb-6">
                                     {post.title}
                                 </h1>
                                 <div className="flex flex-wrap gap-3 items-center text-[10px] font-mono uppercase tracking-widest text-white/50">

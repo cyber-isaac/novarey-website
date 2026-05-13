@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://www.novarey.us/</loc><priority>1.0</priority></url>
+  <url><loc>https://www.novarey.us/work</loc><priority>0.8</priority></url>
+  <url><loc>https://www.novarey.us/portfolio</loc><priority>0.9</priority></url>
+  <url><loc>https://www.novarey.us/about</loc><priority>0.7</priority></url>
+  <url><loc>https://www.novarey.us/idrive</loc><priority>0.7</priority></url>
+  <url><loc>https://www.novarey.us/ai-strategy</loc><priority>0.8</priority></url>
+  <url><loc>https://www.novarey.us/contact</loc><priority>0.8</priority></url>
+  <url><loc>https://www.novarey.us/services</loc><priority>0.8</priority></url>
+  <url><loc>https://www.novarey.us/services/brand</loc><priority>0.8</priority></url>
+  <url><loc>https://www.novarey.us/services/web</loc><priority>0.8</priority></url>
+  <url><loc>https://www.novarey.us/services/marketing</loc><priority>0.8</priority></url>
+  <url><loc>https://www.novarey.us/services/ai</loc><priority>0.8</priority></url>
+</urlset>

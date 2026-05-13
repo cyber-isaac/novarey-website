@@ -1,487 +1,530 @@
-import React, { useEffect, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, Folder, Atom, Globe, Shield, Eye, Database, ChevronRight, HardDrive } from 'lucide-react';
-import { db } from '../lib/db';
+import {
+    ArrowRight,
+    Atom,
+    BookOpen,
+    Clock,
+    Database,
+    Eye,
+    Folder,
+    Globe,
+    HardDrive,
+    Library,
+    Search,
+    Shield,
+    Sparkles
+} from 'lucide-react';
 import { motion } from 'framer-motion';
-import { staggerContainer, fadeInUp } from '../lib/animations';
-import ConstellationBackground from '../components/ConstellationBackground';
-import Button from '../components/Button';
+import { db } from '../lib/db';
+import { fadeInUp, scrollReveal, staggerContainer, viewportConfig } from '../lib/animations';
 
-const CATEGORIES = [
-    { id: 'all', label: 'All Files', icon: Folder, theme: 'default' },
-    { id: 'ai', label: 'A.I.', icon: Database, theme: 'tech' },
-    { id: 'politics', label: 'Politics & Military', icon: Globe, theme: 'tactical' },
-    { id: 'mycology', label: 'Mycology', icon: Atom, theme: 'bio' },
-    { id: 'uncanny', label: 'The Uncanny', icon: Eye, theme: 'glitch' }
-];
+const CATEGORY_CONFIG = {
+    all: {
+        label: 'All Essays',
+        eyebrow: 'Full Archive',
+        description: 'Every published i-Drive entry in one chronological feed.',
+        icon: Folder,
+        accent: '#f8fafc',
+    },
+    ai: {
+        label: 'AI Systems',
+        eyebrow: 'Automation',
+        description: 'Agents, workflow design, AI tools, security notes, and implementation breakdowns.',
+        icon: Database,
+        accent: '#38bdf8',
+    },
+    politics: {
+        label: 'Power & Strategy',
+        eyebrow: 'Geopolitics',
+        description: 'Military, politics, intelligence, and strategic technology notes.',
+        icon: Globe,
+        accent: '#22c55e',
+    },
+    mycology: {
+        label: 'Mycology Lab',
+        eyebrow: 'Biology',
+        description: 'Cultivation, medicine, field protocols, and fungi research logs.',
+        icon: Atom,
+        accent: '#34d399',
+    },
+    uncanny: {
+        label: 'The Uncanny',
+        eyebrow: 'Speculation',
+        description: 'Ancient technology, fringe history, anomalies, and weird research trails.',
+        icon: Eye,
+        accent: '#c084fc',
+    },
+};
+
+const CATEGORY_ORDER = ['all', 'ai', 'politics', 'mycology', 'uncanny'];
+
+const estimateReadTime = (post) => {
+    const raw = `${post.excerpt || ''} ${post.contentHtml || post.content || ''}`;
+    const text = raw.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+    const words = text ? text.split(' ').length : 0;
+    return `${Math.max(2, Math.ceil(words / 220))} min read`;
+};
+
+const formatDate = (value) => {
+    if (!value) return 'Undated';
+    return new Intl.DateTimeFormat('en', {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric',
+    }).format(new Date(`${value}T00:00:00`));
+};
+
+const getPostImage = (post) => post.coverImage || '/homepage_info.png';
 
 const IDrive = () => {
-    const [posts, setPosts] = useState([]);
+    const posts = useMemo(() => db.getPosts(), []);
     const [activeCategory, setActiveCategory] = useState('all');
     const [searchQuery, setSearchQuery] = useState('');
     const [activeTag, setActiveTag] = useState('all');
 
-    useEffect(() => {
-        const data = db.getPosts();
-        setPosts(data);
-    }, []);
+    const postsByDate = useMemo(
+        () => [...posts].sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0)),
+        [posts]
+    );
 
-    const filteredPosts = posts.filter((post) => {
-        const matchesCategory = activeCategory === 'all' || post.category === activeCategory;
-        const matchesTag = activeTag === 'all' || (post.tags || []).includes(activeTag);
-        const query = searchQuery.toLowerCase().trim();
-        const matchesSearch = !query || [
-            post.title,
-            post.excerpt,
-            ...(post.tags || [])
-        ].some((field) => field?.toLowerCase().includes(query));
-        return matchesCategory && matchesTag && matchesSearch;
-    });
+    const allTags = useMemo(
+        () => Array.from(new Set(posts.flatMap((post) => post.tags || []))).sort((a, b) => a.localeCompare(b)),
+        [posts]
+    );
 
-    const allTags = Array.from(new Set(posts.flatMap((post) => post.tags || [])));
-
-    const tagCounts = posts.reduce((acc, post) => {
+    const tagCounts = useMemo(() => posts.reduce((acc, post) => {
         (post.tags || []).forEach((tag) => {
             acc[tag] = (acc[tag] || 0) + 1;
         });
         return acc;
-    }, {});
+    }, {}), [posts]);
 
-    const tagStyleMap = {
-        AI: 'bg-fuchsia-500/15 text-fuchsia-300 border-fuchsia-500/30',
-        Agents: 'bg-violet-500/15 text-violet-300 border-violet-500/30',
-        Research: 'bg-sky-500/15 text-sky-300 border-sky-500/30',
-        Mycology: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30',
-        'Bio Lab': 'bg-teal-500/15 text-teal-300 border-teal-500/30',
-        Protocols: 'bg-green-500/15 text-green-300 border-green-500/30',
-        DIY: 'bg-amber-500/15 text-amber-300 border-amber-500/30',
-        Conspiracy: 'bg-purple-500/15 text-purple-300 border-purple-500/30',
-        'Ancient Tech': 'bg-rose-500/15 text-rose-300 border-rose-500/30',
-        Tesla: 'bg-cyan-500/15 text-cyan-300 border-cyan-500/30'
-    };
+    const categoryCounts = useMemo(() => posts.reduce((acc, post) => {
+        acc[post.category] = (acc[post.category] || 0) + 1;
+        acc.all = (acc.all || 0) + 1;
+        return acc;
+    }, { all: 0 }), [posts]);
 
-    const getTagClasses = (tag, isActive) => {
-        const themed = tagStyleMap[tag] || 'bg-white/5 text-slate-300 border-white/10';
-        if (isActive) {
-            return 'bg-white text-black border-white shadow-[0_0_20px_rgba(255,255,255,0.12)]';
-        }
-        return `${themed} hover:text-white hover:bg-white/10 hover:border-white/30`;
-    };
+    const filteredPosts = useMemo(() => {
+        const query = searchQuery.toLowerCase().trim();
 
-    const getThemeAccent = (theme) => {
-        switch (theme) {
-            case 'tactical': return 'border-emerald-500 text-emerald-400 shadow-[0_0_16px_rgba(16,185,129,0.2)] bg-emerald-500/10';
-            case 'bio': return 'border-green-400 text-green-300 shadow-[0_0_16px_rgba(74,222,128,0.2)] bg-green-500/10';
-            case 'glitch': return 'border-purple-500 text-purple-300 shadow-[0_0_16px_rgba(168,85,247,0.2)] bg-purple-500/10';
-            case 'tech': return 'border-sky-500 text-sky-400 shadow-[0_0_16px_rgba(14,165,233,0.2)] bg-sky-500/10';
-            default: return 'border-white text-black shadow-[0_0_16px_rgba(255,255,255,0.12)] bg-white';
-        }
-    };
+        return postsByDate.filter((post) => {
+            const matchesCategory = activeCategory === 'all' || post.category === activeCategory;
+            const matchesTag = activeTag === 'all' || (post.tags || []).includes(activeTag);
+            const matchesSearch = !query || [
+                post.title,
+                post.excerpt,
+                post.category,
+                ...(post.tags || []),
+            ].some((field) => field?.toLowerCase().includes(query));
 
-    const featuredPost = filteredPosts[0];
-    const secondaryPosts = filteredPosts.slice(1, 4);
-    const gridPosts = filteredPosts.slice(4, 12);
-    const sidebarPosts = posts.slice(0, 4);
+            return matchesCategory && matchesTag && matchesSearch;
+        });
+    }, [activeCategory, activeTag, postsByDate, searchQuery]);
+
+    const featuredPost = filteredPosts[0] || postsByDate[0];
+    const leadPosts = filteredPosts.filter((post) => post.id !== featuredPost?.id).slice(0, 3);
+    const latestPosts = filteredPosts.filter((post) => post.id !== featuredPost?.id).slice(3);
+    const popularPosts = postsByDate.slice(0, 4);
+    const activeConfig = CATEGORY_CONFIG[activeCategory] || CATEGORY_CONFIG.all;
 
     return (
-        <div className="flex-1 min-h-0 overflow-y-auto h-full relative bg-transparent" data-scroll-container>
-            <ConstellationBackground />
-            <div className="absolute inset-0 pointer-events-none z-0 opacity-[0.02] bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_2px,3px_100%]"></div>
+        <div className="relative h-full min-h-0 flex-1 overflow-y-auto bg-[#07080d] text-slate-200" data-scroll-container>
+            <div className="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(circle_at_18%_8%,rgba(34,197,94,0.14),transparent_30%),radial-gradient(circle_at_78%_0%,rgba(56,189,248,0.1),transparent_34%),linear-gradient(180deg,#07080d_0%,#0d0f16_45%,#07080d_100%)]" />
 
-            <header className="sticky top-0 z-40 backdrop-blur-xl bg-black/30 border-b border-white/5">
-                <div className="max-w-7xl mx-auto px-6 py-4 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-                    <div className="flex items-center gap-3 text-emerald-400/70 font-mono text-[10px] tracking-widest">
-                        <Shield className="w-3 h-3" />
-                        SECURE_TERMINAL_ESTABLISHED // NODE-NR-44
-                    </div>
-                    <div className="flex flex-1 justify-end">
-                        <div className="relative w-full max-w-xl group">
-                            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-600 group-focus-within:text-white transition-colors" />
-                            <input
-                                type="text"
-                                placeholder="SEARCH ARCHIVE..."
-                                value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
-                                className="w-full bg-[#14121D]/70 backdrop-blur-sm border border-white/10 rounded-xl pl-12 pr-4 py-3 text-white placeholder:text-slate-700 focus:outline-none focus:border-white/30 transition-all font-mono text-sm"
-                            />
+            <header className="sticky top-0 z-40 border-b border-white/10 bg-[#07080d]/82 backdrop-blur-xl">
+                <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-4 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8">
+                    <div className="min-w-0">
+                        <div className="flex items-center gap-2 text-[10px] font-mono uppercase tracking-widest text-emerald-300">
+                            <HardDrive className="h-3.5 w-3.5" />
+                            The i-Drive Journal
                         </div>
+                        <p className="mt-1 text-sm text-slate-400">
+                            Research notes, field essays, AI systems, mycology, and strategy writing.
+                        </p>
                     </div>
+
+                    <label className="relative block w-full max-w-xl">
+                        <span className="sr-only">Search i-Drive articles</span>
+                        <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
+                        <input
+                            type="search"
+                            value={searchQuery}
+                            onChange={(event) => setSearchQuery(event.target.value)}
+                            placeholder="Search essays, tags, and topics..."
+                            className="w-full rounded-xl border border-white/10 bg-white/[0.04] py-3 pl-11 pr-4 text-sm text-white outline-none transition-colors placeholder:text-slate-500 focus:border-emerald-300/50 focus:bg-white/[0.07]"
+                        />
+                    </label>
                 </div>
             </header>
 
             <main className="relative z-10">
-                <section className="max-w-7xl mx-auto px-6 pt-10">
-                    <section id="overview" className="rounded-[28px] border border-white/10 bg-[#12131A]/45 backdrop-blur-xl p-8 lg:p-12">
-                        <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-10 items-start">
-                            <motion.div
-                                className="space-y-6"
-                                variants={staggerContainer(0.1, 0.2)}
-                                initial="hidden"
-                                whileInView="visible"
-                                viewport={{ once: true }}
-                            >
-                                <motion.div variants={fadeInUp}>
-                                    <div className="text-[10px] font-mono uppercase tracking-widest text-emerald-400/70">
-                                        Documentation / Getting Started
-                                    </div>
-                                    <h1 className="text-4xl md:text-5xl font-black text-white tracking-tighter uppercase italic">
-                                        The i-Drive
-                                    </h1>
-                                </motion.div>
-
-                                <motion.div variants={fadeInUp} className="rounded-2xl border border-white/10 bg-black/20 p-5">
-                                    <ol className="space-y-3 text-sm text-slate-300 max-w-2xl">
-                                        <li className="flex items-center justify-between gap-4">
-                                            <span className="font-mono uppercase tracking-widest text-white/50">Item Name</span>
-                                            <span className="text-white">NovaRey i-Drive Archive</span>
-                                        </li>
-                                        <li className="flex items-center justify-between gap-4">
-                                            <span className="font-mono uppercase tracking-widest text-white/50">Created</span>
-                                            <span className="text-white">2026</span>
-                                        </li>
-                                        <li className="flex items-center justify-between gap-4">
-                                            <span className="font-mono uppercase tracking-widest text-white/50">Item Version</span>
-                                            <span className="text-white">v1.0</span>
-                                        </li>
-                                        <li className="flex items-center justify-between gap-4">
-                                            <span className="font-mono uppercase tracking-widest text-white/50">Author</span>
-                                            <span className="text-white">NovaRey Studio</span>
-                                        </li>
-                                    </ol>
-                                </motion.div>
-
-                                <motion.div variants={fadeInUp} className="rounded-2xl border border-white/10 bg-white/5 p-5">
-                                    <h2 className="text-lg font-semibold text-white">Introduction</h2>
-                                    <p className="text-sm text-slate-400 mt-3 max-w-2xl leading-relaxed">
-                                        A living blog covering high-interest topics: special operations, politics, military and
-                                        intelligence notes, mycology, AI, design, and the tools that help me become an experienced
-                                        practitioner of the best systems available.
-                                    </p>
-                                    <div className="mt-4 text-sm text-slate-400">
-                                        Expect field notes, research logs, and tactical breakdowns across those domains.
-                                    </div>
-                                </motion.div>
-
-                                <motion.div variants={fadeInUp} className="flex flex-wrap items-center gap-4">
-                                    <Button as={Link} to="/contact" className="uppercase italic font-black tracking-widest text-xs">
-                                        Request Support
-                                    </Button>
-                                    <div className="text-xs font-mono text-slate-400 bg-white/5 border border-white/10 px-3 py-2 rounded-xl">
-                                        PATH: /root/archive/declassified
-                                    </div>
-                                </motion.div>
-                            </motion.div>
-                            <motion.figure variants={fadeInUp} className="rounded-3xl border border-white/10 overflow-hidden bg-black/25">
-                                <img
-                                    src="/homepage_whatido.png"
-                                    alt="Archive preview"
-                                    className="w-full h-[280px] object-cover opacity-85"
-                                />
-                                <figcaption className="px-4 py-3 text-xs font-mono text-white/50 border-t border-white/10">
-                                    Documentation preview still frame
-                                </figcaption>
-                            </motion.figure>
-                        </div>
-                        <motion.div
-                            className="mt-8 rounded-2xl border border-white/10 bg-black/20 p-5"
-                            variants={fadeInUp}
-                            initial="hidden"
-                            whileInView="visible"
-                            viewport={{ once: true }}
-                        >
-                            <h3 className="text-base font-semibold text-white">Template Features</h3>
-                            <ul className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-slate-400 max-w-2xl">
-                                <li>Structured documentation layout</li>
-                                <li>Scroll-triggered reveal animation</li>
-                                <li>Category and tag filters</li>
-                                <li>Searchable archive entries</li>
-                                <li>Translucent panels and grid</li>
-                                <li>Responsive column layout</li>
-                            </ul>
+                <section className="mx-auto max-w-7xl px-4 pb-10 pt-10 sm:px-6 lg:px-8 lg:pt-14">
+                    <motion.div
+                        variants={staggerContainer(0.08)}
+                        initial="hidden"
+                        animate="visible"
+                        className="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,1.05fr)_360px] lg:items-end"
+                    >
+                        <motion.div variants={fadeInUp} className="max-w-4xl">
+                            <div className="hero-chip-text inline-flex items-center gap-2 rounded-full border border-emerald-300/20 bg-emerald-300/10 px-3 py-1 text-emerald-200">
+                                <BookOpen className="h-3.5 w-3.5" />
+                                Blog Archive
+                            </div>
+                            <h1 className="hero-title-compact mt-6 text-white">
+                                Field notes for systems thinkers.
+                            </h1>
+                            <p className="hero-copy mt-5 max-w-3xl text-slate-300">
+                                Long-form writing on AI systems, design thinking, mycology, politics, field experience, and the stranger edges of research.
+                            </p>
+                            <div className="mt-7 flex flex-wrap gap-3">
+                                <a href="#latest-essays" className="inline-flex items-center gap-2 rounded-xl bg-white px-4 py-2.5 text-sm font-semibold text-black transition-transform hover:-translate-y-0.5">
+                                    Start Reading <ArrowRight className="h-4 w-4" />
+                                </a>
+                                <a href="#topics" className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.04] px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-white/[0.08]">
+                                    Browse Topics <Library className="h-4 w-4" />
+                                </a>
+                            </div>
                         </motion.div>
-                    </section>
+
+                        <motion.div variants={fadeInUp} className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-2">
+                            <Metric value={posts.length} label="Published Posts" />
+                            <Metric value={allTags.length} label="Research Tags" />
+                            <Metric value={CATEGORY_ORDER.length - 1} label="Main Topics" />
+                            <Metric value="2026" label="Current Edition" />
+                        </motion.div>
+                    </motion.div>
                 </section>
 
-                <section className="max-w-7xl mx-auto px-6 pt-10">
-                    <div className="grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-8 items-start">
-                        <aside className="space-y-6">
-                            <div className="rounded-2xl border border-white/10 bg-[#14121D]/45 backdrop-blur-sm p-5 sticky top-24">
-                                <h3 className="text-sm font-mono uppercase tracking-widest text-white/70 mb-4">
-                                    Doc Navigation
-                                </h3>
-                                <nav className="space-y-2 text-xs font-mono text-slate-400">
-                                    <a href="#overview" className="flex items-center justify-between px-3 py-2 rounded-xl bg-white/5 hover:bg-white/10 transition-colors">
-                                        Overview <ChevronRight className="w-3 h-3" />
-                                    </a>
-                                    <a href="#featured" className="flex items-center justify-between px-3 py-2 rounded-xl bg-white/5 hover:bg-white/10 transition-colors">
-                                        Featured Intel <ChevronRight className="w-3 h-3" />
-                                    </a>
-                                    <a href="#latest" className="flex items-center justify-between px-3 py-2 rounded-xl bg-white/5 hover:bg-white/10 transition-colors">
-                                        Latest Drops <ChevronRight className="w-3 h-3" />
-                                    </a>
-                                    <a href="#media" className="flex items-center justify-between px-3 py-2 rounded-xl bg-white/5 hover:bg-white/10 transition-colors">
-                                        Media Vault <ChevronRight className="w-3 h-3" />
-                                    </a>
-                                    <a href="#tags" className="flex items-center justify-between px-3 py-2 rounded-xl bg-white/5 hover:bg-white/10 transition-colors">
-                                        Tags & Filters <ChevronRight className="w-3 h-3" />
-                                    </a>
-                                </nav>
-                                <div className="mt-6">
-                                    <div className="text-[10px] font-mono uppercase tracking-widest text-white/60 mb-3">Categories</div>
-                                    <div className="flex flex-wrap gap-2">
-                                        {CATEGORIES.map((cat) => {
-                                            const Icon = cat.icon;
-                                            const isActive = activeCategory === cat.id;
-                                            return (
-                                                <button
-                                                    key={cat.id}
-                                                    onClick={() => setActiveCategory(cat.id)}
-                                                    className={`flex items-center gap-2 px-3 py-1.5 rounded-xl text-[10px] font-mono uppercase tracking-widest border transition-all ${isActive
-                                                        ? getThemeAccent(cat.theme)
-                                                        : 'bg-white/5 text-slate-400 border-white/10 hover:text-white hover:bg-white/10'
-                                                        }`}
-                                                >
-                                                    <Icon className={`w-3 h-3 ${isActive ? '' : 'text-slate-400'}`} />
-                                                    {cat.label}
-                                                </button>
-                                            );
-                                        })}
-                                    </div>
-                                </div>
+                <section className="border-y border-white/10 bg-white/[0.025]" id="topics">
+                    <div className="mx-auto max-w-7xl px-4 py-5 sm:px-6 lg:px-8">
+                        <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+                            <SectionHeader
+                                eyebrow="Topics"
+                                title="Choose a Research Lane"
+                                description="Filter the archive by the writing track you want to read."
+                            />
+                            <div className="flex flex-wrap gap-2">
+                                {CATEGORY_ORDER.map((categoryId) => {
+                                    const config = CATEGORY_CONFIG[categoryId];
+                                    const Icon = config.icon;
+                                    const isActive = activeCategory === categoryId;
+
+                                    return (
+                                        <button
+                                            key={categoryId}
+                                            type="button"
+                                            onClick={() => setActiveCategory(categoryId)}
+                                            className={`inline-flex items-center gap-2 rounded-xl border px-3 py-2 text-xs font-semibold transition-colors ${isActive ? 'border-white bg-white text-black' : 'border-white/10 bg-white/[0.04] text-slate-300 hover:bg-white/[0.08] hover:text-white'}`}
+                                        >
+                                            <Icon className="h-4 w-4" />
+                                            {config.label}
+                                            <span className={isActive ? 'text-black/55' : 'text-slate-500'}>
+                                                {categoryCounts[categoryId] || 0}
+                                            </span>
+                                        </button>
+                                    );
+                                })}
                             </div>
+                        </div>
+                    </div>
+                </section>
 
-                            <motion.div
-                                className="rounded-2xl border border-white/10 bg-[#14121D]/45 backdrop-blur-sm p-5"
-                                variants={staggerContainer(0.1, 0.2)}
-                                initial="hidden"
-                                whileInView="visible"
-                                viewport={{ once: true }}
-                            >
-                                <motion.h4 variants={fadeInUp} className="text-sm font-mono uppercase tracking-widest text-white/70 mb-4">Popular Posts</motion.h4>
-                                <div className="space-y-4">
-                                    {sidebarPosts.map((post) => (
-                                        <motion.div key={post.id} variants={fadeInUp}>
-                                            <Link to={`/idrive/${post.id}`} className="flex gap-3 group">
-                                                <div className="h-14 w-14 rounded-xl overflow-hidden border border-white/10 group-hover:border-[var(--page-accent)] transition-colors">
-                                                    <img src={post.coverImage || '/homepage_info.png'} alt={post.title} className="w-full h-full object-cover" />
-                                                </div>
-                                                <div className="flex-1">
-                                                    <div className="text-[10px] font-mono text-slate-500 uppercase tracking-widest">{post.date}</div>
-                                                    <div className="text-sm text-white group-hover:text-[var(--page-accent)] transition-colors line-clamp-2">
-                                                        {post.title}
-                                                    </div>
-                                                </div>
-                                            </Link>
-                                        </motion.div>
-                                    ))}
-                                </div>
-                            </motion.div>
-                        </aside>
-
-                        <div className="space-y-10 pb-16">
-
+                <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+                    <div className="grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,1fr)_340px]">
+                        <div className="space-y-10">
                             <motion.section
-                                id="featured"
-                                className="rounded-2xl border border-white/10 bg-[#14121D]/45 backdrop-blur-sm p-6"
-                                variants={staggerContainer(0.1)}
+                                variants={scrollReveal}
                                 initial="hidden"
                                 whileInView="visible"
-                                viewport={{ once: true, margin: "-100px" }}
+                                viewport={viewportConfig}
+                                aria-labelledby="featured-essay-heading"
                             >
-                                <motion.div variants={fadeInUp} className="flex items-center justify-between mb-6">
-                                    <h2 className="text-xl font-semibold text-white">Featured Intel</h2>
-                                    <span className="text-[10px] font-mono uppercase tracking-widest text-slate-400">Priority Feed</span>
-                                </motion.div>
+                                <SectionHeader
+                                    eyebrow={activeConfig.eyebrow}
+                                    title="Featured Essay"
+                                    description={activeConfig.description}
+                                    id="featured-essay-heading"
+                                />
 
-                                {featuredPost ? (
-                                    <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-6">
-                                        <motion.div variants={fadeInUp}>
-                                            <Link
-                                                to={`/idrive/${featuredPost.id}`}
-                                                className="group block rounded-2xl border border-white/10 bg-black/20 overflow-hidden hover:border-[var(--page-accent)] transition-all"
-                                            >
-                                                <div className="relative h-52 md:h-64">
-                                                    <img
-                                                        src={featuredPost.coverImage || '/homepage_whatido.png'}
-                                                        alt={featuredPost.title}
-                                                        className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity"
-                                                    />
-                                                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
-                                                    <div className="absolute bottom-5 left-5 right-5">
-                                                        <div className="text-[10px] font-mono uppercase tracking-widest text-white/60">
-                                                            {featuredPost.category.toUpperCase()}
-                                                        </div>
-                                                        <h3 className="text-xl font-semibold text-white mt-2">
-                                                            {featuredPost.title}
-                                                        </h3>
-                                                        <p className="text-sm text-slate-300 mt-2 line-clamp-2">
-                                                            {featuredPost.excerpt}
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </Link>
-                                        </motion.div>
-
-                                        <div className="space-y-4">
-                                            {secondaryPosts.map((post) => (
-                                                <motion.div key={post.id} variants={fadeInUp}>
-                                                    <Link
-                                                        to={`/idrive/${post.id}`}
-                                                        className="group flex gap-4 rounded-xl border border-white/10 bg-black/20 p-4 hover:border-[var(--page-accent)] transition-all"
-                                                    >
-                                                        <div className="h-16 w-20 rounded-xl overflow-hidden border border-white/10 group-hover:border-[var(--page-accent)] transition-colors">
-                                                            <img
-                                                                src={post.coverImage || '/homepage_info.png'}
-                                                                alt={post.title}
-                                                                className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity"
-                                                            />
-                                                        </div>
-                                                        <div className="flex-1">
-                                                            <div className="text-[10px] font-mono text-white/50 uppercase tracking-widest">
-                                                                {post.date}
-                                                            </div>
-                                                            <h3 className="text-sm font-semibold text-white mt-2 line-clamp-2">
-                                                                {post.title}
-                                                            </h3>
-                                                            <div className="text-[10px] font-mono text-slate-400 mt-2">
-                                                                {post.clearance}
-                                                            </div>
-                                                        </div>
-                                                    </Link>
-                                                </motion.div>
-                                            ))}
+                                {featuredPost && (
+                                    <Link
+                                        to={`/idrive/${featuredPost.id}`}
+                                        className="group mt-5 grid overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] transition-colors hover:border-emerald-300/40 lg:grid-cols-[0.95fr_1.05fr]"
+                                    >
+                                        <div className="relative min-h-[280px] overflow-hidden">
+                                            <img
+                                                src={getPostImage(featuredPost)}
+                                                alt={featuredPost.title}
+                                                loading="eager"
+                                                decoding="async"
+                                                className="h-full w-full object-cover opacity-85 transition-transform duration-700 group-hover:scale-[1.03]"
+                                            />
+                                            <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent" />
                                         </div>
-                                    </div>
-                                ) : (
-                                    <div className="py-16 text-center text-slate-500">No featured entries yet.</div>
+                                        <article className="flex min-h-[280px] flex-col justify-between p-6 sm:p-7">
+                                            <div>
+                                                <PostMeta post={featuredPost} />
+                                                <h2 className="mt-4 text-2xl font-semibold leading-tight tracking-tight text-white sm:text-3xl">
+                                                    {featuredPost.title}
+                                                </h2>
+                                                <p className="mt-4 text-sm leading-7 text-slate-300 sm:text-base">
+                                                    {featuredPost.excerpt}
+                                                </p>
+                                            </div>
+                                            <div className="mt-6 flex flex-wrap items-center justify-between gap-4">
+                                                <TagList tags={featuredPost.tags} limit={3} />
+                                                <span className="inline-flex items-center gap-2 text-sm font-semibold text-emerald-200">
+                                                    Read essay <ArrowRight className="h-4 w-4" />
+                                                </span>
+                                            </div>
+                                        </article>
+                                    </Link>
                                 )}
                             </motion.section>
 
-                            <section id="latest">
-                                <motion.div
-                                    className="flex items-center justify-between mb-4"
-                                    variants={fadeInUp}
-                                    initial="hidden"
-                                    whileInView="visible"
-                                    viewport={{ once: true }}
-                                >
-                                    <h2 className="text-xl font-semibold text-white">Latest Drops</h2>
-                                    <span className="text-[10px] font-mono uppercase tracking-widest text-slate-400">Grid Feed</span>
-                                </motion.div>
-                                <motion.div
-                                    className="grid grid-cols-1 md:grid-cols-2 gap-6"
+                            {leadPosts.length > 0 && (
+                                <motion.section
                                     variants={staggerContainer(0.08)}
                                     initial="hidden"
                                     whileInView="visible"
-                                    viewport={{ once: true }}
+                                    viewport={viewportConfig}
+                                    aria-labelledby="editor-picks-heading"
                                 >
-                                    {gridPosts.map((post) => (
-                                        <motion.div key={post.id} variants={fadeInUp}>
-                                            <Link
-                                                to={`/idrive/${post.id}`}
-                                                className="group block rounded-2xl border border-white/10 bg-[#14121D]/45 backdrop-blur-sm overflow-hidden hover:border-[var(--page-accent)] transition-all hover:-translate-y-1"
-                                            >
-                                                <div className="h-40 overflow-hidden">
-                                                    <img
-                                                        src={post.coverImage || '/homepage_whatido.png'}
-                                                        alt={post.title}
-                                                        className="w-full h-full object-cover opacity-85 group-hover:opacity-100 transition-opacity"
-                                                    />
-                                                </div>
-                                                <div className="p-5">
-                                                    <div className="text-[10px] font-mono text-slate-400 uppercase tracking-widest">
-                                                        {post.date} // {post.category.toUpperCase()}
-                                                    </div>
-                                                    <h3 className="text-lg font-semibold text-white mt-2 line-clamp-2 italic group-hover:text-[var(--page-accent)] transition-colors">
-                                                        {post.title}
-                                                    </h3>
-                                                    <p className="text-sm text-slate-400 mt-3 line-clamp-2">
-                                                        {post.excerpt}
-                                                    </p>
-                                                    <div className="mt-4 flex items-center justify-between text-[10px] font-mono text-slate-500 uppercase tracking-widest">
-                                                        <span>{post.clearance}</span>
-                                                        <span>{post.size}</span>
-                                                    </div>
-                                                </div>
-                                            </Link>
-                                        </motion.div>
-                                    ))}
-                                </motion.div>
+                                    <SectionHeader
+                                        eyebrow="Recommended"
+                                        title="Editor Picks"
+                                        description="Strong starting points for readers who want the best current signal."
+                                        id="editor-picks-heading"
+                                    />
+                                    <div className="mt-5 grid grid-cols-1 gap-4 md:grid-cols-3">
+                                        {leadPosts.map((post) => (
+                                            <motion.article key={post.id} variants={fadeInUp}>
+                                                <PostCard post={post} compact />
+                                            </motion.article>
+                                        ))}
+                                    </div>
+                                </motion.section>
+                            )}
 
-                                {
-                                    filteredPosts.length === 0 && (
-                                        <div className="col-span-full py-24 flex flex-col items-center justify-center text-slate-600 animate-pulse">
-                                            <HardDrive className="w-12 h-12 mb-4 opacity-20" />
-                                            <span className="font-mono text-sm uppercase tracking-widest">No entries found in current directory</span>
-                                        </div>
-                                    )
-                                }
+                            <motion.section
+                                id="latest-essays"
+                                variants={staggerContainer(0.08)}
+                                initial="hidden"
+                                whileInView="visible"
+                                viewport={viewportConfig}
+                                aria-labelledby="latest-essays-heading"
+                            >
+                                <SectionHeader
+                                    eyebrow="Archive Feed"
+                                    title="Latest Essays"
+                                    description={`Showing ${filteredPosts.length} ${filteredPosts.length === 1 ? 'entry' : 'entries'} for the current filter set.`}
+                                    id="latest-essays-heading"
+                                />
+
+                                {filteredPosts.length > 0 ? (
+                                    <div className="mt-5 grid grid-cols-1 gap-5 md:grid-cols-2">
+                                        {latestPosts.length > 0
+                                            ? latestPosts.map((post) => (
+                                                <motion.article key={post.id} variants={fadeInUp}>
+                                                    <PostCard post={post} />
+                                                </motion.article>
+                                            ))
+                                            : leadPosts.map((post) => (
+                                                <motion.article key={post.id} variants={fadeInUp}>
+                                                    <PostCard post={post} />
+                                                </motion.article>
+                                            ))}
+                                    </div>
+                                ) : (
+                                    <div className="mt-5 flex min-h-[260px] flex-col items-center justify-center rounded-2xl border border-white/10 bg-white/[0.035] text-center">
+                                        <HardDrive className="h-10 w-10 text-slate-600" />
+                                        <h3 className="mt-4 text-lg font-semibold text-white">No essays found</h3>
+                                        <p className="mt-2 max-w-md text-sm text-slate-400">
+                                            Adjust your category, tag, or search query to widen the archive view.
+                                        </p>
+                                    </div>
+                                )}
+                            </motion.section>
+                        </div>
+
+                        <aside className="space-y-6 lg:sticky lg:top-28 lg:self-start">
+                            <section className="rounded-2xl border border-white/10 bg-white/[0.04] p-5" aria-labelledby="about-drive-heading">
+                                <SectionHeader
+                                    eyebrow="About"
+                                    title="What This Blog Covers"
+                                    description="Practical notes, research summaries, experiments, and essays organized for repeated reading."
+                                    id="about-drive-heading"
+                                    compact
+                                />
+                                <div className="mt-5 space-y-3 text-sm leading-7 text-slate-300">
+                                    <p>
+                                        The i-Drive is the NovaRey writing hub: part blog, part research notebook, part field archive.
+                                    </p>
+                                    <p>
+                                        Entries are grouped by topic and tagged for discovery, so each post can become part of a larger knowledge trail.
+                                    </p>
+                                </div>
                             </section>
 
-                            <motion.section
-                                id="media"
-                                className="rounded-2xl border border-white/10 bg-[#14121D]/45 backdrop-blur-sm p-6"
-                                variants={fadeInUp}
-                                initial="hidden"
-                                whileInView="visible"
-                                viewport={{ once: true }}
-                            >
-                                <div className="flex items-center justify-between mb-4">
-                                    <h2 className="text-xl font-semibold text-white">Media Vault</h2>
-                                    <span className="text-[10px] font-mono uppercase tracking-widest text-slate-400">Placeholders</span>
+                            <section className="rounded-2xl border border-white/10 bg-white/[0.04] p-5" aria-labelledby="popular-heading">
+                                <SectionHeader
+                                    eyebrow="Reading Queue"
+                                    title="Popular Starting Points"
+                                    description="Recent posts worth opening first."
+                                    id="popular-heading"
+                                    compact
+                                />
+                                <div className="mt-5 space-y-4">
+                                    {popularPosts.map((post) => (
+                                        <Link key={post.id} to={`/idrive/${post.id}`} className="group flex gap-3">
+                                            <img
+                                                src={getPostImage(post)}
+                                                alt=""
+                                                loading="lazy"
+                                                decoding="async"
+                                                className="h-16 w-16 shrink-0 rounded-xl object-cover opacity-85"
+                                            />
+                                            <div className="min-w-0">
+                                                <div className="text-[10px] font-mono uppercase tracking-widest text-slate-500">
+                                                    {formatDate(post.date)}
+                                                </div>
+                                                <h3 className="mt-1 line-clamp-2 text-sm font-semibold leading-snug text-white transition-colors group-hover:text-emerald-200">
+                                                    {post.title}
+                                                </h3>
+                                            </div>
+                                        </Link>
+                                    ))}
                                 </div>
-                                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                    <div className="rounded-xl border border-white/10 bg-black/20 p-4 text-sm text-slate-400">
-                                        3D Scene Placeholder
-                                    </div>
-                                    <div className="rounded-xl border border-white/10 bg-black/20 p-4 text-sm text-slate-400">
-                                        Video Embed Placeholder
-                                    </div>
-                                    <div className="rounded-xl border border-white/10 bg-black/20 p-4 text-sm text-slate-400">
-                                        Image Gallery Placeholder
-                                    </div>
-                                </div>
-                            </motion.section>
+                            </section>
 
-                            <motion.section
-                                id="tags"
-                                className="rounded-2xl border border-white/10 bg-[#14121D]/45 backdrop-blur-sm p-6"
-                                variants={fadeInUp}
-                                initial="hidden"
-                                whileInView="visible"
-                                viewport={{ once: true }}
-                            >
-                                <div className="flex items-center justify-between mb-4">
-                                    <h2 className="text-xl font-semibold text-white">Tags & Filters</h2>
-                                    <span className="text-[10px] font-mono uppercase tracking-widest text-slate-400">Searchable</span>
-                                </div>
-                                <div className="flex flex-wrap gap-2">
+                            <section className="rounded-2xl border border-white/10 bg-white/[0.04] p-5" aria-labelledby="tag-index-heading">
+                                <SectionHeader
+                                    eyebrow="Index"
+                                    title="Tags"
+                                    description="Filter the archive by recurring themes."
+                                    id="tag-index-heading"
+                                    compact
+                                />
+                                <div className="mt-5 flex flex-wrap gap-2">
                                     <button
+                                        type="button"
                                         onClick={() => setActiveTag('all')}
-                                        className={`px-3 py-1 rounded-full text-[10px] font-mono uppercase tracking-widest border transition-all ${activeTag === 'all'
-                                            ? 'bg-white text-black border-white shadow-[0_0_20px_rgba(255,255,255,0.12)]'
-                                            : 'bg-white/5 text-slate-400 border-white/10 hover:text-white hover:bg-white/10'
-                                            }`}
+                                        className={`rounded-full border px-3 py-1.5 text-xs transition-colors ${activeTag === 'all' ? 'border-white bg-white text-black' : 'border-white/10 bg-white/[0.04] text-slate-300 hover:bg-white/[0.08]'}`}
                                     >
-                                        All Tags <span className="ml-1 text-[9px] opacity-70">({posts.length})</span>
+                                        All ({posts.length})
                                     </button>
                                     {allTags.map((tag) => (
                                         <button
                                             key={tag}
+                                            type="button"
                                             onClick={() => setActiveTag(tag)}
-                                            className={`px-3 py-1 rounded-full text-[10px] font-mono uppercase tracking-widest border transition-all ${getTagClasses(tag, activeTag === tag)}`}
+                                            className={`rounded-full border px-3 py-1.5 text-xs transition-colors ${activeTag === tag ? 'border-white bg-white text-black' : 'border-white/10 bg-white/[0.04] text-slate-300 hover:bg-white/[0.08]'}`}
                                         >
-                                            {tag} <span className="ml-1 text-[9px] opacity-70">({tagCounts[tag] || 0})</span>
+                                            {tag} ({tagCounts[tag] || 0})
                                         </button>
                                     ))}
                                 </div>
-                            </motion.section>
-                        </div>
-                    </div >
-                </section >
-            </main >
-        </div >
+                            </section>
+                        </aside>
+                    </div>
+                </section>
+            </main>
+        </div>
     );
 };
+
+function Metric({ value, label }) {
+    return (
+        <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
+            <div className="text-2xl font-semibold text-white">{value}</div>
+            <div className="mt-1 text-xs font-mono uppercase tracking-widest text-slate-500">{label}</div>
+        </div>
+    );
+}
+
+function SectionHeader({ eyebrow, title, description, id, compact = false }) {
+    return (
+        <div className={compact ? '' : 'max-w-3xl'}>
+            <div className="flex items-center gap-2 text-[10px] font-mono uppercase tracking-widest text-emerald-300">
+                <Sparkles className="h-3.5 w-3.5" />
+                {eyebrow}
+            </div>
+            <h2 id={id} className={`${compact ? 'mt-2 text-lg' : 'mt-2 text-2xl sm:text-3xl'} font-semibold tracking-tight text-white`}>
+                {title}
+            </h2>
+            {description && (
+                <p className={`${compact ? 'mt-2 text-sm leading-6' : 'mt-3 text-sm leading-7 sm:text-base'} text-slate-400`}>
+                    {description}
+                </p>
+            )}
+        </div>
+    );
+}
+
+function PostMeta({ post }) {
+    return (
+        <div className="flex flex-wrap items-center gap-2 text-[10px] font-mono uppercase tracking-widest text-slate-500">
+            <span className="inline-flex items-center gap-1.5">
+                <Clock className="h-3.5 w-3.5" />
+                {formatDate(post.date)}
+            </span>
+            <span>/</span>
+            <span>{estimateReadTime(post)}</span>
+            <span>/</span>
+            <span className="inline-flex items-center gap-1.5 text-emerald-300">
+                <Shield className="h-3.5 w-3.5" />
+                {post.clearance}
+            </span>
+        </div>
+    );
+}
+
+function TagList({ tags = [], limit = 4 }) {
+    return (
+        <div className="flex flex-wrap gap-2">
+            {tags.slice(0, limit).map((tag) => (
+                <span key={tag} className="rounded-full border border-white/10 bg-white/[0.04] px-2.5 py-1 text-[10px] font-mono uppercase tracking-widest text-slate-300">
+                    {tag}
+                </span>
+            ))}
+        </div>
+    );
+}
+
+function PostCard({ post, compact = false }) {
+    return (
+        <Link
+            to={`/idrive/${post.id}`}
+            className="group flex h-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] transition-colors hover:border-emerald-300/40 hover:bg-white/[0.06]"
+        >
+            <div className={compact ? 'h-36 overflow-hidden' : 'h-44 overflow-hidden'}>
+                <img
+                    src={getPostImage(post)}
+                    alt={post.title}
+                    loading="lazy"
+                    decoding="async"
+                    className="h-full w-full object-cover opacity-85 transition-transform duration-700 group-hover:scale-[1.03]"
+                />
+            </div>
+            <div className="flex flex-1 flex-col p-5">
+                <PostMeta post={post} />
+                <h3 className={`${compact ? 'text-lg' : 'text-xl'} mt-3 font-semibold leading-tight tracking-tight text-white transition-colors group-hover:text-emerald-200`}>
+                    {post.title}
+                </h3>
+                <p className="mt-3 line-clamp-3 text-sm leading-6 text-slate-400">
+                    {post.excerpt}
+                </p>
+                <div className="mt-5 flex flex-1 items-end justify-between gap-3">
+                    <TagList tags={post.tags} limit={compact ? 2 : 3} />
+                    <span className="shrink-0 text-emerald-200 transition-transform group-hover:translate-x-0.5">
+                        <ArrowRight className="h-4 w-4" />
+                    </span>
+                </div>
+            </div>
+        </Link>
+    );
+}
 
 export default IDrive;

@@ -1,204 +1,306 @@
-import React from 'react';
+import React, { useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Mail, Send, Calendar, Twitter, Instagram, Dribbble, Linkedin, Globe, Shield, User } from 'lucide-react';
-import { scrollReveal, viewportConfig } from '../lib/animations';
-import Button from '../components/Button';
+import {
+    ArrowRight,
+    Calendar,
+    CheckCircle2,
+    Clock,
+    FileText,
+    Linkedin,
+    Mail,
+    MapPin,
+    MessageSquare,
+    Send,
+    Shield,
+    Sparkles,
+} from 'lucide-react';
+import { fadeInUp, scrollReveal, staggerContainer, viewportConfig } from '../lib/animations';
+import { CONTACT_EMAIL, GENERAL_EMAIL_URL, LINKEDIN_URL, STRATEGY_CALL_URL, makeMailto } from '../lib/contactLinks';
+
+const CONTACT_CHANNELS = [
+    {
+        label: 'Email',
+        value: CONTACT_EMAIL,
+        href: GENERAL_EMAIL_URL,
+        icon: Mail,
+        note: 'Opens a new email already addressed to Isaac.',
+    },
+    {
+        label: 'Book',
+        value: 'Google strategy call',
+        href: STRATEGY_CALL_URL,
+        icon: Calendar,
+        note: 'Creates a Google Calendar invite with Isaac added.',
+    },
+    {
+        label: 'LinkedIn',
+        value: 'Isaac Reyes',
+        href: LINKEDIN_URL,
+        icon: Linkedin,
+        note: 'Professional context, background, and collaboration.',
+    },
+];
+
+const PROJECT_TYPES = [
+    'Website or landing page',
+    'Brand identity system',
+    'AI automation',
+    'AI strategy system',
+    'Portfolio or content system',
+    'Not sure yet',
+];
+
+const BUDGETS = ['$1k - $3k', '$3k - $5k', '$5k - $10k', '$10k - $25k', '$25k+'];
+const TIMELINES = ['ASAP', '2-4 weeks', '1-2 months', '3+ months', 'Flexible'];
+
+const SIGNALS = [
+    { label: 'Typical reply', value: '24-48h', icon: Clock },
+    { label: 'Primary zone', value: 'United States', icon: MapPin },
+    { label: 'Build style', value: 'Strategy first', icon: Shield },
+];
+
+const BRIEF_POINTS = [
+    'What you are trying to build or improve',
+    'The business goal behind the project',
+    'Any current website, brand, content, or workflow links',
+    'Budget range and ideal launch window',
+];
+
+const initialForm = {
+    name: '',
+    email: '',
+    projectType: PROJECT_TYPES[0],
+    budget: BUDGETS[2],
+    timeline: TIMELINES[2],
+    message: '',
+};
 
 const Contact = () => {
+    const [form, setForm] = useState(initialForm);
+
+    const mailtoHref = useMemo(() => {
+        const subject = `Project inquiry from ${form.name || 'NovaRey contact page'}`;
+        const body = [
+            `Name: ${form.name}`,
+            `Email: ${form.email}`,
+            `Project type: ${form.projectType}`,
+            `Budget: ${form.budget}`,
+            `Timeline: ${form.timeline}`,
+            '',
+            'Project brief:',
+            form.message,
+        ].join('\n');
+
+        return makeMailto({ subject, body });
+    }, [form]);
+
+    const handleChange = (event) => {
+        const { name, value } = event.target;
+        setForm((current) => ({ ...current, [name]: value }));
+    };
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        window.location.href = mailtoHref;
+    };
+
     return (
-        <div className="flex-1 overflow-y-auto h-full selection:bg-orange-500/30 font-sans" data-scroll-container>
-            <motion.section
-                className="md:pt-40 bg-center z-10 bg-[url(https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/77f55872-adf5-4910-9a7c-d21c0041bbe1_3840w.webp)] bg-cover pt-40 pb-40 relative"
-                variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig}
-                style={{
-                    maskImage: 'linear-gradient(90deg, transparent, black 15%, black 85%, transparent)',
-                    WebkitMaskImage: 'linear-gradient(90deg, transparent, black 15%, black 85%, transparent)'
-                }}
-                id="contact"
-            >
-                {/* Decorative Blur */}
-                <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
-                    <div className="absolute -left-40 top-10 h-[70vh] w-[60vh] rounded-full blur-3xl opacity-25"
-                        style={{ background: 'radial-gradient(closest-side, rgba(255,255,255,0.15), rgba(0,0,0,0))' }}></div>
-                </div>
+        <main className="flex-1 h-full overflow-y-auto bg-[#050506] text-white selection:bg-orange-500/30" data-scroll-container>
+            <div className="contact-grid-overlay pointer-events-none fixed inset-0 opacity-[0.055] bg-[linear-gradient(90deg,rgba(255,255,255,0.16)_1px,transparent_1px),linear-gradient(rgba(255,255,255,0.16)_1px,transparent_1px)] bg-[size:52px_52px]" />
+            <div className="contact-ambient-overlay pointer-events-none fixed inset-0 bg-[radial-gradient(circle_at_12%_12%,rgba(249,115,22,0.16),transparent_30%),radial-gradient(circle_at_84%_16%,rgba(14,165,233,0.12),transparent_28%),linear-gradient(180deg,rgba(5,5,6,0)_0%,#050506_86%)]" />
 
-                <div className="max-w-4xl mx-auto px-6 relative z-20">
-                    <div className="text-center">
-                        <motion.span
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs text-neutral-100 uppercase tracking-widest"
-                        >
-                            <Mail className="h-4 w-4 text-orange-400" />
-                            Let's Work Together // Secure Line
-                        </motion.span>
-                        <motion.h2
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.1 }}
-                            className="mt-4 text-4xl sm:text-6xl tracking-tight font-semibold text-white uppercase italic"
-                        >
-                            Ready to <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-white">collaborate?</span>
-                        </motion.h2>
-                        <motion.p
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ delay: 0.2 }}
-                            className="mt-4 text-neutral-400 text-lg max-w-2xl mx-auto leading-relaxed"
-                        >
-                            Fusing Special Forces precision with award-winning design strategies. Whether you need help with product design, AI strategy, or brand development, I'm here to bring mission-critical results to your vision.
-                        </motion.p>
-                    </div>
+            <section className="relative px-5 pb-12 pt-10 md:px-10 md:pb-16 md:pt-14">
+                <div className="mx-auto max-w-7xl">
+                    <motion.div
+                        variants={staggerContainer(0.08)}
+                        initial="hidden"
+                        animate="visible"
+                        className="grid gap-8 lg:grid-cols-[minmax(0,0.95fr)_minmax(420px,1.05fr)]"
+                    >
+                        <motion.div variants={fadeInUp} className="flex flex-col justify-between">
+                            <div>
+                                <div className="hero-chip-text mb-5 inline-flex items-center gap-2 border border-orange-300/25 bg-orange-500/10 px-3 py-2 font-black text-orange-100">
+                                    <MessageSquare className="h-3.5 w-3.5" />
+                                    Project intake
+                                </div>
+                                <h1 className="hero-title max-w-4xl text-white">
+                                    NOVAREY VENTURES
+                                </h1>
+                                <p className="hero-copy mt-6 max-w-2xl text-slate-300">
+                                    AI-integrated intelligent design for websites, brand systems, automation, and custom digital builds. I use AI to speed up planning, iteration, and production, while keeping the final work polished, human, and built around your actual business.
+                                </p>
+                            </div>
 
-                    <div className="mt-12 grid md:grid-cols-2 gap-8">
-                        {/* Contact Form */}
-                        <motion.div
-                            initial={{ opacity: 0, scale: 0.95 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ delay: 0.3 }}
-                            className="relative rounded-2xl border border-white/10 bg-[#14121D]/40 p-8 shadow-2xl backdrop-blur-xl group hover:border-orange-500/20 transition-all duration-500"
-                        >
-                            <h3 className="text-xl font-semibold text-white mb-6 flex items-center gap-2">
-                                <Send className="w-5 h-5 text-orange-500" />
-                                Send a Message
-                            </h3>
-                            <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
-                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                    <div className="space-y-2">
-                                        <label className="block text-xs font-mono uppercase tracking-widest text-neutral-400 ml-1">Callsign / Name</label>
-                                        <input type="text" className="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-neutral-100 placeholder-neutral-600 focus:border-orange-500/50 focus:outline-none focus:ring-1 focus:ring-orange-500/50 transition-all" placeholder="Enter name" />
+                            <div className="mt-8 grid gap-3 sm:grid-cols-3">
+                                {SIGNALS.map((signal) => (
+                                    <div key={signal.label} className="border border-white/10 bg-white/[0.035] p-4">
+                                        <signal.icon className="mb-3 h-5 w-5 text-orange-300" />
+                                        <div className="text-[10px] font-black uppercase tracking-[0.18em] text-slate-500">{signal.label}</div>
+                                        <div className="mt-1 text-sm font-bold text-white">{signal.value}</div>
                                     </div>
-                                    <div className="space-y-2">
-                                        <label className="block text-xs font-mono uppercase tracking-widest text-neutral-400 ml-1">Email</label>
-                                        <input type="email" className="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-neutral-100 placeholder-neutral-600 focus:border-orange-500/50 focus:outline-none focus:ring-1 focus:ring-orange-500/50 transition-all" placeholder="your@email.com" />
-                                    </div>
-                                </div>
-                                <div className="space-y-2">
-                                    <label className="block text-xs font-mono uppercase tracking-widest text-neutral-400 ml-1">Mission Budget</label>
-                                    <select className="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-neutral-100 focus:border-orange-500/50 focus:outline-none focus:ring-1 focus:ring-orange-500/50 transition-all appearance-none cursor-pointer">
-                                        <option className="bg-[#14121D]">$5k - $10k</option>
-                                        <option className="bg-[#14121D]">$10k - $25k</option>
-                                        <option className="bg-[#14121D]">$25k - $50k</option>
-                                        <option className="bg-[#14121D]">$50k+</option>
-                                    </select>
-                                </div>
-                                <div className="space-y-2">
-                                    <label className="block text-xs font-mono uppercase tracking-widest text-neutral-400 ml-1">Intel / Message</label>
-                                    <textarea rows="4" className="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-neutral-100 placeholder-neutral-600 focus:border-orange-500/50 focus:outline-none focus:ring-1 focus:ring-orange-500/50 transition-all resize-none" placeholder="Tell me about your project..."></textarea>
-                                </div>
-                                <Button
-                                    type="submit"
-                                    icon={Send}
-                                    className="w-full uppercase italic font-black tracking-widest text-xs"
-                                    color="var(--mission-accent)"
-                                    soft="var(--mission-accent-soft)"
-                                    glow="var(--mission-accent-glow)"
-                                    floating
-                                >
-                                    Initialize Mission
-                                </Button>
-                            </form>
+                                ))}
+                            </div>
                         </motion.div>
 
-                        {/* Contact Info */}
-                        <div className="space-y-6">
-                            {/* Bio Brief */}
-                            <motion.div
-                                initial={{ opacity: 0, x: 20 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                transition={{ delay: 0.4 }}
-                                className="relative rounded-2xl border border-white/10 bg-white/5 p-6 shadow-xl backdrop-blur-xl"
-                            >
-                                <div className="flex items-center gap-4 mb-4">
-                                    <div className="w-12 h-12 rounded-xl bg-orange-500/10 flex items-center justify-center border border-orange-500/20">
-                                        <User className="w-6 h-6 text-orange-500" />
-                                    </div>
-                                    <div>
-                                        <h3 className="text-lg font-semibold text-white">Isaac Reyes</h3>
-                                        <p className="text-orange-400 font-mono text-[10px] uppercase tracking-widest">Designer // Green Beret</p>
-                                    </div>
+                        <motion.div variants={fadeInUp} className="border border-white/10 bg-black/45 p-4 shadow-2xl shadow-orange-950/20 backdrop-blur-xl md:p-5">
+                            <div className="mb-5 flex items-center justify-between border-b border-white/10 pb-4">
+                                <div>
+                                    <div className="text-xs font-black uppercase tracking-[0.18em] text-orange-200">Start a brief</div>
+                                    <h2 className="mt-1 text-2xl font-black tracking-tight text-white">Tell me what you need built.</h2>
                                 </div>
-                                <p className="text-neutral-400 text-sm italic leading-relaxed">
-                                    "Strategy is the design of a mission. Design is the strategy of commerce."
-                                </p>
-                            </motion.div>
+                                <FileText className="hidden h-8 w-8 text-orange-300 sm:block" />
+                            </div>
 
-                            <motion.div
-                                initial={{ opacity: 0, x: 20 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                transition={{ delay: 0.5 }}
-                                className="relative rounded-2xl border border-white/10 bg-white/5 p-6 shadow-xl backdrop-blur-xl group hover:border-white/20 transition-all cursor-pointer"
-                                onClick={() => window.location.href = 'mailto:isaac@novarey.us'}
-                            >
-                                <div className="flex items-center gap-4">
-                                    <div className="h-12 w-12 rounded-xl bg-white/10 border border-white/10 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
-                                        <Mail className="h-6 w-6 text-white" />
-                                    </div>
-                                    <div className="">
-                                        <h3 className="text-sm font-mono text-neutral-500 uppercase tracking-widest">Email</h3>
-                                        <p className="text-white font-medium">isaac@novarey.us</p>
-                                    </div>
+                            <form onSubmit={handleSubmit} className="grid gap-4">
+                                <div className="grid gap-4 sm:grid-cols-2">
+                                    <Field label="Name" name="name" value={form.name} onChange={handleChange} placeholder="Your name" required />
+                                    <Field label="Email" name="email" type="email" value={form.email} onChange={handleChange} placeholder="you@company.com" required />
                                 </div>
-                            </motion.div>
 
-                            <motion.div
-                                initial={{ opacity: 0, x: 20 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                transition={{ delay: 0.6 }}
-                                className="relative rounded-2xl border border-white/10 bg-white/5 p-6 shadow-xl backdrop-blur-xl group hover:border-white/20 transition-all cursor-pointer"
-                                onClick={() => window.open('https://cal.com/novarey', '_blank')}
-                            >
-                                <div className="flex items-center gap-4">
-                                    <div className="h-12 w-12 rounded-xl bg-white/10 border border-white/10 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
-                                        <Calendar className="h-6 w-6 text-white" />
-                                    </div>
-                                    <div className="">
-                                        <h3 className="text-sm font-mono text-neutral-500 uppercase tracking-widest">Schedule</h3>
-                                        <p className="text-white font-medium">Book a free consultation</p>
-                                    </div>
+                                <div className="grid gap-4 sm:grid-cols-3">
+                                    <SelectField label="Project" name="projectType" value={form.projectType} onChange={handleChange} options={PROJECT_TYPES} />
+                                    <SelectField label="Budget" name="budget" value={form.budget} onChange={handleChange} options={BUDGETS} />
+                                    <SelectField label="Timeline" name="timeline" value={form.timeline} onChange={handleChange} options={TIMELINES} />
                                 </div>
-                            </motion.div>
 
-                            <motion.div
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 0.7 }}
-                                className="relative rounded-2xl border border-white/10 bg-white/5 p-6 shadow-xl backdrop-blur-xl"
-                            >
-                                <h3 className="text-sm font-mono text-neutral-500 uppercase tracking-widest mb-4">Ecosystem Links</h3>
-                                <div className="flex items-center gap-4">
-                                    <SocialLink href="https://twitter.com/novareyventures" icon={<Twitter className="w-5 h-5" />} />
-                                    <SocialLink href="https://linkedin.com/in/isaacreyes" icon={<Linkedin className="w-5 h-5" />} />
-                                    <SocialLink href="#" icon={<Dribbble className="w-5 h-5" />} />
-                                    <SocialLink href="#" icon={<Instagram className="w-5 h-5" />} />
-                                    <SocialLink href="https://www.novarey.us" icon={<Globe className="w-5 h-5" />} />
+                                <div className="space-y-2">
+                                    <label htmlFor="message" className="block text-[10px] font-black uppercase tracking-[0.18em] text-slate-400">Project brief</label>
+                                    <textarea
+                                        id="message"
+                                        name="message"
+                                        value={form.message}
+                                        onChange={handleChange}
+                                        rows={6}
+                                        required
+                                        placeholder="What are you building, what needs to change, and what would make this a win?"
+                                        className="min-h-[150px] w-full resize-y border border-white/10 bg-white/[0.045] px-4 py-3 text-sm leading-7 text-white placeholder:text-slate-600 outline-none transition focus:border-orange-300/60 focus:bg-white/[0.07]"
+                                    />
                                 </div>
-                            </motion.div>
+
+                                <button
+                                    type="submit"
+                                    className="group inline-flex min-h-[50px] w-full items-center justify-center gap-2 border border-orange-300/35 bg-orange-500/12 px-4 py-3 text-sm font-black uppercase tracking-[0.12em] text-white transition hover:border-orange-200/60 hover:bg-orange-500/18"
+                                >
+                                    <Send className="h-4 w-4 transition group-hover:translate-x-0.5" />
+                                    Prepare email brief
+                                </button>
+                            </form>
+                        </motion.div>
+                    </motion.div>
+                </div>
+            </section>
+
+            <section className="relative px-5 py-10 md:px-10 md:py-14">
+                <div className="mx-auto grid max-w-7xl gap-5 lg:grid-cols-[1fr_1.15fr]">
+                    <motion.div
+                        variants={scrollReveal}
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={viewportConfig}
+                        className="border border-white/10 bg-white/[0.035] p-5 md:p-6"
+                    >
+                        <div className="mb-4 flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.24em] text-orange-200">
+                            <Sparkles className="h-4 w-4" />
+                            Strong brief checklist
+                        </div>
+                        <h2 className="text-3xl font-black tracking-tight text-white md:text-5xl">Send enough context to make the first reply useful.</h2>
+                        <div className="mt-6 grid gap-3">
+                            {BRIEF_POINTS.map((point) => (
+                                <div key={point} className="flex gap-3 border border-white/8 bg-black/20 p-3 text-sm leading-6 text-slate-300">
+                                    <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-orange-300" />
+                                    <span>{point}</span>
+                                </div>
+                            ))}
+                        </div>
+                    </motion.div>
+
+                    <motion.div
+                        variants={staggerContainer(0.07)}
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={viewportConfig}
+                        className="grid gap-4"
+                    >
+                        {CONTACT_CHANNELS.map((channel) => (
+                            <motion.a
+                                key={channel.label}
+                                variants={fadeInUp}
+                                href={channel.href}
+                                target={channel.href.startsWith('http') ? '_blank' : undefined}
+                                rel={channel.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                                className="group grid gap-4 border border-white/10 bg-white/[0.035] p-5 transition hover:-translate-y-0.5 hover:border-orange-300/40 hover:bg-white/[0.06] sm:grid-cols-[56px_1fr_auto] sm:items-center"
+                            >
+                                <div className="flex h-12 w-12 items-center justify-center bg-orange-500/12 text-orange-200">
+                                    <channel.icon className="h-5 w-5" />
+                                </div>
+                                <div>
+                                    <div className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">{channel.label}</div>
+                                    <div className="mt-1 text-lg font-black text-white">{channel.value}</div>
+                                    <p className="mt-1 text-sm leading-6 text-slate-400">{channel.note}</p>
+                                </div>
+                                <ArrowRight className="hidden h-5 w-5 text-slate-500 transition group-hover:translate-x-1 group-hover:text-orange-200 sm:block" />
+                            </motion.a>
+                        ))}
+                    </motion.div>
+                </div>
+            </section>
+
+            <section className="relative px-5 pb-16 pt-8 md:px-10 md:pb-24">
+                <div className="mx-auto max-w-7xl border border-white/10 bg-white/[0.04] p-5 md:p-8">
+                    <div className="grid gap-6 lg:grid-cols-[1fr_0.9fr] lg:items-end">
+                        <div>
+                            <div className="mb-3 text-[10px] font-black uppercase tracking-[0.24em] text-orange-200">How the first conversation works</div>
+                            <h2 className="text-3xl font-black tracking-tight text-white md:text-5xl">Clear scope before production starts.</h2>
+                            <p className="mt-4 max-w-2xl text-sm leading-7 text-slate-300 md:text-base">
+                                The first pass is about defining the actual problem, priority, budget fit, timeline, and the smallest useful version to ship. That keeps the build efficient and avoids vague creative drift.
+                            </p>
+                        </div>
+                        <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-1">
+                            {['Diagnose', 'Scope', 'Build'].map((step, index) => (
+                                <div key={step} className="flex items-center justify-between border border-white/10 bg-black/20 px-4 py-3">
+                                    <span className="text-sm font-black uppercase tracking-[0.12em] text-white">{step}</span>
+                                    <span className="font-mono text-xs text-orange-200">0{index + 1}</span>
+                                </div>
+                            ))}
                         </div>
                     </div>
                 </div>
-
-                <div className="absolute bottom-0 left-0 right-0 pointer-events-none">
-                    <div className="absolute bottom-0 left-1/2 -translate-x-1/2 opacity-25 w-[60%] h-8"
-                        style={{ background: 'radial-gradient(ellipse 80% 100% at 50% 100%, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.2) 30%, transparent 70%)' }}>
-                    </div>
-                    <div className="h-px bg-white/10 w-full"></div>
-                </div>
-            </motion.section>
-        </div>
+            </section>
+        </main>
     );
 };
 
-const SocialLink = ({ href, icon }) => (
-    <a
-        href={href}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="flex items-center justify-center w-10 h-10 rounded-lg bg-white/10 text-neutral-400 hover:text-white hover:bg-orange-500/20 hover:border-orange-500/30 transition-all active:scale-90"
-    >
-        {icon}
-    </a>
+const Field = ({ label, name, type = 'text', value, onChange, placeholder, required = false }) => (
+    <div className="space-y-2">
+        <label htmlFor={name} className="block text-[10px] font-black uppercase tracking-[0.18em] text-slate-400">{label}</label>
+        <input
+            id={name}
+            name={name}
+            type={type}
+            value={value}
+            onChange={onChange}
+            placeholder={placeholder}
+            required={required}
+            className="min-h-[46px] w-full border border-white/10 bg-white/[0.045] px-4 py-3 text-sm text-white placeholder:text-slate-600 outline-none transition focus:border-orange-300/60 focus:bg-white/[0.07]"
+        />
+    </div>
+);
+
+const SelectField = ({ label, name, value, onChange, options }) => (
+    <div className="space-y-2">
+        <label htmlFor={name} className="block text-[10px] font-black uppercase tracking-[0.18em] text-slate-400">{label}</label>
+        <select
+            id={name}
+            name={name}
+            value={value}
+            onChange={onChange}
+            className="min-h-[46px] w-full border border-white/10 bg-[#111014] px-3 py-3 text-sm text-white outline-none transition focus:border-orange-300/60 focus:bg-[#151319]"
+        >
+            {options.map((option) => (
+                <option key={option} value={option}>{option}</option>
+            ))}
+        </select>
+    </div>
 );
 
 export default Contact;
-

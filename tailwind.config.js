@@ -7,9 +7,9 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Outfit', 'sans-serif'],
-                display: ['Syne', 'sans-serif'],
-                mono: ['"Space Mono"', 'monospace'],
+                sans: ['Inter', 'sans-serif'],
+                display: ['"Inter Tight"', 'Inter', 'sans-serif'],
+                mono: ['"JetBrains Mono"', 'monospace'],
             },
             colors: {
                 void: '#050505',

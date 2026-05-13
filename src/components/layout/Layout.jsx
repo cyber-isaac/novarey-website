@@ -1,0 +1,74 @@
+import React, { useEffect, useState, Suspense, lazy } from 'react';
+import { useLocation } from 'react-router-dom';
+import Sidebar from './Sidebar';
+import Header from './Header';
+import Footer from './Footer';
+
+const ParticleBackground = lazy(() => import('../visuals/ParticleBackground'));
+const ChatWidget = lazy(() => import('../features/ChatWidget'));
+
+const PAGE_ACCENTS = {
+    '/': { accent: '#22c55e', soft: 'rgba(34, 197, 94, 0.18)', glow: 'rgba(34, 197, 94, 0.45)' },
+    '/work': { accent: '#f97316', soft: 'rgba(249, 115, 22, 0.18)', glow: 'rgba(249, 115, 22, 0.45)' },
+    '/portfolio': { accent: '#38bdf8', soft: 'rgba(56, 189, 248, 0.18)', glow: 'rgba(56, 189, 248, 0.45)' },
+    '/history': { accent: '#3b82f6', soft: 'rgba(59, 130, 246, 0.05)', glow: 'rgba(59, 130, 246, 0.15)' },
+    '/idrive': { accent: '#6366f1', soft: 'rgba(99, 102, 241, 0.18)', glow: 'rgba(99, 102, 241, 0.45)' },
+    '/ai-strategy': { accent: '#ec4899', soft: 'rgba(236, 72, 153, 0.18)', glow: 'rgba(236, 72, 153, 0.45)' },
+    '/about': { accent: '#22c55e', soft: 'rgba(34, 197, 94, 0.18)', glow: 'rgba(34, 197, 94, 0.45)' },
+    '/mind-palace': { accent: '#7c3aed', soft: 'rgba(124, 58, 237, 0.18)', glow: 'rgba(124, 58, 237, 0.45)' },
+    '/aether': { accent: '#06b6d4', soft: 'rgba(6, 182, 212, 0.18)', glow: 'rgba(6, 182, 212, 0.45)' },
+    '/contact': { accent: '#14b8a6', soft: 'rgba(20, 184, 166, 0.18)', glow: 'rgba(20, 184, 166, 0.45)' },
+    '/services/brand': { accent: '#f472b6', soft: 'rgba(244, 114, 182, 0.18)', glow: 'rgba(244, 114, 182, 0.45)' },
+    '/services/web': { accent: '#60a5fa', soft: 'rgba(96, 165, 250, 0.18)', glow: 'rgba(96, 165, 250, 0.45)' },
+    '/services/marketing': { accent: '#fb923c', soft: 'rgba(251, 146, 60, 0.18)', glow: 'rgba(251, 146, 60, 0.45)' },
+    '/services/ai': { accent: '#8b5cf6', soft: 'rgba(139, 92, 246, 0.18)', glow: 'rgba(139, 92, 246, 0.45)' }
+};
+
+const Layout = ({ children }) => {
+    const location = useLocation();
+    const [theme, setTheme] = useState('dark');
+
+    useEffect(() => {
+        const stored = localStorage.getItem('novarey-theme');
+        if (stored) {
+            setTheme(stored);
+        }
+    }, []);
+
+    useEffect(() => {
+        const match = Object.keys(PAGE_ACCENTS).find((path) =>
+            location.pathname === path || (path !== '/' && location.pathname.startsWith(path))
+        );
+        const palette = PAGE_ACCENTS[match] || PAGE_ACCENTS['/'];
+        const root = document.documentElement;
+        root.style.setProperty('--page-accent', palette.accent);
+        root.style.setProperty('--page-accent-soft', palette.soft);
+        root.style.setProperty('--page-accent-glow', palette.glow);
+        root.style.setProperty('--mission-accent', palette.accent);
+        root.style.setProperty('--mission-accent-soft', palette.soft);
+        root.style.setProperty('--mission-accent-glow', palette.glow);
+    }, [location.pathname]);
+
+    useEffect(() => {
+        localStorage.setItem('novarey-theme', theme);
+    }, [theme]);
+
+    return (
+        <div className={`theme-${theme} app-shell text-slate-300 w-full h-screen overflow-hidden flex selection:bg-neon/30 selection:text-neon-200`}>
+            <Suspense fallback={<div className="fixed inset-0 bg-black -z-10" />}>
+                <ParticleBackground />
+            </Suspense>
+            <Sidebar />
+            <main className="relative z-10 flex h-full min-w-0 flex-1 flex-col overflow-hidden">
+                <Header theme={theme} onThemeChange={setTheme} />
+                {children}
+                <Footer />
+                <Suspense fallback={null}>
+                    <ChatWidget />
+                </Suspense>
+            </main>
+        </div>
+    );
+};
+
+export default Layout;

@@ -1,0 +1,300 @@
+/* ===== TYPOGRAPHY SCALE ===== */
+:root {
+  --font-body: 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-display: 'Inter Tight', var(--font-body);
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+h1,
+.h1,
+h2,
+.h2,
+h3,
+.h3,
+h4,
+.h4 {
+  font-family: var(--font-display);
+  letter-spacing: 0;
+}
+
+h1,
+.h1 {
+  font-size: 2.75rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+h2,
+.h2 {
+  font-size: 2.125rem;
+  font-weight: 750;
+  line-height: 1.08;
+}
+
+h3,
+.h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.18;
+}
+
+h4,
+.h4 {
+  font-size: 1.25rem;
+  font-weight: 650;
+  line-height: 1.28;
+}
+
+h5,
+.h5 {
+  font-size: 1.125rem;
+  font-weight: 650;
+  line-height: 1.35;
+}
+
+h6,
+.h6 {
+  font-size: 1rem;
+  font-weight: 650;
+  line-height: 1.4;
+}
+
+p,
+.body-text {
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.text-large {
+  font-size: 1.125rem;
+  line-height: 1.65;
+}
+
+.text-small {
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: 0;
+  color: var(--text-1);
+}
+
+.section-subtitle {
+  font-size: 1rem;
+  color: var(--text-3);
+  line-height: 1.65;
+}
+
+/* Shared hero typography: premium, calm, readable, and consistent site-wide. */
+.hero-kicker {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  line-height: 1.45;
+  text-transform: uppercase;
+}
+
+.hero-title,
+.hero-title-compact,
+.home-hero-title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: 0;
+  text-wrap: balance;
+  text-shadow: 0 18px 55px rgba(0, 0, 0, 0.42);
+}
+
+.hero-title {
+  font-size: 3.2rem;
+  line-height: 0.98;
+}
+
+.hero-title-compact {
+  font-size: 2.6rem;
+  line-height: 1;
+}
+
+.home-hero-title {
+  font-size: 2.55rem;
+  line-height: 0.96;
+}
+
+.hero-copy {
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  font-weight: 500;
+  line-height: 1.72;
+  letter-spacing: 0;
+  text-wrap: pretty;
+}
+
+.hero-chip-text {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  line-height: 1.45;
+  text-transform: uppercase;
+}
+
+.hero-kicker,
+.hero-chip-text,
+.hero-title,
+.hero-title-compact,
+.home-hero-title,
+.hero-copy {
+  animation-fill-mode: both;
+}
+
+.hero-kicker,
+.hero-chip-text {
+  animation-name: hero-meta-in;
+  animation-duration: 0.68s;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.hero-title,
+.hero-title-compact,
+.home-hero-title {
+  animation-name: hero-title-in;
+  animation-duration: 0.88s;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.hero-copy {
+  animation-name: hero-copy-in;
+  animation-duration: 0.78s;
+  animation-delay: 0.06s;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes hero-meta-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+    filter: blur(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes hero-title-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+    filter: blur(7px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes hero-copy-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (min-width: 768px) {
+  h1,
+  .h1 {
+    font-size: 3.5rem;
+  }
+
+  h2,
+  .h2 {
+    font-size: 2.75rem;
+  }
+
+  h3,
+  .h3 {
+    font-size: 1.85rem;
+  }
+
+  .section-title {
+    font-size: 2.5rem;
+  }
+
+  .section-subtitle {
+    font-size: 1.125rem;
+  }
+
+  .hero-title {
+    font-size: 5.2rem;
+  }
+
+  .hero-title-compact {
+    font-size: 4.1rem;
+  }
+
+  .home-hero-title {
+    font-size: 3.85rem;
+  }
+
+  .hero-copy {
+    font-size: 1.18rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .hero-title {
+    font-size: 6.35rem;
+  }
+
+  .hero-title-compact {
+    font-size: 4.85rem;
+  }
+
+  .home-hero-title {
+    font-size: 4.25rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero-title,
+  .hero-title-compact,
+  .home-hero-title {
+    line-height: 1.02;
+  }
+
+  .hero-kicker,
+  .hero-chip-text {
+    letter-spacing: 0.1em;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-kicker,
+  .hero-chip-text,
+  .hero-title,
+  .hero-title-compact,
+  .home-hero-title,
+  .hero-copy {
+    animation: none;
+  }
+}

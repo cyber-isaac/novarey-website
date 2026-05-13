@@ -25,15 +25,21 @@ export const searchIndex = [
     },
     {
         title: 'AI Strategy',
-        description: 'Skunkworks lab projects, experiments, and integrations.',
+        description: 'AI integration systems for graphic design work, campaign visuals, image direction, Hermes agents, Obsidian, and Notion.',
         href: '/ai-strategy',
-        tags: ['ai strategy', 'experiments', 'robotics', 'skunkworks', 'integrations']
+        tags: ['ai strategy', 'ai integration', 'graphic design work', 'graphic design ai', 'brand assets', 'campaign visuals', 'higgsfield', 'seedance', 'veo', 'grok', 'hermes agent', 'qwen', 'obsidian', 'notion']
+    },
+    {
+        title: 'Services',
+        description: 'Explore NovaRey services for custom web development, brand identity, strategic marketing, and AI automation.',
+        href: '/services',
+        tags: ['services', 'web development', 'brand identity', 'marketing', 'ai automation', 'consulting']
     },
     {
         title: 'Contact',
-        description: 'Start a project, schedule a consultation, or send a message.',
+        description: 'Start a project brief for web design, brand identity, AI automation, strategy, or custom digital builds.',
         href: '/contact',
-        tags: ['contact', 'inquiry', 'schedule', 'consultation']
+        tags: ['contact', 'inquiry', 'project brief', 'schedule', 'consultation', 'web design', 'ai automation', 'branding']
     },
     {
         title: 'The i-Drive',

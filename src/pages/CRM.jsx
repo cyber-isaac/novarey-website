@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { Plus, MoreHorizontal, DollarSign, Calendar, Tag, RefreshCw } from 'lucide-react';
 import { scrollReveal, viewportConfig } from '../lib/animations';
 import { db } from '../lib/db';
-import Button from '../components/Button';
+import Button from '../components/ui/Button';
 
 const Column = ({ title, count, items, onAdd }) => (
     <motion.div className="flex-1 min-w-[300px] bg-[#14121D] rounded-xl border border-white/5 flex flex-col" variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig}>
@@ -85,7 +85,7 @@ const CRM = () => {
         <div className="flex-1 overflow-hidden h-full flex flex-col" data-scroll-container>
             {/* Header */}
             <motion.div className="h-16 border-b border-white/5 flex items-center justify-between px-8 bg-[#0D0C12]/50 backdrop-blur" variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig}>
-                <h1 className="text-xl font-bold text-white flex items-center gap-3">
+                <h1 className="hero-title-compact !text-xl text-white flex items-center gap-3">
                     Deal Flow
                     <span className="text-xs font-normal text-slate-500 border-l border-white/10 pl-3">Internal CRM</span>
                     {loading && <RefreshCw className="w-3 h-3 animate-spin text-slate-500" />}

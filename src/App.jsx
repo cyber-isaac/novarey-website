@@ -1,7 +1,8 @@
 import React, { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
-import Layout from './components/Layout';
+import Layout from './components/layout/Layout';
+import SEO from './components/seo/SEO';
 
 // Lazy-load all pages for code splitting
 const Dashboard = lazy(() => import('./pages/Dashboard'));
@@ -73,6 +74,7 @@ function AnimatedRoutes() {
                     <Route path="/ai-strategy" element={<AIStrategy />} />
                     <Route path="/crm" element={<CRM />} />
                     <Route path="/contact" element={<Contact />} />
+                    <Route path="/services" element={<ServicePage />} />
                     <Route path="/services/:slug" element={<ServicePage />} />
                     <Route path="/mind-palace" element={<MindPalace />} />
                     <Route path="/aether" element={<Aether />} />
@@ -88,6 +90,7 @@ function App() {
     return (
         <Router>
             <div className="h-screen w-full bg-black">
+                <SEO />
                 <Layout>
                     <AnimatedRoutes />
                 </Layout>

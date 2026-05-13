@@ -37,13 +37,13 @@ const Writing = () => {
             <div className="absolute inset-0 pointer-events-none opacity-40 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.06),transparent_55%)]"></div>
             <div className="relative z-10 max-w-6xl mx-auto px-6 py-12">
                 <motion.header className="mb-10" variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig}>
-                    <div className="text-[10px] font-mono uppercase tracking-widest text-white/50">
+                    <div className="hero-kicker text-white/50">
                         Documentation Layout
                     </div>
-                    <h1 className="text-4xl md:text-5xl font-bold text-white tracking-tight mt-4">
+                    <h1 className="hero-title-compact text-white mt-4">
                         Writing & Field Notes
                     </h1>
-                    <p className="text-slate-400 mt-4 max-w-2xl leading-relaxed">
+                    <p className="hero-copy text-slate-400 mt-4 max-w-2xl">
                         A transparent, declassified space for long-form posts, research logs, and design breakdowns.
                         This page is styled after the documentation template while keeping line lengths tight and readable.
                     </p>
@@ -138,7 +138,7 @@ const Writing = () => {
                             </div>
                             <div className="mt-4 space-y-3 text-sm text-slate-400 max-w-2xl leading-relaxed">
                                 <div className="rounded-xl border border-white/10 bg-black/30 px-4 py-3">
-                                    Section 01: Intelligence Briefings (placeholder)
+                                    Section 01: Research Briefs (placeholder)
                                 </div>
                                 <div className="rounded-xl border border-white/10 bg-black/30 px-4 py-3">
                                     Section 02: Design Systems (placeholder)

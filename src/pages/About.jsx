@@ -1,8 +1,6 @@
-import React, { useState } from 'react';
+import React, { Suspense, lazy } from 'react';
 import {
-    Shield,
     Crosshair,
-    Award,
     ArrowRight,
     Sparkles,
     Cpu,
@@ -15,19 +13,21 @@ import {
     PenTool
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import DesignStudio from '../components/DesignStudio';
-import AuraBackground from '../components/AuraBackground';
-import Button from '../components/Button';
-import GlitchReveal from '../components/GlitchReveal';
-import MilitaryHistoryGlobe, { DESTINATIONS } from '../components/MilitaryHistoryGlobe';
+import Button from '../components/ui/Button';
+import { DESTINATIONS } from '../data/militaryDestinations';
 import { motion } from 'framer-motion';
 import { staggerContainer, fadeInUp, scrollReveal, viewportConfig } from '../lib/animations';
+
+const AuraBackground = lazy(() => import('../components/visuals/AuraBackground'));
+const DesignStudio = lazy(() => import('../components/features/DesignStudio'));
+const GlitchReveal = lazy(() => import('../components/ui/GlitchReveal'));
+const MilitaryHistoryGlobe = lazy(() => import('../components/visuals/MilitaryHistoryGlobe'));
 
 const SKILLS = {
     design: ['Visual Design', 'Brand Development', 'AI-Enhanced Design', 'Marketing Design', 'Cross Platform Design', 'Design Systems'],
     technical: ['Adobe Creative Suite', 'Visual Studio Code', 'ChatGPT', 'Claude AI', 'MidJourney', 'RunwayML', 'BotPress'],
     leadership: ['Project Management', 'Operations Leadership', 'Stakeholder Engagement', 'Team Leadership', 'Strategic Planning'],
-    certifications: ['PMP Certified', 'Cybersecurity', 'Special Forces', 'TS/SCI Clearance']
+    certifications: ['PMP Certified', 'Cybersecurity', 'Operations Strategy', 'Client Systems']
 };
 
 const TOOLSTACK = [
@@ -50,23 +50,39 @@ const SERVICES = [
     'Custom web + component builds'
 ];
 
+const HERO_PROOF = [
+    { label: 'Career experience', value: '17.5 yrs' },
+    { label: 'Design + AI builds', value: '100+' },
+    { label: 'Response rhythm', value: '24h' }
+];
+
+const HERO_FOCUS = [
+    'Sharper brands',
+    'Smarter workflows',
+    'Web experiences that move'
+];
+
 const About = () => {
     return (
         <div className="flex-1 overflow-y-auto h-full p-8 pb-20 selection:bg-orange-500/30 font-sans relative" data-scroll-container>
-            <AuraBackground />
+            <Suspense fallback={null}>
+                <AuraBackground />
+            </Suspense>
 
             {/* Hero Media */}
             <motion.section className="max-w-6xl mx-auto pt-6 md:pt-10" variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig}>
                 <div className="space-y-4">
-                    <GlitchReveal
-                        leftSrc="/mestandingbw.png"
-                        rightSrc="/meanimated.mp4"
-                        rightType="video"
-                        labelLeft="Afghanistan // Original"
-                        labelRight="AI Motion Variant"
-                        overlayText="Hey I'm Isaac"
-                        className="h-[520px] md:h-[640px]"
-                    />
+                    <Suspense fallback={<div className="h-[520px] rounded-3xl border border-white/10 bg-white/[0.04] md:h-[640px]" />}>
+                        <GlitchReveal
+                            leftSrc="/mestandingbw.png"
+                            rightSrc="/meanimated.mp4"
+                            rightType="video"
+                            labelLeft="Afghanistan // Original"
+                            labelRight="AI Motion Variant"
+                            overlayText="Hey I'm Isaac"
+                            className="h-[520px] md:h-[640px]"
+                        />
+                    </Suspense>
                     <div className="text-center text-[11px] font-mono uppercase tracking-[0.4em] text-orange-400/90 drop-shadow-[0_0_12px_rgba(251,146,60,0.7)]">
                         Slide for A.I. Transformation
                     </div>
@@ -74,46 +90,85 @@ const About = () => {
             </motion.section>
 
             {/* Hero */}
-            <motion.section className="max-w-6xl mx-auto pt-8 md:pt-16" variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig}>
-                <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-10">
-                    <div className="lg:max-w-2xl">
-                        <div className="inline-flex items-center gap-3 text-[11px] uppercase font-semibold text-white/70 font-mono px-4 py-2 rounded-full border border-white/10 bg-white/5">
-                            <div className="bg-green-400 w-2 h-2 rounded-full"></div>
-                            Available for missions
+            <motion.section className="max-w-6xl mx-auto pt-10 md:pt-[4.5rem]" variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig}>
+                <motion.div
+                    className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_380px] gap-8 lg:gap-14 xl:gap-16 items-start"
+                    variants={staggerContainer(0.08)}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={viewportConfig}
+                >
+                    <motion.div variants={fadeInUp} className="min-w-0 max-w-[760px]">
+                        <div className="inline-flex max-w-full items-center gap-3 text-[10px] sm:text-[11px] uppercase font-semibold text-white/75 font-mono px-4 py-2 rounded-full border border-white/10 bg-white/[0.06] backdrop-blur">
+                            <span className="relative flex h-2 w-2 shrink-0">
+                                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60"></span>
+                                <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-300"></span>
+                            </span>
+                            <span className="hero-chip-text">Open for selected projects</span>
                         </div>
-                        <p className="mt-6 text-base font-medium text-white/70 font-mono">
-                            Hi, I'm Isaac Reyes
+                        <p className="hero-kicker mt-8 font-medium text-white/65">
+                            Isaac Reyes / NovaRey Ventures
                         </p>
-                        <h1 className="text-[42px] sm:text-[64px] md:text-[80px] lg:text-[96px] font-display font-black tracking-tight leading-[0.9] uppercase text-white italic mt-4">
-                            <span className="block">Green Beret</span>
-                            <span className="block">Design Operator</span>
-                            <span className="block">AI Studio Lead</span>
+                        <h1 className="hero-title text-white mt-5 max-w-[720px] text-[clamp(2.45rem,3.6vw,3.45rem)] leading-[1.1]">
+                            <span className="block">Clear creative systems.</span>
+                            <span className="block">Built to move.</span>
                         </h1>
-                    </div>
+                        <p className="hero-copy mt-8 max-w-[620px] text-slate-300">
+                            I help founders, teams, and growing brands turn rough ideas into sharp identity systems, useful AI workflows, and web experiences that feel polished from the first impression.
+                        </p>
+                    </motion.div>
 
-                    <div className="lg:mt-8">
-                        <div className="inline-flex items-center gap-3 text-[11px] uppercase font-semibold text-white/70 font-mono px-4 py-2 rounded-full border border-white/10 bg-white/5">
-                            <Shield className="w-4 h-4" />
-                            Mission-ready systems
+                    <motion.aside
+                        variants={fadeInUp}
+                        className="relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.055] p-5 sm:p-7 backdrop-blur-xl lg:mt-7"
+                    >
+                        <div className="absolute -right-16 -top-16 h-40 w-40 rounded-full bg-orange-500/20 blur-3xl"></div>
+                        <div className="absolute -bottom-20 left-6 h-44 w-44 rounded-full bg-emerald-400/10 blur-3xl"></div>
+                        <div className="relative">
+                            <div className="flex items-center gap-3 text-[10px] uppercase tracking-[0.24em] text-orange-300/80 font-mono">
+                                <Sparkles className="w-4 h-4" />
+                                Design that works.
+                            </div>
+                            <p className="mt-6 text-2xl sm:text-[2rem] font-semibold tracking-tight text-white leading-[1.12]">
+                                Premium visuals, practical systems, and faster creative turnaround.
+                            </p>
+                            <div className="mt-7 space-y-3.5">
+                                {HERO_FOCUS.map((item, i) => (
+                                    <motion.div
+                                        key={item}
+                                        variants={fadeInUp}
+                                        className="flex min-h-[54px] items-center justify-between gap-4 rounded-2xl border border-white/10 bg-black/20 px-4 py-3.5"
+                                    >
+                                        <span className="text-sm text-slate-300">{item}</span>
+                                        <span className="text-[10px] font-mono text-white/35">0{i + 1}</span>
+                                    </motion.div>
+                                ))}
+                            </div>
                         </div>
-                    </div>
-                </div>
+                    </motion.aside>
+                </motion.div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 mt-12">
-                    <div className="lg:col-span-5 border border-white/10 bg-white/5">
+                    <motion.div
+                        className="lg:col-span-5 border border-white/10 bg-white/5"
+                        initial={{ opacity: 0, y: 40 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={viewportConfig}
+                        transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                    >
                         <div className="relative overflow-hidden">
                             <img
                                 src="/isaac-portrait.png"
-                                alt="Isaac Reyes - Green Beret, Design Operator, AI Studio Lead"
+                                alt="Isaac Reyes - designer, systems builder, and AI studio lead"
                                 className="lg:h-[520px] w-full h-[420px] object-cover"
                                 loading="lazy"
                             />
                             <div className="absolute inset-0 bg-gradient-to-tr from-black/60 to-transparent"></div>
                             <div className="absolute bottom-6 left-6 text-xs font-mono text-white/70 uppercase tracking-widest">
-                                Afghanistan // In the field
+                                Archive portrait // Field work
                             </div>
                         </div>
-                    </div>
+                    </motion.div>
 
                     <div className="lg:col-span-7">
                         <div className="h-full flex flex-col justify-between">
@@ -122,34 +177,42 @@ const About = () => {
                                     <BadgeCheck className="w-4 h-4 text-white/40" />
                                     <div className="h-px flex-1 bg-white/10"></div>
                                 </div>
-                                <p className="text-lg leading-relaxed text-slate-300 mb-8 font-mono">
-                                    I'm a Green Beret turned design operator who builds AI-forward products, brand systems,
-                                    and mission-critical creative work. My approach combines operational discipline with
-                                    modern visual craft to deliver fast, durable outcomes.
+                                <motion.div
+                                    className="mb-8 grid grid-cols-1 sm:grid-cols-3 gap-3"
+                                    initial="hidden"
+                                    whileInView="visible"
+                                    viewport={viewportConfig}
+                                    variants={staggerContainer(0.08)}
+                                >
+                                    {HERO_PROOF.map((item) => (
+                                        <motion.div
+                                            key={item.label}
+                                            variants={fadeInUp}
+                                            whileHover={{ y: -4 }}
+                                            transition={{ type: 'spring', stiffness: 380, damping: 22 }}
+                                            className="rounded-2xl border border-white/10 bg-white/[0.055] px-4 py-4"
+                                        >
+                                            <div className="text-2xl font-black italic text-white">{item.value}</div>
+                                            <div className="mt-1 text-[10px] uppercase tracking-[0.22em] text-white/45 font-mono">{item.label}</div>
+                                        </motion.div>
+                                    ))}
+                                </motion.div>
+                                <p className="text-base sm:text-lg leading-relaxed text-slate-300 mb-8">
+                                    My edge is simple: I can read the room, build the system, and make the final thing feel
+                                    clean, useful, and alive. Strategy, visuals, AI, and execution in one lane.
                                 </p>
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                                    <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
-                                        <h4 className="text-sm font-medium text-white/90 mb-4 font-mono">Specialties</h4>
-                                        <ul className="text-sm text-neutral-400 space-y-2">
-                                            {['UI/UX Design', 'Design Systems', 'AI Integrations', 'Motion Design'].map((item) => (
-                                                <li key={item} className="font-mono flex items-center gap-2">
-                                                    <div className="w-1.5 h-1.5 rounded-full bg-orange-500"></div>
-                                                    {item}
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    </div>
-                                    <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
-                                        <h4 className="text-sm font-medium text-white/90 mb-4 font-mono">Industries</h4>
-                                        <ul className="text-sm text-neutral-400 space-y-2">
-                                            {['Defense + Tactical', 'AI & SaaS', 'Creative Ventures', 'Enterprise Ops'].map((item) => (
-                                                <li key={item} className="font-mono flex items-center gap-2">
-                                                    <div className="w-1.5 h-1.5 rounded-full bg-emerald-400"></div>
-                                                    {item}
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    </div>
+                                <div className="flex flex-wrap gap-3 mb-8">
+                                    {['Brand systems', 'AI workflows', 'Product UI', 'Motion websites'].map((item) => (
+                                        <motion.span
+                                            key={item}
+                                            whileHover={{ scale: 1.04 }}
+                                            whileTap={{ scale: 0.98 }}
+                                            transition={{ type: 'spring', stiffness: 400, damping: 18 }}
+                                            className="rounded-full border border-white/10 bg-white/[0.055] px-4 py-2 text-xs sm:text-sm text-slate-300"
+                                        >
+                                            {item}
+                                        </motion.span>
+                                    ))}
                                 </div>
                             </div>
 
@@ -175,7 +238,7 @@ const About = () => {
                                         </div>
                                         <div className="flex items-center gap-2">
                                             <Crosshair className="w-4 h-4 text-white/60" />
-                                            <span className="font-mono">Special Forces methodologies applied</span>
+                                            <span className="font-mono">Built for clear client handoff</span>
                                         </div>
                                     </div>
                                 </div>
@@ -193,12 +256,12 @@ const About = () => {
             <motion.section className="max-w-6xl mx-auto py-16" variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig}>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                     <div className="p-6 rounded-2xl bg-white/5 border border-white/10">
-                        <Crosshair className="w-8 h-8 text-emerald-400 mb-4" />
+                        <Briefcase className="w-8 h-8 text-emerald-400 mb-4" />
                         <h3 className="text-3xl font-bold text-white mb-1">17.5 yrs</h3>
-                        <p className="text-slate-500 text-sm uppercase tracking-wider">Special Forces Experience</p>
+                        <p className="text-slate-500 text-sm uppercase tracking-wider">Professional Experience</p>
                     </div>
                     <div className="p-6 rounded-2xl bg-white/5 border border-white/10">
-                        <Award className="w-8 h-8 text-orange-400 mb-4" />
+                        <Palette className="w-8 h-8 text-orange-400 mb-4" />
                         <h3 className="text-3xl font-bold text-white mb-1">100+ builds</h3>
                         <p className="text-slate-500 text-sm uppercase tracking-wider">Design + Product Systems</p>
                     </div>
@@ -211,29 +274,29 @@ const About = () => {
             </motion.section>
 
             {/* Military History: Interactive Globe Mission Context */}
-            {/* Military History: Interactive Globe Mission Context */}
-            <section className="relative w-full">
+            <section className="about-globe-story relative w-full">
                 {/* Sticky Globe Background */}
                 <div className="sticky top-0 h-screen w-full -z-10">
-                    <MilitaryHistoryGlobe />
+                    <Suspense fallback={null}>
+                        <MilitaryHistoryGlobe />
+                    </Suspense>
                 </div>
 
                 <div className="max-w-7xl mx-auto px-6 relative z-10 -mt-[100vh] pt-[20vh] pb-32">
                     <div className="mb-24 md:mb-48 space-y-8 max-w-lg">
                         <div className="inline-flex items-center gap-3 text-orange-500/60 font-mono text-[10px] tracking-[0.3em] uppercase">
                             <Crosshair className="w-4 h-4" />
-                            MISSION_RECORD
+                            Global Experience
                         </div>
                         <h2 className="text-4xl md:text-6xl font-black text-white uppercase italic leading-tight">
-                            Green Beret <br />Foundations
+                            Places That <br />Shaped the Work
                         </h2>
                         <div className="space-y-6 text-slate-400 leading-relaxed">
                             <p>
-                                My Special Forces background forged the way I approach design - with clarity, systems thinking,
-                                and mission-level precision.
+                                My background spans design, operations, language, travel, and problem solving in complex environments. That mix shapes how I build: clear, adaptable, and grounded in the real needs of the people using the work.
                             </p>
                             <p className="text-sm border-l border-orange-500/30 pl-6 italic">
-                                Scroll down to target specific mission locations.
+                                Scroll down to move through the locations that influenced my perspective.
                             </p>
                         </div>
                     </div>
@@ -250,18 +313,18 @@ const About = () => {
 
                             return (
                                 <div key={i} className={`military-dest-section min-h-[70vh] flex items-center ${isEven ? 'justify-start' : 'justify-end'}`}>
-                                    <div className={`max-w-xl p-10 border-l ${isEven ? 'border-l-emerald-500/20 pl-10' : 'border-r border-r-emerald-500/20 pr-10 border-l-0'} bg-white/[0.03] backdrop-blur-[4px] rounded-none transition-all duration-700 ${alignClass}`}>
-                                        <span className={`text-emerald-500/60 font-mono text-xs mb-3 block tracking-[0.5em] uppercase ${textAlign}`}>
-                                            MISSION_NODE // {dest.city}
+                                    <div className={`globe-location-card max-w-xl p-10 border-l ${isEven ? 'border-l-emerald-500/20 pl-10' : 'border-r border-r-emerald-500/20 pr-10 border-l-0'} bg-white/[0.03] backdrop-blur-[4px] rounded-none transition-all duration-700 ${alignClass}`}>
+                                        <span className={`globe-location-label text-emerald-500/60 font-mono text-xs mb-3 block tracking-[0.5em] uppercase ${textAlign}`}>
+                                            LOCATION // {dest.city}
                                         </span>
-                                        <h3 className={`text-7xl md:text-9xl font-black text-white/[0.03] mb-[-0.4em] relative z-0 select-none ${textAlign}`}>
+                                        <h3 className={`globe-location-year text-7xl md:text-9xl font-black text-white/[0.03] mb-[-0.4em] relative z-0 select-none ${textAlign}`}>
                                             {dest.year}
                                         </h3>
-                                        <h4 className={`text-5xl md:text-6xl font-bold text-white mb-6 relative z-10 tracking-tight ${textAlign}`}>{dest.name}</h4>
-                                        <p className={`text-lg text-slate-300 leading-relaxed font-light ${textAlign} max-w-md ${isEven ? '' : 'ml-auto'}`}>
+                                        <h4 className={`globe-location-title text-5xl md:text-6xl font-bold text-white mb-6 relative z-10 tracking-tight ${textAlign}`}>{dest.name}</h4>
+                                        <p className={`globe-location-desc text-lg text-slate-300 leading-relaxed font-light ${textAlign} max-w-md ${isEven ? '' : 'ml-auto'}`}>
                                             {dest.desc}
                                         </p>
-                                        <div className={`mt-8 pt-6 border-t border-white/5 flex gap-8 text-[11px] font-mono text-white/40 uppercase tracking-widest ${isEven ? 'justify-start' : 'justify-end'}`}>
+                                        <div className={`globe-location-meta mt-8 pt-6 border-t border-white/5 flex gap-8 text-[11px] font-mono text-white/40 uppercase tracking-widest ${isEven ? 'justify-start' : 'justify-end'}`}>
                                             <span className="flex items-center gap-2">
                                                 <div className="w-1.5 h-1.5 bg-emerald-500/40 rounded-full"></div>
                                                 MGRS: {dest.mgrs}
@@ -347,71 +410,71 @@ const About = () => {
                     </div>
                 </div>
 
-                {/* Awards Section */}
-                <motion.div
-                    className="mt-16 text-center"
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true }}
-                    variants={staggerContainer(0.08)}
-                >
-                    <motion.h3 variants={fadeInUp} className="text-[10px] font-mono text-white/40 uppercase tracking-widest mb-6">Notable Awards</motion.h3>
-                    <motion.div variants={fadeInUp} className="flex flex-wrap justify-center gap-3">
-                        {['Bronze Star (2)', 'Purple Heart', 'Meritorious Service (3)', 'Army Commendation (5)', 'NATO Medal'].map((award) => (
-                            <span
-                                key={award}
-                                className="px-4 py-2 rounded-full bg-white/5 border border-white/10 text-white/60 text-[11px] font-mono hover:border-orange-500/50 hover:text-white transition-colors cursor-default"
-                            >
-                                {award}
-                            </span>
-                        ))}
-                    </motion.div>
-                </motion.div>
             </motion.section>
 
-            {/* Professional Work (Old Section Updated with better spacing) */}
-            <motion.section className="max-w-6xl mx-auto py-24" variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig}>
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-                    <div className="relative aspect-[4/3] rounded-3xl overflow-hidden border border-white/10 bg-white/5">
+            {/* Professional Work */}
+            <motion.section
+                className="professional-work-section relative -mx-8 bg-[#030303] px-8 py-16 text-white md:py-16"
+                variants={scrollReveal}
+                initial="hidden"
+                whileInView="visible"
+                viewport={viewportConfig}
+            >
+                <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_18%_18%,rgba(249,115,22,0.07),transparent_30%),linear-gradient(180deg,#030303,#000000)]" />
+                <div className="relative mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 lg:grid-cols-[0.95fr_1fr] lg:gap-16">
+                    <motion.div
+                        variants={fadeInUp}
+                        className="relative min-h-[300px] overflow-hidden rounded-[26px] border border-white/10 bg-[#111111] shadow-[0_28px_80px_rgba(0,0,0,0.42)] md:min-h-[330px]"
+                    >
                         <img
                             src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=2400&auto=format&fit=crop"
-                            alt="Design studio placeholder"
-                            className="w-full h-full object-cover opacity-80"
+                            alt="Open studio workspace used as a reference for design, systems, and production work"
+                            className="absolute inset-0 h-full w-full object-cover opacity-80"
                             loading="lazy"
+                            decoding="async"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-tr from-black/60 to-transparent"></div>
-                        <div className="absolute bottom-6 left-6 text-xs font-mono text-white/70 uppercase tracking-widest">
-                            Placeholder // Replace with design work photo
+                        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.2)_0%,rgba(0,0,0,0.56)_100%),linear-gradient(90deg,rgba(0,0,0,0.18),transparent_58%)]" />
+                        <div className="absolute bottom-6 left-6 right-6 text-[10px] font-mono uppercase tracking-[0.24em] text-white/70 md:text-xs">
+                            Design systems // product interfaces // campaign assets
                         </div>
-                    </div>
+                    </motion.div>
 
-                    <div className="space-y-8">
-                        <h2 className="text-3xl font-black text-white uppercase italic">Creative + Professional Work</h2>
-                        <div className="space-y-6 text-slate-400 leading-relaxed">
+                    <motion.div variants={staggerContainer(0.08)} className="min-w-0">
+                        <motion.h2
+                            variants={fadeInUp}
+                            className="max-w-3xl text-[2rem] font-black uppercase italic leading-[1.02] tracking-tight text-white md:text-[2.32rem]"
+                        >
+                            Creative + Professional Work
+                        </motion.h2>
+                        <motion.div variants={fadeInUp} className="mt-5 max-w-2xl space-y-4 text-base leading-7 text-slate-400">
                             <p>
-                                I design full-stack brand systems, product interfaces, and marketing ecosystems - from logo
-                                creation and identity to digital platforms and campaign rollouts. My focus is clarity, conversion,
-                                and performance.
+                                I design full-stack brand systems, product interfaces, and marketing ecosystems from identity and visual direction to digital platforms and campaign rollouts.
                             </p>
                             <p>
-                                Whether it's a new venture, a military-grade system, or a commercial brand, I translate
-                                complex needs into visual and functional systems that are easy to deploy and scale.
+                                Whether it is a new venture, an AI-connected workflow, or a commercial brand, I translate complex needs into visual and functional systems that are easy to deploy and scale.
                             </p>
-                        </div>
-                        <div className="grid grid-cols-2 gap-4">
+                        </motion.div>
+                        <motion.div variants={staggerContainer(0.05)} className="mt-7 grid gap-4 sm:grid-cols-2">
                             {[
                                 { icon: Palette, label: 'Brand Identity' },
                                 { icon: Wand2, label: 'UX/UI Systems' },
                                 { icon: Film, label: 'Motion + After Effects' },
                                 { icon: Cpu, label: 'AI Integrations' }
                             ].map((item) => (
-                                <div key={item.label} className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 p-4">
-                                    <item.icon className="w-5 h-5 text-orange-400" />
-                                    <span className="text-sm font-semibold text-white">{item.label}</span>
-                                </div>
+                                <motion.div
+                                    key={item.label}
+                                    variants={fadeInUp}
+                                    whileHover={{ y: -4, scale: 1.015 }}
+                                    whileTap={{ scale: 0.985 }}
+                                    transition={{ type: 'spring', stiffness: 390, damping: 22 }}
+                                    className="group flex min-h-[56px] items-center gap-4 rounded-2xl border border-white/10 bg-[#151515] px-4 py-3.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] transition-colors hover:border-orange-400/40 hover:bg-[#191919] md:px-5"
+                                >
+                                    <item.icon className="h-5 w-5 shrink-0 text-orange-400 transition-transform group-hover:rotate-3 group-hover:scale-110" />
+                                    <span className="text-sm font-bold text-white md:text-base">{item.label}</span>
+                                </motion.div>
                             ))}
-                        </div>
-                    </div>
+                        </motion.div>
+                    </motion.div>
                 </div>
             </motion.section>
 
@@ -469,7 +532,9 @@ const About = () => {
             </section>
 
             {/* Design Studio */}
-            <DesignStudio />
+            <Suspense fallback={null}>
+                <DesignStudio />
+            </Suspense>
         </div>
     );
 };

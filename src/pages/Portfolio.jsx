@@ -1,128 +1,62 @@
-import React, { useEffect, useRef, useState } from 'react';
-import DesignStudio from '../components/DesignStudio';
+import React, { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import PortfolioCarousel from '../components/PortfolioCarousel';
-import PortfolioServices from '../components/PortfolioServices';
-import PortfolioResults from '../components/PortfolioResults';
-import { PortfolioFAQ } from '../components/PortfolioPricing';
-import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Play, Globe, X, ArrowUpRight } from 'lucide-react';
+import Button from '../components/ui/Button';
+
+// Modular Components
+import PortfolioCarousel from '../components/sections/PortfolioCarousel';
+import PortfolioServices from '../components/sections/PortfolioServices';
+import ParallaxHero from '../components/sections/ParallaxHero';
+
+// Data
+import { AE_PROJECTS, WEB_PROJECTS, FEATURED_PROJECTS, GALLERY_ITEMS } from '../data/portfolioProjects';
 import { scrollReveal, viewportConfig } from '../lib/animations';
-import { Play, Globe, X, ArrowUpRight, Radio, Shield, Sparkles, ArrowRight } from 'lucide-react';
-import Button from '../components/Button';
-import ParallaxHero from '../components/ParallaxHero';
-import StickyProjectTheater from '../components/StickyProjectTheater';
-import StaggeredGrid from '../components/StaggeredGrid';
-import HorizontalScrollGallery from '../components/HorizontalScrollGallery';
 
+const DesignStudio = lazy(() => import('../components/features/DesignStudio'));
+const StickyProjectTheater = lazy(() => import('../components/sections/StickyProjectTheater'));
+const HorizontalScrollGallery = lazy(() => import('../components/sections/HorizontalScrollGallery'));
+const PortfolioResults = lazy(() => import('../components/sections/PortfolioResults'));
 
-const AE_PROJECTS = [
-    { id: 'ae-1', title: 'Cosmic Drift Showreel', year: '2024', tech: 'After Effects + Element 3D', src: 'https://assets.mixkit.co/videos/preview/mixkit-stars-in-space-1610-large.mp4' },
-    { id: 'ae-2', title: 'Neon Pulse Identity', year: '2023', tech: 'AE + Stardust', src: 'https://assets.mixkit.co/videos/preview/mixkit-software-developer-working-on-code-screen-in-light-4841-large.mp4' },
-    { id: 'ae-3', title: 'Future UI Glitch', year: '2024', tech: 'Motion Graphics', src: 'https://assets.mixkit.co/videos/preview/mixkit-abstract-flow-of-particles-in-purple-and-blue-colors-4831-large.mp4' }
-];
+const LazyMount = ({ children, minHeight = 240 }) => {
+    const ref = useRef(null);
+    const [isVisible, setIsVisible] = useState(false);
 
-const WEB_PROJECTS = [
-    { id: 'web-1', title: 'Lumiere Photography', type: 'Portfolio', url: 'lumiere.design' },
-    { id: 'web-2', title: 'NovaRey V1', type: 'Agency', url: 'novarey.ventures' },
-    { id: 'web-3', title: 'Skunkworks OS', type: 'SaaS', url: 'skunkworks.ai' }
-];
+    useEffect(() => {
+        if (isVisible) return undefined;
+        const node = ref.current;
+        if (!node || !('IntersectionObserver' in window)) {
+            setIsVisible(true);
+            return undefined;
+        }
 
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    setIsVisible(true);
+                    observer.disconnect();
+                }
+            },
+            { rootMargin: '480px 0px' }
+        );
 
+        observer.observe(node);
+        return () => observer.disconnect();
+    }, [isVisible]);
 
-// Featured projects for the immersive sticky theater section
-const FEATURED_PROJECTS = [
-    {
-        id: 'fp-1',
-        title: 'Industrial Branding & Marketing',
-        description: 'Veteran-owned business marketing materials featuring dynamic product line cards, branding assets, and marketing collateral for industrial tool companies.',
-        category: 'Branding',
-        image: '/portfolio/DesignPortfolio6.png',
-        tags: ['Adobe Suite', 'Marketing', 'Line Cards', 'Product Layouts'],
-        metrics: [
-            { label: 'Brands', value: '50+' },
-            { label: 'Products', value: '200+' },
-            { label: 'Deliverables', value: '15+' },
-        ],
-    },
-    {
-        id: 'fp-2',
-        title: 'AI-Generated Visual Systems',
-        description: 'Cutting-edge imagery created using advanced AI tools including MidJourney, DALL-E, Flux LoRA, and custom trained models for unique visual content.',
-        category: 'AI Art',
-        image: '/portfolio/DesignPortfolio11.png',
-        tags: ['MidJourney', 'DALL-E 3', 'Flux LoRA', 'Stable Diffusion'],
-        metrics: [
-            { label: 'Generated', value: '500+' },
-            { label: 'Tools', value: '7+' },
-        ],
-    },
-    {
-        id: 'fp-3',
-        title: 'Custom AI Scene Integration',
-        description: 'Face placement and character integration using Flux LoRA and RunwayML. Transform clients into any cinematic scene or movie universe.',
-        category: 'AI Compositing',
-        image: '/portfolio/DesignPortfolio17.png',
-        tags: ['Flux LoRA', 'RunwayML', 'Face Swap', 'Scene Generation'],
-        metrics: [
-            { label: 'Scenes', value: '100+' },
-            { label: 'Clients', value: '25+' },
-        ],
-    },
-];
-
-// Gallery items for horizontal scroll section
-const GALLERY_ITEMS = [
-    {
-        id: 'g-1',
-        title: 'Stock Image Generation',
-        description: 'Custom AI-generated stock photography for any venue, attire, or style.',
-        category: 'AI Photography',
-        image: '/portfolio/DesignPortfolio12.png',
-    },
-    {
-        id: 'g-2',
-        title: 'Product Placement',
-        description: 'Realistic AI imagery for coffee, food, and product marketing.',
-        category: 'Commercial',
-        image: '/portfolio/DesignPortfolio14.png',
-    },
-    {
-        id: 'g-3',
-        title: 'Website Design',
-        description: 'Responsive websites built with Framer, Figma, and Adobe tools.',
-        category: 'Web Design',
-        image: '/portfolio/DesignPortfolio18.png',
-    },
-    {
-        id: 'g-4',
-        title: 'Business Branding',
-        description: 'Official business branding, logo designs, and marketing themes.',
-        category: 'Branding',
-        image: '/portfolio/DesignPortfolio20.png',
-    },
-    {
-        id: 'g-5',
-        title: 'Logo & Line Cards',
-        description: 'Dynamic industrial line cards and captivating logo branding.',
-        category: 'Marketing',
-        image: '/portfolio/DesignPortfolio7.png',
-    },
-    {
-        id: 'g-6',
-        title: 'Personal Branding',
-        description: 'Custom logos and web design for influencers and content creators.',
-        category: 'Branding',
-        image: '/portfolio/DesignPortfolio15.png',
-    },
-];
+    return (
+        <div ref={ref} style={{ minHeight: isVisible ? undefined : minHeight }}>
+            {isVisible ? <Suspense fallback={null}>{children}</Suspense> : null}
+        </div>
+    );
+};
 
 const Portfolio = () => {
     const [selectedMedia, setSelectedMedia] = useState(null);
-    const [ypoHover, setYpoHover] = useState(false);
     const phoneScrollRef = useRef(null);
     const phoneImageRef = useRef(null);
 
-    const ypoSrc = `https://play.gumlet.io/embed/6957d6f315b21a591c4e08cc?background=false&autoplay=${ypoHover ? 'true' : 'false'}&loop=true&disableControls=false`;
+    const ypoSrc = 'https://play.gumlet.io/embed/6957d6f315b21a591c4e08cc?background=false&autoplay=false&loop=false&disableControls=false';
     const handleSpotlightMove = (event) => {
         const rect = event.currentTarget.getBoundingClientRect();
         const x = event.clientX - rect.left;
@@ -166,9 +100,9 @@ const Portfolio = () => {
         <div className="flex-1 overflow-y-auto h-full selection:bg-orange-500/30 font-sans" data-scroll-container>
             {/* Cinematic Parallax Hero - Goonies Style */}
             <ParallaxHero
-                title="Portfolio"
-                subtitle="Design Systems, Motion Graphics & AI-Augmented Creative Work. From concept to completion."
-                tagline="Generalist Designer"
+                title="Selected work with a point of view."
+                subtitle="Web systems, brand assets, motion experiments, AI-assisted visuals, and field-built creative work brought into one focused archive."
+                tagline="Portfolio archive"
                 backgroundImage="/mebannerport.png"
                 ctaText="Explore Work"
                 ctaLink="#featured-projects"
@@ -176,26 +110,26 @@ const Portfolio = () => {
             />
 
             {/* Navigation Bar with Links */}
-            <motion.section variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig} className="mx-6 md:mx-8 mt-6">
-                <nav className="flex flex-wrap items-center justify-between gap-6 text-xs font-mono uppercase tracking-widest text-white/60 px-8 py-4 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-xl">
-                    <div className="flex items-center gap-4">
-                        <div className="inline-flex items-center justify-center w-10 h-10 bg-white/10 rounded border border-white/10 text-white font-bold tracking-tight">
+            <motion.section variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig} className="mx-4 md:mx-8 mt-5">
+                <nav className="flex flex-wrap items-center justify-between gap-4 text-xs font-mono uppercase tracking-widest text-white/60 px-5 md:px-6 py-4 rounded-xl bg-white/5 border border-white/10 backdrop-blur-xl">
+                    <div className="flex items-center gap-4 min-w-0">
+                        <div className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded border border-white/10 bg-white/10 font-bold tracking-tight text-white">
                             NV
                         </div>
                         <span className="hidden md:inline text-white/40">Novarey Ventures</span>
                         <div className="hidden md:flex items-center gap-6 ml-6 text-white/40">
-                            <a href="#portfolio-operations" className="hover:text-white transition-colors">Operations</a>
-                            <a href="#portfolio-about" className="hover:text-white transition-colors">Intel</a>
+                            <a href="#portfolio-operations" className="hover:text-white transition-colors">Archive</a>
+                            <a href="#portfolio-about" className="hover:text-white transition-colors">Story</a>
                             <a href="#portfolio-expertise" className="hover:text-white transition-colors">Capabilities</a>
                         </div>
                     </div>
                     <Button
                         as={Link}
                         to="/contact"
-                        icon={Shield}
+                        icon={ArrowUpRight}
                         className="uppercase italic font-black tracking-widest text-[10px]"
                     >
-                        Initiate Comms
+                        Start Project
                     </Button>
                 </nav>
             </motion.section>
@@ -210,48 +144,49 @@ const Portfolio = () => {
                     event.currentTarget.style.setProperty('--mouse-x', '50%');
                     event.currentTarget.style.setProperty('--mouse-y', '50%');
                 }}
-                className="spotlight-group overflow-hidden bg-gradient-to-br from-white/10 via-white/0 to-white/10 rounded-[32px] ring-1 ring-white/10 mx-6 md:mx-8 mt-8"
+                className="spotlight-group overflow-hidden bg-gradient-to-br from-white/10 via-white/0 to-white/10 rounded-2xl ring-1 ring-white/10 mx-4 md:mx-8 mt-8"
             >
                 <div className="spotlight-content px-8 md:px-12 py-12" id="portfolio-about">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                         <div>
-                            <h2 className="text-4xl md:text-5xl font-display font-semibold tracking-tight text-white leading-[0.95]">
-                                Operator <span className="text-white/50 font-display italic">Designer</span>
+                            <h2 className="text-4xl md:text-5xl font-display font-semibold tracking-tight text-white leading-[1.02]">
+                                Designer <span className="text-white/50 font-display">systems builder</span>
                             </h2>
                             <div className="text-white/50 text-xs font-mono uppercase tracking-widest mt-4">
-                                // From Kabul to Kernel
+                                // Creative systems / AI workflows
                             </div>
                         </div>
                         <div className="md:text-right">
                             <div className="text-emerald-400 text-xs font-mono uppercase tracking-widest">02</div>
                             <p className="text-white/70 text-lg max-w-sm ml-auto mt-3">
-                                Special Operations Veteran. Design Generalist. Technologist.
+                                Generalist designer. AI systems builder. Creative technologist.
                             </p>
                         </div>
                     </div>
 
-                    <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
+                    <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div className="rounded-xl border border-white/10 bg-white/5 p-5">
                             <div className="text-3xl font-bold text-white">18+</div>
-                            <div className="text-xs font-mono text-white/50 uppercase tracking-widest mt-2">Years Served</div>
+                            <div className="text-xs font-mono text-white/50 uppercase tracking-widest mt-2">Years Experience</div>
                         </div>
-                        <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
-                            <div className="text-3xl font-bold text-white">Spec Ops</div>
-                            <div className="text-xs font-mono text-white/50 uppercase tracking-widest mt-2">Background</div>
+                        <div className="rounded-xl border border-white/10 bg-white/5 p-5">
+                            <div className="text-3xl font-bold text-white">Systems</div>
+                            <div className="text-xs font-mono text-white/50 uppercase tracking-widest mt-2">Design Method</div>
                         </div>
-                        <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
+                        <div className="rounded-xl border border-white/10 bg-white/5 p-5">
                             <div className="text-3xl font-bold text-white">Full Stack</div>
                             <div className="text-xs font-mono text-white/50 uppercase tracking-widest mt-2">Design & Code</div>
                         </div>
                     </div>
 
                     <div className="mt-10 grid grid-cols-1 lg:grid-cols-3 gap-6">
-                        <div className="lg:col-span-1 rounded-3xl overflow-hidden relative min-h-[360px] border border-white/10">
+                        <div className="lg:col-span-1 rounded-2xl overflow-hidden relative min-h-[360px] border border-white/10">
                             <div className="absolute inset-0 bg-emerald-900/20 mix-blend-overlay"></div>
                             <img
                                 src="/me.png"
                                 alt="Portrait"
                                 loading="lazy"
+                                decoding="async"
                                 className="absolute inset-0 w-full h-full object-cover grayscale contrast-125"
                             />
                             <div className="absolute bottom-6 left-6 right-6 bg-black/60 backdrop-blur-md border border-white/10 p-4 rounded-2xl">
@@ -264,18 +199,18 @@ const Portfolio = () => {
                                 </p>
                             </div>
                         </div>
-                        <div className="lg:col-span-2 rounded-3xl border border-white/10 bg-white/5 p-6 md:p-8">
+                        <div className="lg:col-span-2 rounded-2xl border border-white/10 bg-white/5 p-6 md:p-8">
                             <h3 className="text-2xl md:text-4xl font-semibold text-white mb-6">
-                                Discipline meets Design.
+                                Design that moves with purpose.
                             </h3>
                             <div className="space-y-5 text-white/70 text-base leading-relaxed">
                                 <p>
-                                    18 years in Special Operations (2005-2023) built a foundation of precision, speed, and adaptability.
-                                    That discipline now powers my work across graphic design, motion, and AI automation.
+                                    Years of high-accountability work shaped how I build: clear decisions, strong systems, fast iteration,
+                                    and polished execution across graphic design, motion, websites, and AI automation.
                                 </p>
                                 <p>
-                                    I operate as a Generalist Designer, bridging tactical execution with emerging creative technology,
-                                    rapid iteration, and systems thinking.
+                                    I work as a generalist designer, connecting visual direction, emerging creative technology,
+                                    rapid prototyping, and production-ready systems.
                                 </p>
                             </div>
                         </div>
@@ -283,7 +218,7 @@ const Portfolio = () => {
                 </div>
             </motion.section>
 
-            <section className="mx-6 md:mx-8 mt-8 space-y-6">
+            <section id="portfolio-expertise" className="mx-4 md:mx-8 mt-8 space-y-6">
                 <motion.div variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig}>
                     <PortfolioCarousel />
                 </motion.div>
@@ -292,15 +227,15 @@ const Portfolio = () => {
                 </motion.div>
             </section>
 
-            <motion.section variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig} className="mx-6 md:mx-8 mt-10">
+            <motion.section variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig} className="mx-4 md:mx-8 mt-10">
                 <div className="flex items-center gap-4 mb-8">
                     <div className="h-px bg-white/10 flex-1"></div>
                     <div className="text-xs font-mono uppercase tracking-[0.4em] text-white/60">Portfolio Categories</div>
                     <div className="h-px bg-white/10 flex-1"></div>
                 </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <div className="lg:col-span-2 rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl p-6 md:p-8 transition-all duration-300 hover:-translate-y-1.5 hover:border-white/25 hover:bg-white/10">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+                    <div className="lg:col-span-2 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl p-6 md:p-8 transition-all duration-300 hover:border-white/25 hover:bg-white/10">
                         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
                             <div>
                                 <div className="text-[10px] font-mono uppercase tracking-widest text-white/50">Web + Mobile</div>
@@ -325,6 +260,7 @@ const Portfolio = () => {
                                         src="https://images.unsplash.com/photo-1523961131990-5ea7c61b2107?q=80&w=1600&auto=format&fit=crop"
                                         alt="Desktop interface preview"
                                         loading="lazy"
+                                        decoding="async"
                                         className="w-full h-full object-cover opacity-85 transition-transform duration-500 group-hover:scale-105"
                                     />
                                 </div>
@@ -341,6 +277,8 @@ const Portfolio = () => {
                                                 src="/homepage_info.png"
                                                 alt="Mobile design preview"
                                                 className="phone-scroll-image"
+                                                loading="lazy"
+                                                decoding="async"
                                                 ref={phoneImageRef}
                                             />
                                         </div>
@@ -351,7 +289,7 @@ const Portfolio = () => {
                         </div>
                     </div>
 
-                    <div className="rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl p-6 transition-all duration-300 hover:-translate-y-1.5 hover:border-white/25 hover:bg-white/10">
+                    <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl p-6 transition-all duration-300 hover:border-white/25 hover:bg-white/10">
                         <div className="text-[10px] font-mono uppercase tracking-widest text-white/80">A.I. Systems</div>
                         <h3 className="text-xl font-semibold text-white mt-3">A.I. Generated Imagery</h3>
                         <p className="text-sm text-slate-400 mt-3">
@@ -366,29 +304,32 @@ const Portfolio = () => {
                         </div>
                     </div>
 
-                    <div className="rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl p-6 transition-all duration-300 hover:-translate-y-1.5 hover:border-white/25 hover:bg-white/10">
-                        <div className="text-[10px] font-mono uppercase tracking-widest text-white/80">Special Operations</div>
+                    <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl p-6 transition-all duration-300 hover:border-white/25 hover:bg-white/10">
+                        <div className="text-[10px] font-mono uppercase tracking-widest text-white/80">Heritage Artwork</div>
                         <h3 className="text-xl font-semibold text-white mt-3">Personal Heritage Art</h3>
                         <p className="text-sm text-slate-400 mt-3">
-                            Unit-inspired artwork and legacy graphics rooted in Special Forces culture.
+                            Emblem studies, legacy graphics, and personal art built around symbolism, history, and clean vector craft.
                         </p>
                         <div className="mt-4 grid grid-cols-2 gap-3">
                             <img
                                 src="/ODA-3.png"
-                                alt="Special operations art"
+                                alt="Heritage emblem artwork"
                                 loading="lazy"
+                                decoding="async"
                                 className="rounded-xl border border-white/10 bg-black/40 object-cover"
                             />
                             <img
                                 src="/ODAbaby.jpg"
-                                alt="Special operations art"
+                                alt="Animated heritage character artwork"
                                 loading="lazy"
+                                width="960"
+                                height="960"
                                 className="rounded-xl border border-white/10 bg-black/40 object-cover"
                             />
                         </div>
                     </div>
 
-                    <div className="rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl p-6 transition-all duration-300 hover:-translate-y-1.5 hover:border-white/25 hover:bg-white/10">
+                    <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl p-6 transition-all duration-300 hover:border-white/25 hover:bg-white/10">
                         <div className="text-[10px] font-mono uppercase tracking-widest text-white/80">Pop Culture</div>
                         <h3 className="text-xl font-semibold text-white mt-3">Memes + Culture Drops</h3>
                         <p className="text-sm text-slate-400 mt-3">
@@ -399,7 +340,7 @@ const Portfolio = () => {
                         </div>
                     </div>
 
-                    <div className="rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl p-6 transition-all duration-300 hover:-translate-y-1.5 hover:border-white/25 hover:bg-white/10">
+                    <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl p-6 transition-all duration-300 hover:border-white/25 hover:bg-white/10">
                         <div className="text-[10px] font-mono uppercase tracking-widest text-white/80">Marketing Collateral</div>
                         <h3 className="text-xl font-semibold text-white mt-3">Flyers + Campaigns</h3>
                         <p className="text-sm text-slate-400 mt-3">
@@ -410,7 +351,7 @@ const Portfolio = () => {
                         </div>
                     </div>
 
-                    <div className="rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl p-6 transition-all duration-300 hover:-translate-y-1.5 hover:border-white/25 hover:bg-white/10">
+                    <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl p-6 transition-all duration-300 hover:border-white/25 hover:bg-white/10">
                         <div className="text-[10px] font-mono uppercase tracking-widest text-white/80">Marketing Video</div>
                         <h3 className="text-xl font-semibold text-white mt-3">Business Video Assets</h3>
                         <p className="text-sm text-slate-400 mt-3">
@@ -427,7 +368,9 @@ const Portfolio = () => {
 
             {/* Design Studio Feature */}
             <div className="mb-20">
-                <DesignStudio />
+                <LazyMount minHeight={420}>
+                    <DesignStudio />
+                </LazyMount>
             </div>
 
             {/* Featured Projects - Immersive Theater Section */}
@@ -447,11 +390,15 @@ const Portfolio = () => {
                         <div className="h-px bg-gradient-to-r from-transparent via-white/20 to-transparent flex-1" />
                     </motion.div>
                 </div>
-                <StickyProjectTheater projects={FEATURED_PROJECTS} />
+                <LazyMount minHeight={600}>
+                    <StickyProjectTheater projects={FEATURED_PROJECTS} />
+                </LazyMount>
             </section>
 
             {/* Horizontal Scroll Gallery */}
-            <HorizontalScrollGallery items={GALLERY_ITEMS} title="Creative Gallery" />
+            <LazyMount minHeight={420}>
+                <HorizontalScrollGallery items={GALLERY_ITEMS} title="Creative Gallery" />
+            </LazyMount>
 
             {/* Archive / Vault Section */}
             <div className="max-w-7xl mx-auto px-8 pb-32 pt-10 space-y-32" id="portfolio-operations">
@@ -476,11 +423,7 @@ const Portfolio = () => {
                             whileHover={{ y: -8 }}
                             className="group cursor-pointer relative rounded-[2rem] overflow-hidden border border-white/5 bg-[#14121D]"
                         >
-                            <div
-                                className="aspect-video relative overflow-hidden"
-                                onMouseEnter={() => setYpoHover(true)}
-                                onMouseLeave={() => setYpoHover(false)}
-                            >
+                            <div className="aspect-video relative overflow-hidden">
                                 <iframe
                                     title="YPO Marketing Video"
                                     src={ypoSrc}
@@ -490,11 +433,6 @@ const Portfolio = () => {
                                     referrerPolicy="origin"
                                     allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture; fullscreen"
                                 ></iframe>
-                                {!ypoHover && (
-                                    <div className="absolute inset-0 flex items-center justify-center bg-black/50 text-xs font-mono uppercase tracking-widest text-white">
-                                        Hover to Play
-                                    </div>
-                                )}
                             </div>
                             <div className="p-6">
                                 <h3 className="text-xl font-bold text-white mb-1 uppercase italic tracking-tighter">YPO Marketing Film</h3>
@@ -517,10 +455,10 @@ const Portfolio = () => {
                             >
                                 <div className="aspect-video relative overflow-hidden">
                                     <video
-                                        autoPlay
                                         loop
                                         muted
                                         playsInline
+                                        preload="metadata"
                                         className="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity"
                                     >
                                         <source src={project.src} type="video/mp4" />
@@ -575,12 +513,10 @@ const Portfolio = () => {
 
             {/* Remaining Reference Sections */}
             <motion.div variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig}>
-                <PortfolioResults />
+                <LazyMount>
+                    <PortfolioResults />
+                </LazyMount>
             </motion.div>
-            <motion.div variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig}>
-                <PortfolioFAQ />
-            </motion.div>
-
             {/* Cinema Viewer Modal */}
             <AnimatePresence>
                 {selectedMedia && (
