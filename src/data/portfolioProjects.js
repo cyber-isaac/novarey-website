@@ -29,7 +29,7 @@ export const FEATURED_PROJECTS = [
         title: 'AI-Generated Visual Systems',
         description: 'Cutting-edge imagery created using advanced AI tools including MidJourney, DALL-E, Flux LoRA, and custom trained models for unique visual content.',
         category: 'AI Art',
-        image: '/portfolio/DesignPortfolio11.png',
+        image: '/portfolio/DesignPortfolio11.webp',
         tags: ['MidJourney', 'DALL-E 3', 'Flux LoRA', 'Stable Diffusion'],
         metrics: [
             { label: 'Generated', value: '500+' },
@@ -41,7 +41,7 @@ export const FEATURED_PROJECTS = [
         title: 'Custom AI Scene Integration',
         description: 'Face placement and character integration using Flux LoRA and RunwayML. Transform clients into any cinematic scene or movie universe.',
         category: 'AI Compositing',
-        image: '/portfolio/DesignPortfolio17.png',
+        image: '/portfolio/DesignPortfolio17.webp',
         tags: ['Flux LoRA', 'RunwayML', 'Face Swap', 'Scene Generation'],
         metrics: [
             { label: 'Scenes', value: '100+' },
@@ -56,14 +56,14 @@ export const GALLERY_ITEMS = [
         title: 'Stock Image Generation',
         description: 'Custom AI-generated stock photography for any venue, attire, or style.',
         category: 'AI Photography',
-        image: '/portfolio/DesignPortfolio12.png',
+        image: '/portfolio/DesignPortfolio12.webp',
     },
     {
         id: 'g-2',
         title: 'Product Placement',
         description: 'Realistic AI imagery for coffee, food, and product marketing.',
         category: 'Commercial',
-        image: '/portfolio/DesignPortfolio14.png',
+        image: '/portfolio/DesignPortfolio14.webp',
     },
     {
         id: 'g-3',
@@ -84,7 +84,7 @@ export const GALLERY_ITEMS = [
         title: 'Logo & Line Cards',
         description: 'Dynamic industrial line cards and captivating logo branding.',
         category: 'Marketing',
-        image: '/portfolio/DesignPortfolio7.png',
+        image: '/portfolio/DesignPortfolio7.webp',
     },
     {
         id: 'g-6',
@@ -109,7 +109,7 @@ export const WORK_PORTFOLIO_CATEGORIES = [
         title: 'AI Visual Systems',
         eyebrow: 'Imagery / scenes / composites',
         description: 'AI-generated imagery, character placement, product scenes, and cinematic campaign visuals.',
-        image: '/portfolio/DesignPortfolio12.png',
+        image: '/portfolio/DesignPortfolio12.webp',
         stats: ['Prompt craft', 'Compositing', 'Campaign visuals'],
     },
     {

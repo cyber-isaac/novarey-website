@@ -124,7 +124,7 @@ const PortfolioCarousel = () => {
                     <span className="block text-white/55">Multiple Outputs.</span>
                 </h2>
                 <p className="mx-auto mt-5 max-w-xl text-sm leading-relaxed text-slate-400 md:text-base">
-                    A focused overview of the portfolio services, with heavier media deferred until the user asks for it.
+                    Explore websites, brand identities, campaign graphics, and AI creative work.
                 </p>
             </div>
 

@@ -17,20 +17,24 @@ import {
     PenTool,
     Radio,
     Sparkles,
-    Waves
+    Waves,
+    Menu,
+    X
 } from 'lucide-react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import Logo from '../ui/Logo';
 
 const MAIN_NAV = [
     { icon: Home, label: 'Home', to: '/', accent: '#8FD3FF', accentRgb: '143 211 255' },
-    { icon: Briefcase, label: 'Work', to: '/work', accent: '#F97316', accentRgb: '249 115 22' },
-    { icon: ImageIcon, label: 'Portfolio', to: '/portfolio', accent: '#FB7185', accentRgb: '251 113 133' },
-    { icon: HardDrive, label: 'The i-Drive', to: '/idrive', accent: '#34D399', accentRgb: '52 211 153' },
-    { icon: Cpu, label: 'A.I. Strategy', to: '/ai-strategy', accent: '#22D3EE', accentRgb: '34 211 238' },
-    { icon: Waves, label: 'Aether', to: '/aether', accent: '#A3E635', accentRgb: '163 230 53' },
+    { icon: Briefcase, label: 'Selected Work', to: '/work', accent: '#F97316', accentRgb: '249 115 22' },
     { icon: Layout, label: 'About', to: '/about', accent: '#E2E8F0', accentRgb: '226 232 240' },
     { icon: Mail, label: 'Contact', to: '/contact', accent: '#F472B6', accentRgb: '244 114 182' },
+];
+
+const LAB_NAV = [
+    { icon: HardDrive, label: 'Research & Writing', to: '/idrive', accent: '#34D399', accentRgb: '52 211 153' },
+    { icon: Cpu, label: 'A.I. Strategy', to: '/ai-strategy', accent: '#22D3EE', accentRgb: '34 211 238' },
+    { icon: Waves, label: 'Audio Visualizer', to: '/aether', accent: '#A3E635', accentRgb: '163 230 53' },
 ];
 
 const SERVICE_NAV = [
@@ -50,7 +54,7 @@ const sidebarVariants = {
         width: 304,
         transition: { duration: 0.75, ease: [0.22, 1, 0.36, 1] },
     },
-    collapsed: { width: 84, transition: { duration: 0.28, ease: [0.22, 1, 0.36, 1] } },
+    collapsed: { opacity: 1, x: 0, scale: 1, filter: 'blur(0px)', width: 84, transition: { duration: 0.28, ease: [0.22, 1, 0.36, 1] } },
 };
 
 const sectionVariants = {
@@ -81,7 +85,7 @@ const Sidebar = () => {
     }, []);
 
     const activeItem = useMemo(() => {
-        const items = [...MAIN_NAV, ...SERVICE_NAV];
+        const items = [...MAIN_NAV, ...SERVICE_NAV, ...LAB_NAV];
         return items.find((item) => (
             item.to === '/'
                 ? location.pathname === '/'
@@ -90,25 +94,33 @@ const Sidebar = () => {
     }, [location.pathname]);
 
     const activeLabel = activeItem.label;
+    useEffect(() => { if (isMobile) setIsCollapsed(true); }, [location.pathname, isMobile]);
 
     return (
+        <>
+        {isMobile && <button type="button" aria-label={isCollapsed ? 'Open navigation' : 'Close navigation'} aria-expanded={!isCollapsed} aria-controls="site-navigation" onClick={() => setIsCollapsed(value => !value)} className="fixed left-3 top-4 z-[80] flex h-11 w-11 items-center justify-center rounded-xl border border-white/15 bg-[#111821] text-white">
+            {isCollapsed ? <Menu className="h-5 w-5" /> : <X className="h-5 w-5" />}
+        </button>}
+        {isMobile && !isCollapsed && <button type="button" aria-label="Close navigation backdrop" onClick={() => setIsCollapsed(true)} className="fixed inset-0 z-[55] bg-black/70" />}
         <motion.aside
-            variants={reduceMotion ? undefined : sidebarVariants}
-            initial={reduceMotion ? false : 'initial'}
-            animate={isCollapsed ? 'collapsed' : 'expanded'}
-            className="sidebar-panel relative z-20 flex h-full flex-shrink-0 flex-col overflow-hidden rounded-r-[28px]"
+            id="site-navigation"
+            inert={isMobile && isCollapsed ? '' : undefined}
+            variants={reduceMotion || isMobile ? undefined : sidebarVariants}
+            initial={false}
+            animate={isMobile ? { width: 304, x: isCollapsed ? -304 : 0, opacity: 1, scale: 1, filter: 'blur(0px)' } : isCollapsed ? 'collapsed' : 'expanded'}
+            className={`sidebar-panel ${isMobile ? 'fixed inset-y-0 left-0 z-[60]' : 'relative z-20'} flex h-full flex-shrink-0 flex-col overflow-hidden rounded-r-[28px]`}
             aria-label="Primary navigation"
             style={{
                 '--nav-accent': activeItem.accent,
                 '--nav-accent-rgb': activeItem.accentRgb,
-                ...(reduceMotion ? { width: isCollapsed ? 84 : 304 } : {})
+                ...(!isMobile && reduceMotion ? { width: isCollapsed ? 84 : 304 } : {})
             }}
         >
             <button
                 type="button"
                 onClick={() => setIsCollapsed((value) => !value)}
                 aria-label={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
-                className="sidebar-toggle-btn absolute right-4 top-9 z-30 flex h-8 w-8 items-center justify-center rounded-full transition-transform duration-200 hover:scale-105 active:scale-95"
+                className={`${isMobile ? 'hidden' : ''} sidebar-toggle-btn absolute right-4 top-9 z-30 flex h-8 w-8 items-center justify-center rounded-full transition-transform duration-200 hover:scale-105 active:scale-95`}
             >
                 {isCollapsed ? <ChevronRight className="h-3.5 w-3.5" /> : <ChevronLeft className="h-3.5 w-3.5" />}
             </button>
@@ -165,6 +177,12 @@ const Sidebar = () => {
                     </motion.nav>
                 </SidebarSection>
 
+                <SidebarSection title="Research & Lab" collapsed={isCollapsed}>
+                    <motion.nav aria-label="Research and experiments" className="space-y-3" variants={sectionVariants} initial="hidden" animate="show">
+                        {LAB_NAV.map((item) => <NavItem key={item.to} {...item} collapsed={isCollapsed} reduceMotion={reduceMotion} size="sm" />)}
+                    </motion.nav>
+                </SidebarSection>
+
                 <div className={`sidebar-status mt-6 rounded-[20px] border p-4 ${isCollapsed ? 'px-2' : ''}`}>
                     {isCollapsed ? (
                         <div className="flex justify-center text-[#8FD3FF]" title={activeLabel}>
@@ -208,8 +226,8 @@ const Sidebar = () => {
                         </div>
                         <div className="mt-2 flex items-end justify-between gap-3">
                             <div>
-                                <div className="text-sm font-bold text-[#F5F7FA]">Let's build the future.</div>
-                                <div className="mt-1 text-xs leading-relaxed text-[#9AA8B8]">Together with AI.</div>
+                                <div className="text-sm font-bold text-[#F5F7FA]">Start a Project</div>
+                                <div className="mt-1 text-xs leading-relaxed text-[#9AA8B8]">Tell me what you need.</div>
                             </div>
                             <span className="sidebar-cta-arrow flex h-9 w-9 shrink-0 items-center justify-center rounded-xl">
                                 <ArrowRight className="h-4 w-4" />
@@ -219,6 +237,7 @@ const Sidebar = () => {
                 )}
             </div>
         </motion.aside>
+        </>
     );
 };
 

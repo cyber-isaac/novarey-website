@@ -38,9 +38,9 @@ const SERVICES = {
         headline: 'A brand system people can recognize fast.',
         subtitle: 'Identity, image direction, typography, motion rules, and launch assets built as one usable system.',
         promise: 'I turn scattered taste, references, and business goals into a visual language your site, social, decks, and campaigns can keep using.',
-        heroImage: '/portfolio/DesignPortfolio9.png',
+        heroImage: '/portfolio/DesignPortfolio9.webp',
         visualAlt: 'Premium graphic design identity system artwork',
-        gallery: ['/portfolio/DesignPortfolio11.png', '/portfolio/DesignPortfolio12.png', '/portfolio/example_Flyer.png'],
+        gallery: ['/portfolio/DesignPortfolio11.webp', '/portfolio/DesignPortfolio12.webp', '/portfolio/example_Flyer.png'],
         proof: ['Logo + visual language', 'Launch-ready assets', 'Rules your team can reuse'],
         methodTitle: 'Branding without loose parts.',
         method: [
@@ -69,7 +69,7 @@ const SERVICES = {
         promise: 'I use AI-assisted coding to move faster, then inspect the code, layout, metadata, assets, and responsive behavior by hand.',
         heroImage: '/web_design.png',
         visualAlt: 'Custom website design and development preview',
-        gallery: ['/website_image2.png', '/homepage_whatido.png', '/portfolio/DesignPortfolio7.png'],
+        gallery: ['/website_image2.png', '/homepage_whatido.png', '/portfolio/DesignPortfolio7.webp'],
         proof: ['Route-level loading', 'Responsive layouts', 'SEO-ready structure'],
         methodTitle: 'Build the useful path first.',
         method: [
@@ -98,7 +98,7 @@ const SERVICES = {
         promise: 'I simplify the offer, build the asset path, and create repeatable content workflows that support traffic, leads, and follow-up.',
         heroImage: '/homepage_info.png',
         visualAlt: 'Marketing strategy and content system preview',
-        gallery: ['/portfolio/example_Flyer.png', '/URBAN SURVIVAL_flyer.png', '/portfolio/DesignPortfolio12.png'],
+        gallery: ['/portfolio/example_Flyer.png', '/URBAN SURVIVAL_flyer.png', '/portfolio/DesignPortfolio12.webp'],
         proof: ['Search intent mapped', 'Campaign assets', 'Follow-up flow'],
         methodTitle: 'Make the message easier to move.',
         method: [
@@ -125,9 +125,9 @@ const SERVICES = {
         headline: 'AI systems that remove drag from real work.',
         subtitle: 'Copilots, automations, content systems, and private knowledge bases built around how your business already operates.',
         promise: 'The work starts with the process, not the model. I map the workflow, decide what should be automated, and keep human approval where it matters.',
-        heroImage: '/aiservices_image.png',
+        heroImage: '/aiservices_image.webp',
         visualAlt: 'AI workflow and automation system preview',
-        gallery: ['/portfolio/DesignPortfolio17.png', '/homepage_whatido.png', '/portfolio/DesignPortfolio14.png'],
+        gallery: ['/portfolio/DesignPortfolio17.webp', '/homepage_whatido.png', '/portfolio/DesignPortfolio14.webp'],
         proof: ['Model routing', 'Private knowledge base', 'Human approval gates'],
         methodTitle: 'Use AI where it actually saves time.',
         method: [

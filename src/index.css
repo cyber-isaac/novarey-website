@@ -33,3 +33,9 @@ button,
 .storyline-step {
   transition-property: opacity, transform, box-shadow, border-color;
 }
+
+/* Size the intake against available content width, including the sidebar. */
+.contact-intake { container-type: inline-size; }
+.contact-intake > * { min-width: 0; }
+.contact-title { font-family: var(--font-display, Inter, sans-serif); font-weight: 800; font-size: clamp(2.4rem, 5cqi, 4.5rem); line-height: 1.05; overflow-wrap: break-word; }
+@media (min-width: 1440px) { .contact-intake { grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr); } }

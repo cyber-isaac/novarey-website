@@ -1,21 +1,8 @@
 export const CONTACT_EMAIL = 'isaac@novarey.us';
 export const LINKEDIN_URL = 'https://www.linkedin.com/in/isaacareyes/';
 
-const calendarParams = new URLSearchParams({
-    action: 'TEMPLATE',
-    text: 'NovaRey Strategy Call',
-    details: [
-        'Strategy call with Isaac Reyes / NovaRey Ventures.',
-        '',
-        'Topics: website, brand system, AI integration, automation, or custom digital build.',
-        '',
-        'Please choose a time that works and add any project context before sending the invite.',
-    ].join('\n'),
-    location: 'Google Meet / video call',
-    add: CONTACT_EMAIL,
-});
-
-export const STRATEGY_CALL_URL = `https://calendar.google.com/calendar/render?${calendarParams.toString()}`;
+// Set this to an appointment schedule URL once the studio calendar is connected.
+export const STRATEGY_CALL_URL = import.meta.env.VITE_BOOKING_URL || '';
 
 export const makeMailto = ({ subject = 'NovaRey project inquiry', body = '' } = {}) => {
     const params = new URLSearchParams({

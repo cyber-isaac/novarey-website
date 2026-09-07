@@ -34,10 +34,10 @@ const SECTION_LINKS = [
 ];
 
 const PORTFOLIO_PDF = {
-    href: '/portfolio/DesignPortfolio11.png',
+    href: '/portfolio/Isaac-Reyes-Portfolio.pdf',
     title: 'Isaac Reyes Portfolio PDF',
     description: 'A client-ready portfolio document with selected design, brand, AI, and creative systems work.',
-    fileMeta: 'PDF / 4.3 MB / client share',
+    fileMeta: 'PDF / 8.7 MB / 22 pages',
 };
 
 const SERVICE_WORK = [
@@ -55,7 +55,7 @@ const SERVICE_WORK = [
         title: 'Brand Systems',
         subtitle: 'Identity / collateral',
         description: 'Marks, campaign visuals, flyers, social templates, and usage rules shaped into a repeatable visual language.',
-        image: '/portfolio/DesignPortfolio11.png',
+        image: '/portfolio/DesignPortfolio11.webp',
         href: '/services/brand',
         tools: 'Logo systems / print / launch kits',
     },
@@ -64,7 +64,7 @@ const SERVICE_WORK = [
         title: 'AI Workflows',
         subtitle: 'Automation / copilots',
         description: 'Private knowledge bases, intake assistants, content pipelines, and workflow automations with human approval where it matters.',
-        image: '/aiservices_image.png',
+        image: '/aiservices_image.webp',
         href: '/services/ai',
         tools: 'Knowledge bases / model routing / approvals',
     },
@@ -145,7 +145,7 @@ const HERITAGE_ART = [
         title: 'Custom Posters & Team Logos',
         subtitle: 'Valor in art',
         description: 'Custom artwork staged in AI-generated office scenes, built for print, merch, and digital presentation.',
-        image: '/portfolio/DesignPortfolio9.png',
+        image: '/portfolio/DesignPortfolio9.webp',
         tools: 'Adobe Illustrator + AI',
     },
 ];
@@ -245,7 +245,7 @@ const Work = () => {
                 </motion.section>
 
                 <motion.section id="featured" variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig} className="scroll-mt-10 py-10 md:py-14">
-                    <SectionHeader eyebrow="Featured work" title="The portfolio starts with the strongest proof." copy="These pieces anchor the Work page as the primary archive, with category context, outcomes, and clear visual priority." />
+                    <SectionHeader eyebrow="Featured work" title="The portfolio starts with the strongest proof." copy="Selected projects across brand identity, campaign production, and AI-assisted imagery." />
 
                     <motion.div variants={staggerContainer(0.08)} initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-90px' }} className="mt-8 grid gap-5 lg:grid-cols-3">
                         {FEATURED_PROJECTS.map((item, index) => (
@@ -255,7 +255,7 @@ const Work = () => {
                 </motion.section>
 
                 <motion.section id="gallery" variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig} className="scroll-mt-10 py-10 md:py-14">
-                    <SectionHeader eyebrow="Visual gallery" title="A scannable wall of portfolio pieces." copy="Portfolio images are grouped into a responsive gallery so the page works as a complete destination without sending visitors away first." />
+                    <SectionHeader eyebrow="Visual gallery" title="Explore the work." copy="Browse website designs, visual identities, and campaign assets created for a range of audiences." />
                     <motion.div variants={staggerContainer(0.06)} initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-90px' }} className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
                         {GALLERY_ITEMS.map((item, index) => (
                             <ImageWorkCard key={item.id} item={{ ...item, subtitle: item.category }} index={index} reduceMotion={reduceMotion} accent="text-orange-300" />
@@ -273,7 +273,7 @@ const Work = () => {
                 </motion.section>
 
                 <motion.section id="services" variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig} className="scroll-mt-10 py-10 md:py-14">
-                    <SectionHeader eyebrow="Services" title="Turn the portfolio into a working system." copy="The service cards now support the portfolio narrative instead of competing with it." />
+                    <SectionHeader eyebrow="Services" title="Turn the portfolio into a working system." copy="Bring the same design and technical skills to your next website, brand, or workflow." />
 
                     <motion.div variants={staggerContainer(0.08)} initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-90px' }} className="mt-8 grid grid-cols-1 gap-5 md:grid-cols-3">
                         {SERVICE_WORK.map((item, index) => (
@@ -283,7 +283,7 @@ const Work = () => {
                 </motion.section>
 
                 <motion.section id="motion" variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig} className="scroll-mt-10 py-10 md:py-14">
-                    <SectionHeader eyebrow="Motion + video" title="Video blocks that keep their shape." copy="Embedded motion work sits in fixed 16:9 frames with cleaner metadata and less boxed-in treatment." />
+                    <SectionHeader eyebrow="Motion + video" title="Brands in motion." copy="Logo animation, campaign films, and character work that bring a visual identity to life." />
                     <motion.div variants={staggerContainer(0.08)} initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-90px' }} className="mt-8 grid grid-cols-1 gap-5 lg:grid-cols-2">
                         {MOTION_VIDEOS.map((item, index) => (
                             <motion.article variants={fadeInUp} key={item.id} className="group overflow-hidden rounded-[1.75rem] bg-white/[0.045] p-2 shadow-2xl ring-1 ring-white/10 backdrop-blur-xl">
@@ -291,7 +291,7 @@ const Work = () => {
                                     <iframe
                                         loading="lazy"
                                         title={item.title}
-                                        src={`https://play.gumlet.io/embed/${item.gumletId}?background=false&autoplay=true&loop=true&disableControls=false`}
+                                        src={`https://play.gumlet.io/embed/${item.gumletId}?background=false&autoplay=false&loop=false&disableControls=false`}
                                         className="absolute inset-0 h-full w-full"
                                         style={{ border: 'none' }}
                                         referrerPolicy="origin"
@@ -315,7 +315,7 @@ const Work = () => {
                 </motion.section>
 
                 <motion.section id="artworks" variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig} className="scroll-mt-10 py-10 md:py-14">
-                    <SectionHeader eyebrow="Heritage art" title="Artwork with room around it." copy="Emblems and poster studies use contain-fit staging so the full design stays visible instead of being awkwardly cropped." />
+                    <SectionHeader eyebrow="Heritage art" title="Heritage, illustrated." copy="Emblems, posters, and vector studies inspired by unit history and shared identity." />
                     <motion.div variants={staggerContainer(0.08)} initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-90px' }} className="mt-8 grid grid-cols-1 gap-5 md:grid-cols-2">
                         {HERITAGE_ART.map((item, index) => (
                             <ImageWorkCard key={item.id} item={item} index={index} reduceMotion={reduceMotion} contain accent="text-red-300" />
@@ -324,7 +324,7 @@ const Work = () => {
                 </motion.section>
 
                 <motion.section id="merch" variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig} className="scroll-mt-10 py-10 md:py-14">
-                    <SectionHeader eyebrow="Merch + drops" title="Product images that feel intentional." copy="Product cards now use a steady visual rhythm so the store links do not fight the artwork." />
+                    <SectionHeader eyebrow="Merch + drops" title="Take the artwork with you." copy="Shop selected heritage designs on mugs, posters, and other everyday pieces." />
                     <motion.div variants={staggerContainer(0.08)} initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-90px' }} className="mt-8 grid grid-cols-1 gap-5 md:grid-cols-3">
                         {MERCH.map((item, index) => (
                             <motion.article key={item.id} variants={fadeInUp} className="group overflow-hidden rounded-[1.75rem] bg-white/[0.045] p-2 shadow-2xl ring-1 ring-white/10 backdrop-blur-xl">
@@ -351,7 +351,7 @@ const Work = () => {
                 </motion.section>
 
                 <motion.section id="plans" variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig} className="scroll-mt-10 py-10 md:py-16">
-                    <SectionHeader eyebrow="Plans + roadmap" title="What the archive is building toward." copy="Short roadmap cards with softer materials and predictable mobile stacking." />
+                    <SectionHeader eyebrow="Plans + roadmap" title="What the archive is building toward." copy="Explore the studio’s next experiments in products, automation, and creative research." />
                     <motion.div variants={staggerContainer(0.08)} initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-90px' }} className="mt-8 grid grid-cols-1 gap-5 md:grid-cols-3">
                         {PLANS.map((item) => (
                             <motion.article key={item.id} variants={fadeInUp} whileHover={reduceMotion ? undefined : { y: -6 }} transition={{ type: 'spring', stiffness: 380, damping: 22 }} className="rounded-[1.5rem] bg-white/[0.045] p-5 ring-1 ring-white/10 backdrop-blur-xl">

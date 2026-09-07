@@ -103,7 +103,7 @@ const Portfolio = () => {
                 title="Selected work with a point of view."
                 subtitle="Web systems, brand assets, motion experiments, AI-assisted visuals, and field-built creative work brought into one focused archive."
                 tagline="Portfolio archive"
-                backgroundImage="/mebannerport.png"
+                backgroundImage="/mebannerport.webp"
                 ctaText="Explore Work"
                 ctaLink="#featured-projects"
                 height="85vh"
@@ -319,7 +319,7 @@ const Portfolio = () => {
                                 className="rounded-xl border border-white/10 bg-black/40 object-cover"
                             />
                             <img
-                                src="/ODAbaby.jpg"
+                                src="/ODAbaby.webp"
                                 alt="Animated heritage character artwork"
                                 loading="lazy"
                                 width="960"

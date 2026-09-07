@@ -8,7 +8,7 @@ export const posts = [
         size: "8.1 MB",
         excerpt: "If you've been watching the rise of 'agentic AI' and thinking, 'Cool… but can it actually run my workflows?' — OpenClaw is one of the first open-source projects that feels like a real answer.",
         tags: ["AI", "Agents", "Open Source", "Security", "Automation"],
-        coverImage: "/aiservices_image.png",
+        coverImage: "/aiservices_image.webp",
         contentHtml: `
             <p>If you've been watching the rise of "agentic AI" and thinking, <em>"Cool… but can it actually run my workflows?"</em> — OpenClaw is one of the first open-source projects that feels like a real answer.</p>
 

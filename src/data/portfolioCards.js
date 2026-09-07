@@ -39,7 +39,7 @@ export const CARDS = [
         type: 'video',
         videoSrc: 'https://play.gumlet.io/embed/6979b30a0c58139a84b3faf0?background=false&autoplay=true&loop=true&disableControls=false',
         src: '/og-novarey.svg',
-        gallery: ['/og-novarey.svg', '/mebannerport.png'],
+        gallery: ['/og-novarey.svg', '/mebannerport.webp'],
         landscape: true
     },
     {
@@ -49,8 +49,8 @@ export const CARDS = [
         description: 'Scroll-stopping social media content and campaign design. Templates, graphics, and visual strategies optimized for engagement across all platforms.',
         type: 'video',
         videoSrc: 'https://play.gumlet.io/embed/69802addffc582b7d2f7304c?background=false&autoplay=true&loop=true&disableControls=false',
-        src: '/mebannerport.png',
-        gallery: ['/mebannerport.png', '/homepage_whatido.png'],
+        src: '/mebannerport.webp',
+        gallery: ['/mebannerport.webp', '/homepage_whatido.png'],
         landscape: true
     },
     {
@@ -58,7 +58,7 @@ export const CARDS = [
         title: 'A.I. Advising',
         subtitle: 'Future-ready workflows',
         description: 'AI integration consulting and workflow optimization. From prompt engineering to automation pipelines, helping you leverage cutting-edge AI tools for maximum efficiency.',
-        src: '/aiservices_image.png',
-        gallery: ['/aiservices_image.png', '/homepage_info.png']
+        src: '/aiservices_image.webp',
+        gallery: ['/aiservices_image.webp', '/homepage_info.png']
     }
 ];

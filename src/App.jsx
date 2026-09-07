@@ -42,7 +42,7 @@ function AnimatedRoutes() {
     const location = useLocation();
 
     return (
-        <Suspense fallback={null}>
+        <Suspense fallback={<div role="status" className="flex-1 p-8 text-slate-300">Loading page…</div>}>
         <AnimatePresence mode="sync" onExitComplete={() => {
             const sc = document.querySelector('[data-scroll-container]');
             if (sc) sc.scrollTop = 0;
@@ -50,7 +50,7 @@ function AnimatedRoutes() {
             <motion.div
                 key={location.pathname}
                 variants={pageVariants}
-                initial="initial"
+                initial={false}
                 animate="enter"
                 exit="exit"
                 className="page-transition-layer flex-1 flex flex-col min-h-0"
@@ -86,17 +86,17 @@ function AnimatedRoutes() {
     );
 }
 
-function App() {
+export function Website() {
     return (
-        <Router>
             <div className="h-screen w-full bg-black">
                 <SEO />
                 <Layout>
                     <AnimatedRoutes />
                 </Layout>
             </div>
-        </Router>
     );
 }
 
-export default App;
+export default function App() {
+    return <Router><Website /></Router>;
+}

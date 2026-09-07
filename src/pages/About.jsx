@@ -74,7 +74,7 @@ const About = () => {
                 <div className="space-y-4">
                     <Suspense fallback={<div className="h-[520px] rounded-3xl border border-white/10 bg-white/[0.04] md:h-[640px]" />}>
                         <GlitchReveal
-                            leftSrc="/mestandingbw.png"
+                            leftSrc="/mestandingbw.webp"
                             rightSrc="/meanimated.mp4"
                             rightType="video"
                             labelLeft="Afghanistan // Original"
@@ -158,7 +158,7 @@ const About = () => {
                     >
                         <div className="relative overflow-hidden">
                             <img
-                                src="/isaac-portrait.png"
+                                src="/isaac-portrait.webp"
                                 alt="Isaac Reyes - designer, systems builder, and AI studio lead"
                                 className="lg:h-[520px] w-full h-[420px] object-cover"
                                 loading="lazy"
@@ -278,7 +278,7 @@ const About = () => {
                 {/* Sticky Globe Background */}
                 <div className="sticky top-0 h-screen w-full -z-10">
                     <Suspense fallback={null}>
-                        <MilitaryHistoryGlobe />
+                        {!import.meta.env.SSR && <MilitaryHistoryGlobe />}
                     </Suspense>
                 </div>
 

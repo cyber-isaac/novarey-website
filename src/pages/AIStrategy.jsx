@@ -20,10 +20,10 @@ import {
 import { fadeInUp, scrollReveal, staggerContainer, viewportConfig } from '../lib/animations';
 
 const HERO_IMAGES = [
-    { src: '/aiservices_image.png', alt: 'AI service design dashboard and creative workflow interface', className: 'col-span-6 row-span-3 md:col-span-7' },
-    { src: '/portfolio/DesignPortfolio11.png', alt: 'Graphic design portfolio artwork', className: 'col-span-3 row-span-2 md:col-span-3' },
-    { src: '/portfolio/DesignPortfolio17.png', alt: 'AI-assisted cinematic design artwork', className: 'col-span-3 row-span-2 md:col-span-2' },
-    { src: '/portfolio/DesignPortfolio12.png', alt: 'Brand and campaign visual system sample', className: 'col-span-6 row-span-2 md:col-span-5' },
+    { src: '/aiservices_image.webp', alt: 'AI service design dashboard and creative workflow interface', className: 'col-span-6 row-span-3 md:col-span-7' },
+    { src: '/portfolio/DesignPortfolio11.webp', alt: 'Graphic design portfolio artwork', className: 'col-span-3 row-span-2 md:col-span-3' },
+    { src: '/portfolio/DesignPortfolio17.webp', alt: 'AI-assisted cinematic design artwork', className: 'col-span-3 row-span-2 md:col-span-2' },
+    { src: '/portfolio/DesignPortfolio12.webp', alt: 'Brand and campaign visual system sample', className: 'col-span-6 row-span-2 md:col-span-5' },
 ];
 
 const MODEL_STACK = [
@@ -40,21 +40,21 @@ const SYSTEM_LAYERS = [
         title: 'Graphic Design Work',
         label: 'Taste layer',
         icon: PenTool,
-        image: '/portfolio/DesignPortfolio9.png',
+        image: '/portfolio/DesignPortfolio9.webp',
         copy: 'AI explores directions. I edit for hierarchy, taste, brand fit, composition, and client-ready polish.',
     },
     {
         title: 'AI Integration',
         label: 'Speed layer',
         icon: Cpu,
-        image: '/aiservices_image.png',
+        image: '/aiservices_image.webp',
         copy: 'Models are routed by task, not trend. Video, image, copy, research, and automation each get the right lane.',
     },
     {
         title: 'Closed Client Memory',
         label: 'Control layer',
         icon: Database,
-        image: '/portfolio/DesignPortfolio14.png',
+        image: '/portfolio/DesignPortfolio14.webp',
         copy: 'Obsidian and Notion keep briefs, assets, approvals, prompts, and decisions usable after delivery.',
     },
 ];
@@ -196,7 +196,7 @@ const AIStrategy = () => {
                             </motion.div>
                         </div>
                         <div className="relative min-h-[360px] border-t border-white/10 lg:border-l lg:border-t-0">
-                            <img src="/portfolio/DesignPortfolio7.png" alt="AI-assisted visual design system reference" className="absolute inset-0 h-full w-full object-cover opacity-70" loading="lazy" decoding="async" />
+                            <img src="/portfolio/DesignPortfolio7.webp" alt="AI-assisted visual design system reference" className="absolute inset-0 h-full w-full object-cover opacity-70" loading="lazy" decoding="async" />
                             <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(3,6,9,0.88),rgba(3,6,9,0.42)),radial-gradient(circle_at_70%_28%,rgba(143,211,255,0.22),transparent_34%)]" />
                             <div className="absolute bottom-5 left-5 right-5 border border-white/10 bg-black/45 p-4 backdrop-blur-xl">
                                 <div className="mb-2 flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-cyan-100">

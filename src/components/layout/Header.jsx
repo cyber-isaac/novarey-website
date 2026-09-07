@@ -27,14 +27,15 @@ const Header = ({ theme, onThemeChange }) => {
     };
 
     return (
-        <header className="sticky top-0 z-50 flex min-w-0 items-center justify-between border-b surface-panel-border surface-panel-muted px-4 py-4 backdrop-blur-md sm:px-6 lg:px-8">
-            <div className="min-w-0 flex-1 max-w-[96px] sm:max-w-xl">
+        <header className="sticky top-0 z-50 flex min-w-0 items-center justify-between border-b surface-panel-border surface-panel-muted pl-16 pr-3 py-4 backdrop-blur-md md:px-6 lg:px-8">
+            <div className="min-w-0 flex-1 max-w-xl">
                 <div className="relative group">
                     <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 transition-colors group-focus-within:text-white">
                         <Search className="w-4 h-4" />
                     </span>
                     <input
-                        type="text"
+                        type="search"
+                        aria-label="Search projects, tags, or articles"
                         placeholder="Search projects, tags, or articles..."
                         className="placeholder-slate-500 outline-none focus:ring-2 transition-all focus:ring-white/10 text-sm w-full border rounded-full pt-2.5 pr-12 pb-2.5 pl-11 surface-input"
                         value={query}

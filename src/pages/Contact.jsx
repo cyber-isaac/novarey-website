@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import { fadeInUp, scrollReveal, staggerContainer, viewportConfig } from '../lib/animations';
 import { CONTACT_EMAIL, GENERAL_EMAIL_URL, LINKEDIN_URL, STRATEGY_CALL_URL, makeMailto } from '../lib/contactLinks';
+import { submitBrief } from '../lib/submitBrief';
 
 const CONTACT_CHANNELS = [
     {
@@ -26,11 +27,11 @@ const CONTACT_CHANNELS = [
         note: 'Opens a new email already addressed to Isaac.',
     },
     {
-        label: 'Book',
-        value: 'Google strategy call',
-        href: STRATEGY_CALL_URL,
+        label: STRATEGY_CALL_URL ? 'Book' : 'Talk',
+        value: STRATEGY_CALL_URL ? 'Choose a strategy call time' : 'Request a strategy call',
+        href: STRATEGY_CALL_URL || '#project-brief',
         icon: Calendar,
-        note: 'Creates a Google Calendar invite with Isaac added.',
+        note: STRATEGY_CALL_URL ? 'See available times and book a conversation.' : 'Include your preferred times in the brief below.',
     },
     {
         label: 'LinkedIn',
@@ -77,6 +78,7 @@ const initialForm = {
 
 const Contact = () => {
     const [form, setForm] = useState(initialForm);
+    const [status, setStatus] = useState('idle');
 
     const mailtoHref = useMemo(() => {
         const subject = `Project inquiry from ${form.name || 'NovaRey contact page'}`;
@@ -99,9 +101,18 @@ const Contact = () => {
         setForm((current) => ({ ...current, [name]: value }));
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        window.location.href = mailtoHref;
+        if (status === 'sending') return;
+        const data = new FormData(event.currentTarget);
+        setStatus('sending');
+        try {
+            await submitBrief(data);
+            setStatus('success');
+            setForm(initialForm);
+        } catch {
+            setStatus('error');
+        }
     };
 
     return (
@@ -113,9 +124,9 @@ const Contact = () => {
                 <div className="mx-auto max-w-7xl">
                     <motion.div
                         variants={staggerContainer(0.08)}
-                        initial="hidden"
+                        initial={false}
                         animate="visible"
-                        className="grid gap-8 lg:grid-cols-[minmax(0,0.95fr)_minmax(420px,1.05fr)]"
+                        className="contact-intake grid gap-8"
                     >
                         <motion.div variants={fadeInUp} className="flex flex-col justify-between">
                             <div>
@@ -123,17 +134,17 @@ const Contact = () => {
                                     <MessageSquare className="h-3.5 w-3.5" />
                                     Project intake
                                 </div>
-                                <h1 className="hero-title max-w-4xl text-white">
-                                    NOVAREY VENTURES
+                                <h1 className="contact-title text-white">
+                                    Let’s build something that works.
                                 </h1>
                                 <p className="hero-copy mt-6 max-w-2xl text-slate-300">
-                                    AI-integrated intelligent design for websites, brand systems, automation, and custom digital builds. I use AI to speed up planning, iteration, and production, while keeping the final work polished, human, and built around your actual business.
+                                    Tell me about your website, brand, or workflow. I’ll help you define a practical scope and the next step toward launch.
                                 </p>
                             </div>
 
-                            <div className="mt-8 grid gap-3 sm:grid-cols-3">
+                            <div className="mt-6 grid grid-cols-3 gap-2">
                                 {SIGNALS.map((signal) => (
-                                    <div key={signal.label} className="border border-white/10 bg-white/[0.035] p-4">
+                                    <div key={signal.label} className="border border-white/10 bg-white/[0.035] p-3">
                                         <signal.icon className="mb-3 h-5 w-5 text-orange-300" />
                                         <div className="text-[10px] font-black uppercase tracking-[0.18em] text-slate-500">{signal.label}</div>
                                         <div className="mt-1 text-sm font-bold text-white">{signal.value}</div>
@@ -151,7 +162,9 @@ const Contact = () => {
                                 <FileText className="hidden h-8 w-8 text-orange-300 sm:block" />
                             </div>
 
-                            <form onSubmit={handleSubmit} className="grid gap-4">
+                            <form id="project-brief" name="project-inquiry" method="POST" data-netlify="true" netlify-honeypot="bot-field" onSubmit={handleSubmit} className="grid gap-4 scroll-mt-6">
+                                <input type="hidden" name="form-name" value="project-inquiry" />
+                                <p hidden><label>Leave this empty <input name="bot-field" tabIndex={-1} autoComplete="off" /></label></p>
                                 <div className="grid gap-4 sm:grid-cols-2">
                                     <Field label="Name" name="name" value={form.name} onChange={handleChange} placeholder="Your name" required />
                                     <Field label="Email" name="email" type="email" value={form.email} onChange={handleChange} placeholder="you@company.com" required />
@@ -179,11 +192,17 @@ const Contact = () => {
 
                                 <button
                                     type="submit"
-                                    className="group inline-flex min-h-[50px] w-full items-center justify-center gap-2 border border-orange-300/35 bg-orange-500/12 px-4 py-3 text-sm font-black uppercase tracking-[0.12em] text-white transition hover:border-orange-200/60 hover:bg-orange-500/18"
+                                    disabled={status === 'sending'}
+                                    className="group inline-flex min-h-[50px] w-full items-center justify-center gap-2 border border-orange-300/35 bg-orange-500/12 px-4 py-3 text-sm font-black uppercase tracking-[0.12em] text-white transition hover:border-orange-200/60 hover:bg-orange-500/18 disabled:opacity-60"
                                 >
                                     <Send className="h-4 w-4 transition group-hover:translate-x-0.5" />
-                                    Prepare email brief
+                                    {status === 'sending' ? 'Sending…' : 'Send project brief'}
                                 </button>
+                                <div role="status" aria-live="polite" className="text-sm leading-6 text-emerald-200">
+                                    {status === 'success' && 'Thanks — your brief has been received. Expect a reply within 24–48 hours.'}
+                                </div>
+                                {status === 'error' && <p role="alert" className="text-sm leading-6 text-orange-200">Your brief wasn’t sent. Your answers are still here; please retry or use the email option below.</p>}
+                                <p className="text-xs leading-6 text-slate-400">Your details are used to respond to this inquiry. Prefer email? <a href={mailtoHref} className="text-orange-200 underline">Send this brief by email</a>.</p>
                             </form>
                         </motion.div>
                     </motion.div>

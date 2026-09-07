@@ -8,7 +8,6 @@ import { staggerContainer, fadeInUp, scrollReveal, viewportConfig } from '../lib
 
 const AIStudioBrief = lazy(() => import('../components/features/AIStudioBrief'));
 const SpecialOpsTheater = lazy(() => import('../components/sections/SpecialOpsTheater'));
-const ProjectRequestForm = lazy(() => import('../components/features/ProjectRequestForm'));
 
 
 
@@ -75,9 +74,7 @@ const Dashboard = () => {
             className="flex-1 overflow-y-auto surface-panel h-full relative"
         >
             <div className="relative z-10">
-                <motion.div variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig}>
-                    <VideoHero />
-                </motion.div>
+                <VideoHero />
 
                 <motion.section variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig} className="px-4 sm:px-6 lg:px-8 pt-6 pb-2">
                     <div className="max-w-6xl grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-8 lg:gap-10 items-start">
@@ -117,12 +114,7 @@ const Dashboard = () => {
                                 >
                                     Discover Isaac
                                 </Button>
-                                <div className="flex items-center gap-3 text-[var(--text-2)]">
-                                    <div className="text-[11px] sm:text-sm tracking-[0.2em] text-[var(--text-1)] font-mono" aria-label="Five out of five rating">
-                                        5/5
-                                    </div>
-                                    <div className="text-[10px] sm:text-xs uppercase tracking-widest text-[var(--text-3)]">Top Rated</div>
-                                </div>
+
                             </div>
                         </div>
 
@@ -133,12 +125,12 @@ const Dashboard = () => {
                                 <div className="relative rounded-[28px] border border-[var(--border-1)] bg-[var(--surface-2)] p-2 shadow-[0_20px_60px_rgba(0,0,0,0.6)] backdrop-blur-xl animate-float">
                                     <video
                                         src="/meanimated.mp4"
-                                        poster="/ODAbaby.jpg"
-                                        autoPlay
+                                        poster="/me.png"
+                                        controls
                                         muted
                                         loop
                                         playsInline
-                                        preload="metadata"
+                                        preload="none"
                                         aria-label="Animated NovaRey character video"
                                         className="aspect-square w-full rounded-[22px] bg-black/40 object-cover"
                                     />
@@ -331,9 +323,11 @@ const Dashboard = () => {
                     </motion.section>
 
 
-                    <LazyMount minHeight={360}>
-                        <ProjectRequestForm />
-                    </LazyMount>
+                    <section className="rounded-2xl border border-white/10 bg-white/[0.04] p-6 sm:p-10">
+                        <h2 className="text-3xl font-bold text-[var(--text-1)]">Have a project in mind?</h2>
+                        <p className="mt-3 mb-6 max-w-xl text-[var(--text-2)]">Share what you want to build, your timeline, and your budget. I’ll help you find the right starting point.</p>
+                        <Button as={Link} to="/contact" icon={ArrowRight}>Start a Project</Button>
+                    </section>
 
 
                 </div>
