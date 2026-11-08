@@ -1,0 +1,71 @@
+/* The story and the interactive scene occupy separate lanes. */
+.about-globe-story {
+  --globe-space: #080f1b;
+  --globe-surface: #101c2af2;
+  --globe-ink: #f1f5f9;
+  --globe-muted: #b8c9db;
+  --globe-accent: #a5dded;
+  --globe-line: #a5dded38;
+  --globe-halo: #3b94c326;
+  position: relative;
+  isolation: isolate;
+  color: var(--globe-ink);
+  background: var(--globe-space);
+  border-block: 1px solid var(--globe-line);
+}
+.theme-light .about-globe-story {
+  --globe-space: #eef4f9;
+  --globe-surface: #fffffff5;
+  --globe-ink: #152638;
+  --globe-muted: #40566b;
+  --globe-accent: #155e75;
+  --globe-line: #53788b40;
+  --globe-halo: #77b8dc38;
+}
+.globe-stage-sticky { position: sticky; top: 0; height: calc(100svh - 150px); min-height: 500px; width: 100%; z-index: 0; }
+.globe-experience { position: relative; width: 100%; height: 100%; overflow: hidden; }
+.globe-viewport { position: absolute; inset: 0 0 0 32%; touch-action: pan-y; }
+.globe-orbital-halo { position: absolute; inset: 8% 0 4% 30%; pointer-events: none; border-radius: 50%; background: radial-gradient(ellipse, var(--globe-halo), transparent 67%); }
+.globe-toolbar { position: absolute; top: 24px; right: 24px; z-index: 5; display: flex; align-items: center; justify-content: space-between; gap: 20px; max-width: calc(68% - 48px); padding: 12px 14px 12px 18px; background: var(--globe-surface); border: 1px solid var(--globe-line); border-radius: 14px; box-shadow: 0 8px 28px #00000012; }
+.globe-route-summary { min-width: 0; display: grid; gap: 3px; }
+.globe-route-summary span { font: 400 11px/1.5 var(--font-body); color: var(--globe-muted); }
+.globe-route-summary strong { font: 600 14px/1.5 var(--font-body); color: var(--globe-ink); overflow-wrap: anywhere; }
+.globe-toolbar-actions { display: flex; gap: 6px; flex-shrink: 0; }
+.globe-toolbar button { display: grid; place-items: center; width: 44px; height: 44px; border: 1px solid var(--globe-line); color: var(--globe-ink); background: transparent; border-radius: 9px; }
+.globe-toolbar button:hover:not(:disabled) { background: var(--globe-halo); }
+.globe-toolbar button:disabled { opacity: .35; cursor: not-allowed; }
+.globe-toolbar button:focus-visible { outline: 2px solid var(--globe-accent); outline-offset: 3px; }
+.globe-story-content { position: relative; z-index: 1; margin-top: calc(-1 * max(500px, 100svh - 150px)); padding: 80px 28px 48px; pointer-events: none; }
+.globe-story-intro { max-width: 360px; margin-bottom: 100px; padding: 22px; pointer-events: auto; background: var(--globe-surface); border-radius: 16px; border: 1px solid var(--globe-line); }
+.about-globe-story .globe-story-intro h2 { color: var(--globe-ink); font-size: clamp(28px, 3cqi, 42px); line-height: 1.12; text-transform: none; font-style: normal; letter-spacing: -.03em; margin-block: 16px; }
+.about-globe-story .globe-story-intro p { color: var(--globe-muted); font-size: 15px; line-height: 1.7; }
+.about-globe-story .globe-story-intro > div:first-child { color: var(--globe-accent); letter-spacing: .03em; font: 500 12px/1.5 var(--font-body); text-transform: none; }
+.military-dest-section { min-height: 70svh; display: flex; align-items: center; padding-block: 48px; }
+.about-globe-story .globe-location-card { pointer-events: auto; width: min(34%, 380px); min-width: 280px; padding: 26px; border: 1px solid var(--globe-line); background: var(--globe-surface); color: var(--globe-ink); box-shadow: 0 14px 40px #00000018; border-radius: 16px; backdrop-filter: blur(16px); }
+.about-globe-story .globe-location-label { color: var(--globe-accent); font: 500 12px/1.6 var(--font-body); letter-spacing: 0; text-transform: none; margin-bottom: 20px; }
+.about-globe-story .globe-location-year { font: 500 15px/1.6 var(--font-body); color: var(--globe-muted); margin: 0 0 8px; }
+.about-globe-story .globe-location-title { font: 650 clamp(26px, 2.6cqi, 36px)/1.12 var(--font-display); letter-spacing: -.03em; color: var(--globe-ink); overflow-wrap: anywhere; margin-bottom: 18px; }
+.about-globe-story .globe-location-desc { color: var(--globe-muted); font: 400 15px/1.75 var(--font-body); }
+.about-globe-story .globe-location-meta { border-color: var(--globe-line); color: var(--globe-muted); display: flex; flex-wrap: wrap; gap: 10px 18px; margin-top: 22px; padding-top: 18px; font: 400 10px/1.6 var(--font-mono); letter-spacing: 0; }
+.about-globe-story .globe-location-meta > span:last-child { color: var(--globe-accent); }
+.globe-marker { display: flex; flex-direction: column; align-items: center; }
+.globe-marker-panel { max-width: 220px; padding: 12px 15px; border: 1px solid var(--globe-line); border-radius: 12px; background: var(--globe-surface); box-shadow: 0 8px 24px #00000026; white-space: normal; text-align: center; }
+.globe-marker-panel strong { display: block; color: var(--globe-ink); font: 600 14px/1.4 var(--font-body); }
+.globe-marker-panel span { display: block; margin-top: 4px; color: var(--globe-muted); font: 400 11px/1.5 var(--font-body); }
+.globe-marker-stem { width: 1px; height: 22px; background: var(--globe-accent); }
+.globe-render-notice { position: absolute; top: 40%; left: 40%; right: 8%; padding: 24px; color: var(--globe-ink); background: var(--globe-surface); border: 1px solid var(--globe-line); border-radius: 12px; }
+@container site-content (max-width: 900px) {
+  .globe-stage-sticky { min-height: 560px; }
+  .globe-story-content { margin-top: calc(-1 * max(560px, 100svh - 150px)); padding: 100px 20px 32px; }
+  .globe-viewport { inset: 0 0 24%; }
+  .globe-orbital-halo { inset: 12% 0; }
+  .globe-toolbar { top: 12px; right: 12px; left: 12px; max-width: none; gap: 10px; }
+  .globe-story-intro { margin-top: 340px; margin-bottom: 40px; max-width: 100%; }
+  .military-dest-section { min-height: 95svh; align-items: flex-end; padding-bottom: 20px; }
+  .about-globe-story .globe-location-card { width: 100%; max-width: 440px; min-width: 0; margin-inline: auto; padding: 22px; }
+  .globe-marker-panel { max-width: 170px; padding: 9px 12px; }
+  .globe-render-notice { top: 30%; left: 20px; right: 20px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .about-globe-story *, .about-globe-story *::before, .about-globe-story *::after { animation: none !important; transition: none !important; }
+}

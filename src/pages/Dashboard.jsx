@@ -1,20 +1,20 @@
-import React, { lazy, Suspense, useEffect, useRef, useState } from 'react';
-import { ArrowRight, Brain, Boxes, PenTool, Wand2, Target, Monitor, Check } from 'lucide-react';
+import React, { useRef } from 'react';
+import { ArrowRight, Brain, Boxes, PenTool, Target, Monitor, Check } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import VideoHero from '../components/sections/VideoHero';
 import Button from '../components/ui/Button';
 import { staggerContainer, fadeInUp, scrollReveal, viewportConfig } from '../lib/animations';
 
-const AIStudioBrief = lazy(() => import('../components/features/AIStudioBrief'));
-const SpecialOpsTheater = lazy(() => import('../components/sections/SpecialOpsTheater'));
+import AIStudioBrief from '../components/features/AIStudioBrief';
+import SpecialOpsTheater from '../components/sections/SpecialOpsTheater';
 
 
 
 const PROCESS_STEPS = [
     {
         title: 'Strategy & Scope',
-        desc: 'Clarify the audience, goals, constraints, and the fastest path to a polished launch.',
+        desc: 'Clarify the audience, goals, constraints, and a practical plan for the project.',
         icon: Boxes
     },
     {
@@ -31,39 +31,6 @@ const PROCESS_STEPS = [
 
 
 
-const LazyMount = ({ children, minHeight = 360 }) => {
-    const ref = useRef(null);
-    const [isVisible, setIsVisible] = useState(false);
-
-    useEffect(() => {
-        if (isVisible) return undefined;
-        const node = ref.current;
-        if (!node || !('IntersectionObserver' in window)) {
-            setIsVisible(true);
-            return undefined;
-        }
-
-        const observer = new IntersectionObserver(
-            ([entry]) => {
-                if (entry.isIntersecting) {
-                    setIsVisible(true);
-                    observer.disconnect();
-                }
-            },
-            { rootMargin: '560px 0px' }
-        );
-
-        observer.observe(node);
-        return () => observer.disconnect();
-    }, [isVisible]);
-
-    return (
-        <div ref={ref} style={{ minHeight: isVisible ? undefined : minHeight }}>
-            {isVisible ? <Suspense fallback={null}>{children}</Suspense> : null}
-        </div>
-    );
-};
-
 const Dashboard = () => {
     const containerRef = useRef(null);
 
@@ -71,46 +38,32 @@ const Dashboard = () => {
         <div
             ref={containerRef}
             data-scroll-container
-            className="flex-1 overflow-y-auto surface-panel h-full relative"
+            className="home-editorial flex-1 min-w-0 surface-panel relative"
         >
             <div className="relative z-10">
                 <VideoHero />
 
-                <motion.section variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig} className="px-4 sm:px-6 lg:px-8 pt-6 pb-2">
-                    <div className="max-w-6xl grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-8 lg:gap-10 items-start">
+                <motion.section variants={scrollReveal} initial={false} whileInView="visible" viewport={viewportConfig} className="home-intro px-4 sm:px-6 lg:px-8 pt-10 sm:pt-12 pb-2">
+                    <div className="responsive-split max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-8 lg:gap-10 items-start">
                         <div className="relative">
-                            <span className="inline-flex items-center gap-2 rounded-full border border-[var(--border-1)] bg-[var(--surface-2)] px-3 py-1 text-[10px] sm:text-[11px] uppercase tracking-widest text-[var(--text-2)] backdrop-blur">
-                                General Designer
-                            </span>
                             <h2 className="mt-6 max-w-3xl font-display text-[2.15rem] font-bold leading-[1.04] tracking-normal text-[var(--text-1)] md:text-[3.25rem]">
-                                Design direction for AI-forward brands.
+                                Design for your website and brand.
                             </h2>
-                            <h3 className="mt-2 max-w-3xl font-display text-[2.15rem] font-bold leading-[1.04] tracking-normal text-[var(--text-3)] md:text-[3.25rem]">
-                                Automation systems for work that repeats.
-                            </h3>
+                            <p className="home-intro-secondary">
+                                Business tools for the work you repeat.
+                            </p>
                             <p className="mt-4 text-sm sm:text-base md:text-lg text-[var(--text-2)] max-w-3xl leading-relaxed">
-                                I combine visual systems, web builds, and AI tooling into clean production workflows.
+                                I design websites, brand assets, and tools for everyday business tasks.
                             </p>
                             <p className="mt-3 text-sm sm:text-base md:text-lg text-[var(--text-3)] max-w-3xl leading-relaxed">
-                                The result is practical creative infrastructure: faster content, sharper launches, and fewer manual handoffs.
+                                Explore the work below, from website layouts and industrial marketing materials to heritage illustration.
                             </p>
-
-                            <div className="mt-6 space-y-3 text-xs sm:text-sm text-[var(--text-2)]">
-                                <div className="flex items-center gap-2">
-                                    <Check className="h-4 w-4 text-blue-400" />
-                                    <span>Adobe Suite | Midjourney | Canva Pro | Filmora</span>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                    <Check className="h-4 w-4 text-blue-400" />
-                                    <span>Codex | Cursor AI | GitHub Copilot</span>
-                                </div>
-                            </div>
 
                             <div className="mt-7 flex flex-wrap items-center gap-4 sm:gap-6">
                                 <Button
                                     as={Link}
                                     to="/about"
-                                    className="uppercase italic font-black tracking-widest text-[10px] sm:text-xs"
+                                    className="home-action-label"
                                 >
                                     Discover Isaac
                                 </Button>
@@ -118,19 +71,19 @@ const Dashboard = () => {
                             </div>
                         </div>
 
-                        <div className="flex justify-start lg:justify-end">
+                        <div className="home-portrait flex justify-start lg:justify-end">
                             <div className="relative max-w-[240px] sm:max-w-[280px] lg:max-w-[320px] w-full">
                                 <div className="absolute -inset-4 rounded-[32px] bg-emerald-500/15 blur-3xl"></div>
                                 <div className="absolute -inset-0.5 rounded-[28px] border border-white/10"></div>
-                                <div className="relative rounded-[28px] border border-[var(--border-1)] bg-[var(--surface-2)] p-2 shadow-[0_20px_60px_rgba(0,0,0,0.6)] backdrop-blur-xl animate-float">
+                                <div className="relative rounded-[28px] border border-[var(--border-1)] bg-[var(--surface-2)] p-2 shadow-[0_20px_60px_rgba(0,0,0,0.6)] backdrop-blur-xl motion-safe:animate-float">
                                     <video
                                         src="/meanimated.mp4"
                                         poster="/me.png"
-                                        controls
+                                        autoPlay
                                         muted
                                         loop
                                         playsInline
-                                        preload="none"
+                                        preload="metadata"
                                         aria-label="Animated NovaRey character video"
                                         className="aspect-square w-full rounded-[22px] bg-black/40 object-cover"
                                     />
@@ -142,75 +95,70 @@ const Dashboard = () => {
 
 
 
-                <div className="px-4 sm:px-6 lg:px-8 py-8 space-y-10">
-                    <motion.section variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig}>
+                <div className="home-content mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-10 sm:py-12 space-y-12 sm:space-y-16">
+                    <motion.section variants={scrollReveal} initial={false} whileInView="visible" viewport={viewportConfig}>
                         <div className="flex items-center gap-4 mb-6">
                             <h2 className="text-lg font-semibold text-[var(--text-1)] tracking-tight">
-                                Generalist Designer · A.I. Venture Studio
+                                What the studio makes
                             </h2>
                             <div className="h-px bg-[var(--border-1)] flex-1 ml-4"></div>
                         </div>
                         <motion.div
                             variants={staggerContainer(0.1, 0.2)}
-                            initial="hidden"
+                            initial={false}
                             whileInView="visible"
                             viewport={{ once: true, margin: "-100px" }}
-                            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
+                            className="home-capabilities"
                         >
-                            <motion.div variants={fadeInUp} className="group relative rounded-2xl bg-blue-500/10 border border-blue-500/30 p-6 hover:border-blue-300/60 transition-all">
+                            <motion.div variants={fadeInUp} className="home-card info-card info-card--body group relative">
                                 <div className="flex items-center gap-3 mb-4 text-blue-400">
                                     <Brain className="w-5 h-5" />
                                     <span className="text-[10px] font-mono uppercase tracking-widest text-[var(--text-3)]">AI Apps</span>
                                 </div>
-                                <h3 className="text-xl font-bold text-[var(--text-1)] mb-2">Intelligent Products</h3>
+                                <h3 className="text-xl font-bold text-[var(--text-1)] mb-2">Business tools</h3>
                                 <p className="text-sm text-[var(--text-3)]">Custom AI tools, copilots, and interfaces designed for real workflows.</p>
                             </motion.div>
-                            <motion.div variants={fadeInUp} className="group relative rounded-2xl bg-rose-500/10 border border-rose-500/30 p-6 hover:border-rose-300/60 transition-all">
+                            <motion.div variants={fadeInUp} className="home-card info-card info-card--body group relative">
                                 <div className="flex items-center gap-3 mb-4 text-rose-400">
                                     <Boxes className="w-5 h-5" />
                                     <span className="text-[10px] font-mono uppercase tracking-widest text-[var(--text-3)]">Systems</span>
                                 </div>
-                                <h3 className="text-xl font-bold text-[var(--text-1)] mb-2">Workflow Engineering</h3>
+                                <h3 className="text-xl font-bold text-[var(--text-1)] mb-2">Workflow design</h3>
                                 <p className="text-sm text-[var(--text-3)]">Automation pipelines, data routing, and operational dashboards.</p>
                             </motion.div>
-                            <motion.div variants={fadeInUp} className="group relative rounded-2xl bg-emerald-500/10 border border-emerald-500/30 p-6 hover:border-emerald-300/60 transition-all">
+                            <motion.div variants={fadeInUp} className="home-card info-card info-card--body group relative">
                                 <div className="flex items-center gap-3 mb-4 text-emerald-400">
-                                    <Wand2 className="w-5 h-5" />
                                     <span className="text-[10px] font-mono uppercase tracking-widest text-[var(--text-3)]">Generative</span>
                                 </div>
-                                <h3 className="text-xl font-bold text-[var(--text-1)] mb-2">AI Artifacts</h3>
+                                <h3 className="text-xl font-bold text-[var(--text-1)] mb-2">Visual studies</h3>
                                 <p className="text-sm text-[var(--text-3)]">Visual experiments, motion systems, and generative brand assets.</p>
                             </motion.div>
-                            <motion.div variants={fadeInUp} className="group relative rounded-2xl bg-[var(--surface-2)] border border-[var(--border-2)] p-6 hover:border-[var(--border-1)] transition-all">
+                            <motion.div variants={fadeInUp} className="home-card info-card info-card--body group relative">
                                 <div className="flex items-center gap-3 mb-4 text-[var(--text-1)]">
                                     <PenTool className="w-5 h-5" />
                                     <span className="text-[10px] font-mono uppercase tracking-widest text-[var(--text-3)]">Craft</span>
                                 </div>
-                                <h3 className="text-xl font-bold text-[var(--text-1)] mb-2">Coded Interfaces</h3>
+                                <h3 className="text-xl font-bold text-[var(--text-1)] mb-2">Websites and interfaces</h3>
                                 <p className="text-sm text-[var(--text-3)]">Websites, components, and product UI built for speed and clarity.</p>
                             </motion.div>
                         </motion.div>
                     </motion.section>
+                    <AIStudioBrief />
 
-                    <LazyMount minHeight={520}>
-                        <AIStudioBrief />
-                    </LazyMount>
-
-                    <LazyMount minHeight={480}>
-                        <SpecialOpsTheater />
-                    </LazyMount>
+                    <SpecialOpsTheater />
 
 
 
 
-                    <motion.section variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig}>
+
+                    <motion.section variants={scrollReveal} initial={false} whileInView="visible" viewport={viewportConfig}>
                         <div className="flex items-center gap-4 mb-6">
                             <h2 className="text-lg font-semibold text-[var(--text-1)] tracking-tight">Studio Process</h2>
                             <div className="h-px bg-white/10 flex-1 ml-4"></div>
                         </div>
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <div className="home-process">
                             {PROCESS_STEPS.map((step, idx) => (
-                                <div key={step.title} className="rounded-2xl border border-[var(--border-1)] bg-[var(--surface-2)] p-6">
+                                <div key={step.title} className="home-card info-card info-card--body">
                                     <div className="flex items-center gap-3 text-orange-400 mb-4">
                                         <step.icon className="w-5 h-5" />
                                         <span className="text-[10px] font-mono uppercase tracking-widest text-[var(--text-3)]">Step {idx + 1}</span>
@@ -223,15 +171,15 @@ const Dashboard = () => {
                     </motion.section>
 
 
-                    <motion.section variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig}>
+                    <motion.section variants={scrollReveal} initial={false} whileInView="visible" viewport={viewportConfig}>
                         <div className="flex items-center gap-4 mb-6">
                             <h2 className="text-lg font-semibold text-[var(--text-1)] tracking-tight">Heritage Artwork</h2>
                             <div className="h-px bg-white/10 flex-1 ml-4"></div>
                         </div>
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                            <div className="group relative rounded-2xl overflow-hidden border border-[var(--border-1)] bg-[var(--surface-2)]">
-                                <img src="https://i.etsystatic.com/45034429/r/il/847430/7235012828/il_1140xN.7235012828_o0tj.jpg" alt="Heritage black mug design" loading="lazy" decoding="async" className="w-full h-56 object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
-                                <div className="p-6">
+                        <div className="home-artwork-grid">
+                            <div className="home-artwork-card group relative overflow-hidden rounded-2xl border border-[var(--border-1)] bg-[var(--surface-2)]">
+                                <img src="https://i.etsystatic.com/45034429/r/il/847430/7235012828/il_1140xN.7235012828_o0tj.jpg" alt="Heritage black mug design" loading="lazy" decoding="async" className="w-full aspect-[4/3] object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
+                                <div className="flex flex-1 flex-col items-start p-5 sm:p-6">
                                     <div className="text-[10px] font-mono text-[var(--text-3)] uppercase tracking-widest">Merch Drop</div>
                                     <h3 className="text-xl font-bold text-[var(--text-1)] mt-2">Heritage Mark Mug</h3>
                                     <p className="text-sm text-[var(--text-3)] mt-2">Black mug with a bold emblem treatment for everyday studio use.</p>
@@ -241,15 +189,15 @@ const Dashboard = () => {
                                         target="_blank"
                                         rel="noreferrer"
                                         icon={ArrowRight}
-                                        className="uppercase italic font-black tracking-widest text-xs mt-4"
+                                        className="home-action-label mt-auto pt-4"
                                     >
                                         View on Etsy
                                     </Button>
                                 </div>
                             </div>
-                            <div className="group relative rounded-2xl overflow-hidden border border-[var(--border-1)] bg-[var(--surface-2)]">
-                                <img src="https://i.etsystatic.com/45034429/r/il/b48618/5907143193/il_1140xN.5907143193_4z4k.jpg" alt="1st Special Service Force Black Devils Mug" loading="lazy" decoding="async" className="w-full h-56 object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
-                                <div className="p-6">
+                            <div className="home-artwork-card group relative overflow-hidden rounded-2xl border border-[var(--border-1)] bg-[var(--surface-2)]">
+                                <img src="https://i.etsystatic.com/45034429/r/il/b48618/5907143193/il_1140xN.5907143193_4z4k.jpg" alt="1st Special Service Force Black Devils Mug" loading="lazy" decoding="async" className="w-full aspect-[4/3] object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
+                                <div className="flex flex-1 flex-col items-start p-5 sm:p-6">
                                     <div className="text-[10px] font-mono text-[var(--text-3)] uppercase tracking-widest">Black Devils Series</div>
                                     <h3 className="text-xl font-bold text-[var(--text-1)] mt-2">1st Special Service Force Mug</h3>
                                     <p className="text-sm text-[var(--text-3)] mt-2">WWII heritage design for 1st SSF and 1st SFG supporters.</p>
@@ -259,15 +207,15 @@ const Dashboard = () => {
                                         target="_blank"
                                         rel="noreferrer"
                                         icon={ArrowRight}
-                                        className="uppercase italic font-black tracking-widest text-xs mt-4"
+                                        className="home-action-label mt-auto pt-4"
                                     >
                                         Shop on Etsy
                                     </Button>
                                 </div>
                             </div>
-                            <div className="group relative rounded-2xl overflow-hidden border border-[var(--border-1)] bg-[var(--surface-2)]">
-                                <img src="https://i.etsystatic.com/45034429/r/il/0c7a68/5306378755/il_794xN.5306378755_6wpa.jpg" alt="Devils Brigade Legacy Logo" loading="lazy" decoding="async" className="w-full h-56 object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
-                                <div className="p-6">
+                            <div className="home-artwork-card group relative overflow-hidden rounded-2xl border border-[var(--border-1)] bg-[var(--surface-2)]">
+                                <img src="https://i.etsystatic.com/45034429/r/il/0c7a68/5306378755/il_794xN.5306378755_6wpa.jpg" alt="Devils Brigade Legacy Logo" loading="lazy" decoding="async" className="w-full aspect-[4/3] object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
+                                <div className="flex flex-1 flex-col items-start p-5 sm:p-6">
                                     <div className="text-[10px] font-mono text-[var(--text-3)] uppercase tracking-widest">Legacy Poster</div>
                                     <h3 className="text-xl font-bold text-[var(--text-1)] mt-2">Devils Brigade Legacy</h3>
                                     <p className="text-sm text-[var(--text-3)] mt-2">Digital recreation of the 1st Special Service Force logo, built in Illustrator + Photoshop.</p>
@@ -277,15 +225,15 @@ const Dashboard = () => {
                                         target="_blank"
                                         rel="noreferrer"
                                         icon={ArrowRight}
-                                        className="uppercase italic font-black tracking-widest text-xs mt-4"
+                                        className="home-action-label mt-auto pt-4"
                                     >
                                         View on Etsy
                                     </Button>
                                 </div>
                             </div>
-                            <div className="group relative rounded-2xl overflow-hidden border border-[var(--border-1)] bg-[var(--surface-2)]">
-                                <img src="https://i.etsystatic.com/45034429/r/il/0816ab/5859092760/il_1140xN.5859092760_hrxf.jpg" alt="Vector patch sticker design" loading="lazy" decoding="async" className="w-full h-56 object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
-                                <div className="p-6">
+                            <div className="home-artwork-card group relative overflow-hidden rounded-2xl border border-[var(--border-1)] bg-[var(--surface-2)]">
+                                <img src="https://i.etsystatic.com/45034429/r/il/0816ab/5859092760/il_1140xN.5859092760_hrxf.jpg" alt="Vector patch sticker design" loading="lazy" decoding="async" className="w-full aspect-[4/3] object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
+                                <div className="flex flex-1 flex-col items-start p-5 sm:p-6">
                                     <div className="text-[10px] font-mono text-[var(--text-3)] uppercase tracking-widest">Patch Archive</div>
                                     <h3 className="text-xl font-bold text-[var(--text-1)] mt-2">Patch Sticker Study</h3>
                                     <p className="text-sm text-[var(--text-3)] mt-2">Sticker design derived from an original unit patch layout.</p>
@@ -295,7 +243,7 @@ const Dashboard = () => {
                                         target="_blank"
                                         rel="noreferrer"
                                         icon={ArrowRight}
-                                        className="uppercase italic font-black tracking-widest text-xs mt-4"
+                                        className="home-action-label mt-auto pt-4"
                                     >
                                         View on Etsy
                                     </Button>
@@ -304,10 +252,10 @@ const Dashboard = () => {
                         </div>
                     </motion.section>
 
-                    <motion.section variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig}>
+                    <motion.section variants={scrollReveal} initial={false} whileInView="visible" viewport={viewportConfig}>
                         <div className="rounded-3xl border border-[var(--border-1)] bg-[var(--surface-2)] p-8 md:p-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
                             <div>
-                                <div className="text-[10px] font-mono text-orange-400 uppercase tracking-widest">Writing · Research Hub</div>
+                                <div className="text-[10px] font-mono text-orange-400 uppercase tracking-widest">Writing and research</div>
                                 <h3 className="text-2xl md:text-3xl font-bold text-[var(--text-1)] mt-2">Essays, research, and system breakdowns.</h3>
                                 <p className="text-sm text-[var(--text-3)] mt-2 max-w-xl">A living archive of experiments, frameworks, and deep dives across AI, design, and product.</p>
                             </div>
@@ -315,7 +263,7 @@ const Dashboard = () => {
                                 as={Link}
                                 to="/idrive"
                                 icon={ArrowRight}
-                                className="uppercase italic font-black tracking-widest text-xs"
+                                className="home-action-label"
                             >
                                 Enter the Archive
                             </Button>

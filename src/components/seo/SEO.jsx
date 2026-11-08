@@ -141,7 +141,7 @@ const buildStructuredData = (url, meta, pathname) => {
 
 const SEO = () => {
     const location = useLocation();
-    const pathname = normalizePath(location.pathname);
+    const pathname = normalizePath(location.pathname) === "/portfolio" ? "/work" : normalizePath(location.pathname);
     const meta = getMetaForPath(pathname);
     const canonical = `${SITE_URL}${pathname === '/' ? '' : pathname}`;
     const structuredData = buildStructuredData(canonical, meta, pathname);

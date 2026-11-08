@@ -2,9 +2,7 @@ import React, { Suspense, lazy } from 'react';
 import {
     Crosshair,
     ArrowRight,
-    Sparkles,
     Cpu,
-    Wand2,
     Palette,
     Film,
     BadgeCheck,
@@ -16,6 +14,7 @@ import { Link } from 'react-router-dom';
 import Button from '../components/ui/Button';
 import { DESTINATIONS } from '../data/militaryDestinations';
 import { motion } from 'framer-motion';
+import '../styles/about-globe.css';
 import { staggerContainer, fadeInUp, scrollReveal, viewportConfig } from '../lib/animations';
 
 const AuraBackground = lazy(() => import('../components/visuals/AuraBackground'));
@@ -51,9 +50,7 @@ const SERVICES = [
 ];
 
 const HERO_PROOF = [
-    { label: 'Career experience', value: '17.5 yrs' },
-    { label: 'Design + AI builds', value: '100+' },
-    { label: 'Response rhythm', value: '24h' }
+    { label: 'Career experience', value: '17.5 yrs' }
 ];
 
 const HERO_FOCUS = [
@@ -126,7 +123,6 @@ const About = () => {
                         <div className="absolute -bottom-20 left-6 h-44 w-44 rounded-full bg-emerald-400/10 blur-3xl"></div>
                         <div className="relative">
                             <div className="flex items-center gap-3 text-[10px] uppercase tracking-[0.24em] text-orange-300/80 font-mono">
-                                <Sparkles className="w-4 h-4" />
                                 Design that works.
                             </div>
                             <p className="mt-6 text-2xl sm:text-[2rem] font-semibold tracking-tight text-white leading-[1.12]">
@@ -188,7 +184,7 @@ const About = () => {
                                         <motion.div
                                             key={item.label}
                                             variants={fadeInUp}
-                                            whileHover={{ y: -4 }}
+
                                             transition={{ type: 'spring', stiffness: 380, damping: 22 }}
                                             className="rounded-2xl border border-white/10 bg-white/[0.055] px-4 py-4"
                                         >
@@ -205,8 +201,8 @@ const About = () => {
                                     {['Brand systems', 'AI workflows', 'Product UI', 'Motion websites'].map((item) => (
                                         <motion.span
                                             key={item}
-                                            whileHover={{ scale: 1.04 }}
-                                            whileTap={{ scale: 0.98 }}
+
+
                                             transition={{ type: 'spring', stiffness: 400, damping: 18 }}
                                             className="rounded-full border border-white/10 bg-white/[0.055] px-4 py-2 text-xs sm:text-sm text-slate-300"
                                         >
@@ -223,7 +219,7 @@ const About = () => {
                                     </Button>
                                     <Button
                                         as={Link}
-                                        to="/portfolio"
+                                        to="/work"
                                         icon={ArrowRight}
                                         className="uppercase italic font-black tracking-widest text-xs"
                                     >
@@ -234,7 +230,7 @@ const About = () => {
                                     <div className="flex flex-col sm:flex-row sm:items-center gap-4 text-sm text-white/60">
                                         <div className="flex items-center gap-2">
                                             <Briefcase className="w-4 h-4 text-white/60" />
-                                            <span className="font-mono">Response within 24h</span>
+                                            <span className="font-mono">Typical reply within 24–48h</span>
                                         </div>
                                         <div className="flex items-center gap-2">
                                             <Crosshair className="w-4 h-4 text-white/60" />
@@ -262,11 +258,10 @@ const About = () => {
                     </div>
                     <div className="p-6 rounded-2xl bg-white/5 border border-white/10">
                         <Palette className="w-8 h-8 text-orange-400 mb-4" />
-                        <h3 className="text-3xl font-bold text-white mb-1">100+ builds</h3>
+                        <h3 className="text-3xl font-bold text-white mb-1">Design + code</h3>
                         <p className="text-slate-500 text-sm uppercase tracking-wider">Design + Product Systems</p>
                     </div>
                     <div className="p-6 rounded-2xl bg-white/5 border border-white/10">
-                        <Sparkles className="w-8 h-8 text-blue-400 mb-4" />
                         <h3 className="text-3xl font-bold text-white mb-1">AI-first</h3>
                         <p className="text-slate-500 text-sm uppercase tracking-wider">Workflow & Automation Focus</p>
                     </div>
@@ -276,14 +271,14 @@ const About = () => {
             {/* Military History: Interactive Globe Mission Context */}
             <section className="about-globe-story relative w-full">
                 {/* Sticky Globe Background */}
-                <div className="sticky top-0 h-screen w-full -z-10">
+                <div className="globe-stage-sticky">
                     <Suspense fallback={null}>
                         {!import.meta.env.SSR && <MilitaryHistoryGlobe />}
                     </Suspense>
                 </div>
 
-                <div className="max-w-7xl mx-auto px-6 relative z-10 -mt-[100vh] pt-[20vh] pb-32">
-                    <div className="mb-24 md:mb-48 space-y-8 max-w-lg">
+                <div className="globe-story-content">
+                    <div className="globe-story-intro">
                         <div className="inline-flex items-center gap-3 text-orange-500/60 font-mono text-[10px] tracking-[0.3em] uppercase">
                             <Crosshair className="w-4 h-4" />
                             Global Experience
@@ -295,7 +290,7 @@ const About = () => {
                             <p>
                                 My background spans design, operations, language, travel, and problem solving in complex environments. That mix shapes how I build: clear, adaptable, and grounded in the real needs of the people using the work.
                             </p>
-                            <p className="text-sm border-l border-orange-500/30 pl-6 italic">
+                            <p className="text-sm text-slate-400 italic">
                                 Scroll down to move through the locations that influenced my perspective.
                             </p>
                         </div>
@@ -304,27 +299,23 @@ const About = () => {
                     {/* Progressive Story Sections */}
                     <div className="space-y-0">
                         {DESTINATIONS.map((dest, i) => {
-                            // Alternating Layout Logic
-                            // Even Index (0, 2...) -> Text Left (mr-auto), Globe shifts Right
-                            // Odd Index (1, 3...) -> Text Right (ml-auto), Globe shifts Left
-                            const isEven = i % 2 === 0;
-                            const alignClass = isEven ? 'mr-auto text-left items-start' : 'ml-auto text-right items-end';
-                            const textAlign = isEven ? 'text-left' : 'text-right';
+                            const alignClass = 'text-left';
+                            const textAlign = 'text-left';
 
                             return (
-                                <div key={i} className={`military-dest-section min-h-[70vh] flex items-center ${isEven ? 'justify-start' : 'justify-end'}`}>
-                                    <div className={`globe-location-card max-w-xl p-10 border-l ${isEven ? 'border-l-emerald-500/20 pl-10' : 'border-r border-r-emerald-500/20 pr-10 border-l-0'} bg-white/[0.03] backdrop-blur-[4px] rounded-none transition-all duration-700 ${alignClass}`}>
+                                <div key={i} className="military-dest-section" id={`globe-location-${i}`} aria-label={`${dest.name}, ${dest.year}`}>
+                                    <div className={`globe-location-card max-w-xl p-6 sm:p-8 border border-white/15 bg-white/[0.03] backdrop-blur-[4px] rounded-2xl transition-colors duration-300 ${alignClass}`}>
                                         <span className={`globe-location-label text-emerald-500/60 font-mono text-xs mb-3 block tracking-[0.5em] uppercase ${textAlign}`}>
-                                            LOCATION // {dest.city}
+                                            {String(i + 1).padStart(2, '0')} / {String(DESTINATIONS.length).padStart(2, '0')} — {dest.city}
                                         </span>
-                                        <h3 className={`globe-location-year text-7xl md:text-9xl font-black text-white/[0.03] mb-[-0.4em] relative z-0 select-none ${textAlign}`}>
+                                        <p className={`globe-location-year text-7xl md:text-9xl font-black text-white/[0.03] mb-[-0.4em] relative z-0 select-none ${textAlign}`}>
                                             {dest.year}
-                                        </h3>
-                                        <h4 className={`globe-location-title text-5xl md:text-6xl font-bold text-white mb-6 relative z-10 tracking-tight ${textAlign}`}>{dest.name}</h4>
-                                        <p className={`globe-location-desc text-lg text-slate-300 leading-relaxed font-light ${textAlign} max-w-md ${isEven ? '' : 'ml-auto'}`}>
+                                        </p>
+                                        <h3 className={`globe-location-title text-5xl md:text-6xl font-bold text-white mb-6 relative z-10 tracking-tight ${textAlign}`}>{dest.name}</h3>
+                                        <p className={`globe-location-desc text-lg text-slate-300 leading-relaxed font-light ${textAlign} max-w-md `}>
                                             {dest.desc}
                                         </p>
-                                        <div className={`globe-location-meta mt-8 pt-6 border-t border-white/5 flex gap-8 text-[11px] font-mono text-white/40 uppercase tracking-widest ${isEven ? 'justify-start' : 'justify-end'}`}>
+                                        <div className={`globe-location-meta mt-8 pt-6 border-t border-white/5 flex gap-8 text-[11px] font-mono text-white/40 uppercase tracking-widest justify-start`}>
                                             <span className="flex items-center gap-2">
                                                 <div className="w-1.5 h-1.5 bg-emerald-500/40 rounded-full"></div>
                                                 MGRS: {dest.mgrs}
@@ -457,15 +448,15 @@ const About = () => {
                         <motion.div variants={staggerContainer(0.05)} className="mt-7 grid gap-4 sm:grid-cols-2">
                             {[
                                 { icon: Palette, label: 'Brand Identity' },
-                                { icon: Wand2, label: 'UX/UI Systems' },
+                                { icon: PenTool, label: 'UX/UI Systems' },
                                 { icon: Film, label: 'Motion + After Effects' },
                                 { icon: Cpu, label: 'AI Integrations' }
                             ].map((item) => (
                                 <motion.div
                                     key={item.label}
                                     variants={fadeInUp}
-                                    whileHover={{ y: -4, scale: 1.015 }}
-                                    whileTap={{ scale: 0.985 }}
+
+
                                     transition={{ type: 'spring', stiffness: 390, damping: 22 }}
                                     className="group flex min-h-[56px] items-center gap-4 rounded-2xl border border-white/10 bg-[#151515] px-4 py-3.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] transition-colors hover:border-orange-400/40 hover:bg-[#191919] md:px-5"
                                 >

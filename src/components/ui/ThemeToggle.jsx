@@ -7,7 +7,11 @@ const ThemeToggle = ({ theme, onChange }) => {
     const inactive = "theme-toggle-inactive";
 
     return (
-        <div className="flex items-center gap-2">
+        <div className="theme-controls">
+            <select className="theme-select" aria-label="Color theme" value={theme} onChange={event => onChange(event.target.value)}>
+                <option value="dark">Dark</option><option value="light">Light</option><option value="amber">Amber</option>
+            </select>
+            <div className="theme-buttons flex items-center gap-2">
             <button
                 type="button"
                 className={`${base} ${theme === 'dark' ? active : inactive}`}
@@ -35,6 +39,7 @@ const ThemeToggle = ({ theme, onChange }) => {
             >
                 <Sunrise className="w-4 h-4" />
             </button>
+            </div>
         </div>
     );
 };

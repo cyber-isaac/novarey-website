@@ -27,8 +27,8 @@ const Header = ({ theme, onThemeChange }) => {
     };
 
     return (
-        <header className="sticky top-0 z-50 flex min-w-0 items-center justify-between border-b surface-panel-border surface-panel-muted pl-16 pr-3 py-4 backdrop-blur-md md:px-6 lg:px-8">
-            <div className="min-w-0 flex-1 max-w-xl">
+        <header className="site-header sticky top-0 z-50 flex min-w-0 items-center justify-between border-b surface-panel-border surface-panel-muted pl-16 pr-3 py-4 backdrop-blur-md md:px-6 lg:px-8">
+            <div className="site-search min-w-0 flex-1 max-w-xl">
                 <div className="relative group">
                     <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 transition-colors group-focus-within:text-white">
                         <Search className="w-4 h-4" />
@@ -84,7 +84,7 @@ const Header = ({ theme, onThemeChange }) => {
                 </div>
             </div>
 
-            <div className="ml-3 flex shrink-0 items-center gap-2 sm:ml-6 sm:gap-4">
+            <div className="site-header-actions ml-3 flex shrink-0 items-center gap-2 sm:ml-6 sm:gap-4">
                 <ThemeToggle theme={theme} onChange={onThemeChange} />
                 <a
                     href={GENERAL_EMAIL_URL}

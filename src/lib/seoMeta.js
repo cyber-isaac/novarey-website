@@ -9,7 +9,7 @@ export const ROUTE_META = {
     },
     '/work': {
         title: 'Work | NovaRey Ventures',
-        description: 'Explore NovaRey apps, AI tools, design systems, motion work, heritage artwork, and product experiments.',
+        description: 'Selected website design, graphic design, AI-assisted visual studies, motion, and heritage artwork by Isaac Reyes.',
     },
     '/portfolio': {
         title: 'Portfolio | Web Design, Brand Systems, and AI Creative Work',
@@ -67,8 +67,8 @@ export const SERVICE_META = {
         serviceType: ['Strategic marketing', 'SEO strategy', 'Content marketing', 'Campaign planning'],
     },
     ai: {
-        title: 'AI Solutions Services | Automation, Copilots, and Knowledge Systems',
-        description: 'AI solution services for workflow automation, custom copilots, content pipelines, model routing, private knowledge systems, and business operations.',
+        title: 'AI Solutions | Practical Tools for Your Business',
+        description: 'Custom AI assistants and automations that help your team find answers, draft content, and simplify repetitive work. Built around your documents, tools, and approval process.',
         serviceType: ['AI automation', 'AI copilots', 'Workflow automation', 'Knowledge systems'],
     },
 };

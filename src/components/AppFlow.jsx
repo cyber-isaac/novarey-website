@@ -77,7 +77,7 @@ const AppFlow = () => {
                         transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
                     />
                     <motion.div
-                        className="absolute inset-[-15px] border-l border-r border-emerald-500/10 rounded-full"
+                        className="absolute inset-[-15px] border border-emerald-500/10 rounded-full"
                         animate={{ rotate: -360 }}
                         transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
                     />

@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import Globe from 'globe.gl';
 import * as THREE from 'three';
 import gsap from 'gsap';
+import { ChevronLeft, ChevronRight, Pause, Play } from 'lucide-react';
+import '../../styles/about-globe.css';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -15,7 +17,7 @@ const THEME = {
     matEmissive: 0x9fd8ff,
     matEmissiveIntensity: 0.28,
     atmosphere: 'rgb(143, 211, 255)',
-    atmosphereAlt: 0.16,
+    atmosphereAlt: 0.1,
     atmosphereShell: 0x8fd3ff,
     arcColor: ['rgba(143, 211, 255, 0.20)', 'rgba(243, 249, 255, 0.88)'],
     activeArcColor: ['rgba(143, 211, 255, 0.62)', 'rgba(255, 255, 255, 1)'],
@@ -38,6 +40,10 @@ const MilitaryHistoryGlobe = () => {
     const globeRef = useRef(null);
     const lightsRef = useRef({ sun: null, rim: null, ambient: null });
     const [activeIndexState, setActiveIndexState] = useState(-1);
+    const [motionPaused, setMotionPaused] = useState(false);
+    const [globeError, setGlobeError] = useState(false);
+    const pausedRef = useRef(false);
+    const actionsRef = useRef({});
 
     useEffect(() => {
         if (!containerRef.current) return;
@@ -56,10 +62,19 @@ const MilitaryHistoryGlobe = () => {
         let animationFrameId;
         let cloudsRef = null;
         const decorativeObjects = [];
+        const scrollTriggers = [];
+        let disposed = false;
+        let refreshTimer;
+        let retryFrame;
+        let visibilityObserver;
+        let resizeObserver;
+        let sceneVisible = true;
 
         try {
             const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
             const initThemeData = THEME;
+            pausedRef.current = prefersReducedMotion;
+            setMotionPaused(prefersReducedMotion);
 
             // --- Build Data Sets (uses theme colors) ---
             const arcsData = DESTINATIONS.slice(1).map((dest, i) => ({
@@ -84,6 +99,10 @@ const MilitaryHistoryGlobe = () => {
             globeRef.current = globeInstance;
             globeInstance._activeIdx = -1;
 
+            // Fit the globe to narrow/tall viewports without cutting off its horizon.
+            const cameraAltitude = (focused = false) => Math.max(focused ? 2.2 : 2.5,
+                container.clientHeight / Math.max(container.clientWidth, 1) * 2.4);
+
             // --- Configure Globe (Safely) ---
             safeApply(globeInstance, 'width', container.clientWidth);
             safeApply(globeInstance, 'height', container.clientHeight);
@@ -103,9 +122,9 @@ const MilitaryHistoryGlobe = () => {
             safeApply(globeInstance, 'arcDashLength', 0.36);
             safeApply(globeInstance, 'arcDashGap', 1.15);
             safeApply(globeInstance, 'arcDashInitialGap', d => d.order * 0.22);
-            safeApply(globeInstance, 'arcDashAnimateTime', prefersReducedMotion ? 12000 : 3400);
+            safeApply(globeInstance, 'arcDashAnimateTime', prefersReducedMotion ? 0 : 3400);
             safeApply(globeInstance, 'arcStroke', d => d.active ? 1.12 : 0.58);
-            safeApply(globeInstance, 'arcsTransitionDuration', 1100);
+            safeApply(globeInstance, 'arcsTransitionDuration', prefersReducedMotion ? 0 : 900);
 
             // --- Points ---
             safeApply(globeInstance, 'pointsData', pointsData);
@@ -124,7 +143,7 @@ const MilitaryHistoryGlobe = () => {
             safeApply(globeInstance, 'graticuleColor', () => initThemeData.graticule);
 
             // --- Rings ---
-            safeApply(globeInstance, 'ringsData', []);
+            safeApply(globeInstance, 'ringsData', pausedRef.current ? [] : []);
             safeApply(globeInstance, 'ringColor', () => initThemeData.ringColor);
             safeApply(globeInstance, 'ringMaxRadius', d => d.scale === 'wide' ? 7.2 : 4.4);
             safeApply(globeInstance, 'ringPropagationSpeed', d => d.scale === 'wide' ? 2.2 : 3.4);
@@ -143,29 +162,20 @@ const MilitaryHistoryGlobe = () => {
                     el.style.opacity = '0'; // Start hidden
                     el.style.transition = 'opacity 0.6s cubic-bezier(0.23, 1, 0.32, 1), filter 0.6s cubic-bezier(0.23, 1, 0.32, 1)';
                     el.style.pointerEvents = 'none';
-                    el.innerHTML = `
-                            <div style="display:flex;flex-direction:column;align-items:center;transform:translateY(10px) scale(0.98);transition:transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);">
-                                <div style="
-                                    position:relative;
-                                    overflow:hidden;
-                                    background:linear-gradient(135deg, rgba(8, 16, 28, 0.56), rgba(255, 255, 255, 0.07));
-                                    backdrop-filter:blur(18px) saturate(150%);
-                                    border:1px solid rgba(255, 255, 255, 0.16);
-                                    padding:14px 18px 13px;
-                                    white-space:nowrap;
-                                    box-shadow:0 18px 48px rgba(0, 0, 0, 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.18), 0 0 24px rgba(143, 211, 255, 0.18);
-                                    border-radius: 14px;
-                                ">
-                                    <span style="position:absolute;inset:0;background:linear-gradient(110deg, transparent 0%, rgba(255,255,255,0.16) 45%, transparent 58%);transform:translateX(-72%);"></span>
-                                    <span style="color:#fff;font-weight:760;font-size:18px;text-transform:uppercase;display:block;font-family:'Inter Tight',sans-serif;letter-spacing:0.04em;line-height:1;">
-                                        ${d.city}
-                                    </span>
-                                     <span style="font-size:10px;color:#9fd8ff;font-family:'JetBrains Mono',monospace;display:block;margin-top:8px;letter-spacing:0.22em;text-transform:uppercase;">${d.year} / ${d.status.replace('_', ' ')}</span>
-                                </div>
-                                <div style="width:1px;height:34px;background:linear-gradient(to top, rgba(143, 211, 255, 0.72), transparent);box-shadow:0 0 14px rgba(143, 211, 255, 0.5);"></div>
-                                <div style="width:7px;height:7px;border-radius:999px;background:#dff4ff;box-shadow:0 0 20px rgba(143, 211, 255, 0.9);"></div>
-                            </div>
-                        `;
+                    el.setAttribute('aria-hidden', 'true');
+                    const marker = document.createElement('div');
+                    marker.className = 'globe-marker';
+                    const panel = document.createElement('div');
+                    panel.className = 'globe-marker-panel';
+                    const title = document.createElement('strong');
+                    title.textContent = d.city;
+                    const detail = document.createElement('span');
+                    detail.textContent = `${d.year} / ${d.status.replaceAll('_', ' ').toLowerCase()}`;
+                    panel.append(title, detail);
+                    const stem = document.createElement('span');
+                    stem.className = 'globe-marker-stem';
+                    marker.append(panel, stem);
+                    el.append(marker);
                     el.dataset.labelIdx = d.idx;
                     return el;
                 });
@@ -174,7 +184,7 @@ const MilitaryHistoryGlobe = () => {
                     const idx = parseInt(el.dataset.labelIdx);
                     const activeIdx = globeRef.current ? globeRef.current._activeIdx : -1;
                     const isActive = (idx === activeIdx);
-                    el.style.opacity = isActive ? '1' : '0';
+                    el.style.opacity = isActive && isVisible ? '1' : '0';
                     el.style.filter = isActive ? 'blur(0)' : 'blur(2px)';
                     const inner = el.querySelector('div');
                     if (inner) inner.style.transform = isActive ? 'translateY(0) scale(1)' : 'translateY(10px) scale(0.98)';
@@ -186,7 +196,7 @@ const MilitaryHistoryGlobe = () => {
 
             const renderer = globeInstance.renderer && globeInstance.renderer();
             if (renderer) {
-                renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+                renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
                 renderer.outputColorSpace = THREE.SRGBColorSpace;
                 renderer.toneMapping = THREE.ACESFilmicToneMapping;
                 renderer.toneMappingExposure = 1.08;
@@ -257,7 +267,7 @@ const MilitaryHistoryGlobe = () => {
                     new THREE.MeshBasicMaterial({
                         color: new THREE.Color(THEME.atmosphereShell),
                         transparent: true,
-                        opacity: 0.12,
+                        opacity: 0.055,
                         blending: THREE.AdditiveBlending,
                         side: THREE.BackSide,
                         depthWrite: false
@@ -304,10 +314,10 @@ const MilitaryHistoryGlobe = () => {
                 cloudTexLoader.load(
                     'https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/planets/earth_clouds_1024.png',
                     (cloudsTexture) => {
-                        if (!globeRef.current) return;
-                        cloudsTexture.anisotropy = 16;
+                        if (disposed) { cloudsTexture.dispose(); return; }
+                        cloudsTexture.anisotropy = 4;
                         const clouds = new THREE.Mesh(
-                            new THREE.SphereGeometry(globeInstance.getGlobeRadius() * (1 + CLOUDS_ALT), 128, 128),
+                            new THREE.SphereGeometry(globeInstance.getGlobeRadius() * (1 + CLOUDS_ALT), 64, 48),
                             new THREE.MeshPhongMaterial({
                                 map: cloudsTexture,
                                 transparent: true,
@@ -327,9 +337,9 @@ const MilitaryHistoryGlobe = () => {
                         cloudTexLoader.load(
                             'https://threejs.org/examples/textures/planets/earth_clouds_1024.png',
                             (cloudsTexture) => {
-                                if (!globeRef.current) return;
+                                if (disposed) { cloudsTexture.dispose(); return; }
                                 const clouds = new THREE.Mesh(
-                                    new THREE.SphereGeometry(globeInstance.getGlobeRadius() * (1 + CLOUDS_ALT), 128, 128),
+                                    new THREE.SphereGeometry(globeInstance.getGlobeRadius() * (1 + CLOUDS_ALT), 64, 48),
                                     new THREE.MeshPhongMaterial({
                                         map: cloudsTexture,
                                         transparent: true,
@@ -351,12 +361,13 @@ const MilitaryHistoryGlobe = () => {
             // --- Camera & Controls ---
             const controls = globeInstance.controls();
             if (controls) {
-                controls.autoRotate = true;
+                controls.autoRotate = !pausedRef.current;
                 controls.autoRotateSpeed = 0.5;
                 controls.enableZoom = false;
                 controls.enablePan = false;
+                controls.enableRotate = container.clientWidth >= 600;
             }
-            safeApply(globeInstance, 'pointOfView', { lat: 20, lng: 0, altitude: 2.5 });
+            safeApply(globeInstance, 'pointOfView', { lat: 20, lng: 0, altitude: cameraAltitude() });
 
             // --- Helper: build arcs up to a given index using current theme ---
             const getArcsUpTo = (idx) => {
@@ -382,21 +393,21 @@ const MilitaryHistoryGlobe = () => {
                 // Gently ease auto-rotation down when focusing
                 if (globeInstance.controls()) {
                     const ctrl = globeInstance.controls();
-                    ctrl.autoRotate = true;
-                    gsap.to(ctrl, { autoRotateSpeed: 0.06, duration: 1.2, ease: 'power2.out' });
+                    ctrl.autoRotate = !pausedRef.current;
+                    gsap.to(ctrl, { autoRotateSpeed: 0.06, duration: prefersReducedMotion ? 0 : 1.2, ease: 'power2.out' });
                 }
 
                 // Cinematic POV transition (1800ms)
                 safeApply(globeInstance, 'pointOfView', {
                     lat: loc.lat,
                     lng: loc.lon,
-                    altitude: 1.8
-                }, 1800);
+                    altitude: cameraAltitude(true)
+                }, prefersReducedMotion ? 0 : 1400);
 
                 // Progressive arcs: reveal path up to current destination
                 safeApply(globeInstance, 'arcsData', getArcsUpTo(i));
                 safeApply(globeInstance, 'pointsData', [...pointsData]);
-                safeApply(globeInstance, 'ringsData', [
+                safeApply(globeInstance, 'ringsData', pausedRef.current ? [] : [
                     { lat: loc.lat, lng: loc.lon, scale: 'tight' },
                     { lat: loc.lat, lng: loc.lon, scale: 'wide' }
                 ]);
@@ -409,23 +420,43 @@ const MilitaryHistoryGlobe = () => {
                 // Gently ease auto-rotation back up
                 if (globeInstance.controls()) {
                     const ctrl = globeInstance.controls();
-                    ctrl.autoRotate = true;
+                    ctrl.autoRotate = !pausedRef.current;
                     gsap.to(ctrl, { autoRotateSpeed: 0.5, duration: 1.5, ease: 'power2.inOut' });
                 }
 
                 safeApply(globeInstance, 'arcsData', []);
-                safeApply(globeInstance, 'ringsData', []);
+                safeApply(globeInstance, 'ringsData', pausedRef.current ? [] : []);
                 safeApply(globeInstance, 'pointsData', [...pointsData]);
-                safeApply(globeInstance, 'pointOfView', { lat: 20, lng: 0, altitude: 2.5 }, 1500);
+                safeApply(globeInstance, 'pointOfView', { lat: 20, lng: 0, altitude: cameraAltitude() }, prefersReducedMotion ? 0 : 1200);
             };
 
+
+            actionsRef.current = {
+                visit(index) {
+                    const next = Math.max(0, Math.min(DESTINATIONS.length - 1, index));
+                    activateDestination(next, DESTINATIONS[next]);
+                    const section = container.closest('[data-scroll-container]')?.querySelectorAll('.military-dest-section')[next];
+                    section?.scrollIntoView({ behavior: 'instant', block: container.clientWidth < 600 ? 'end' : 'center' });
+                    ScrollTrigger.update();
+                    activateDestination(next, DESTINATIONS[next]);
+                },
+                pause(paused) {
+                    pausedRef.current = paused;
+                    setMotionPaused(paused);
+                    controls.autoRotate = !paused;
+                    safeApply(globeInstance, 'arcDashAnimateTime', paused ? 0 : 3400);
+                    const active = globeInstance._activeIdx;
+                    safeApply(globeInstance, 'ringsData', paused || active < 0 ? [] : [{ lat: DESTINATIONS[active].lat, lng: DESTINATIONS[active].lon, scale: 'tight' }]);
+                }
+            };
+            safeApply(globeInstance, 'onPointClick', point => actionsRef.current.visit?.(point.idx));
 
             // --- ScrollTrigger Setup ---
             const ctx = gsap.context(() => {
                 let retryCount = 0;
                 const MAX_RETRIES = 120; // ~2 seconds at 60fps
                 const initScrollTriggers = () => {
-                    if (!containerRef.current) return;
+                    if (disposed || !containerRef.current) return;
                     // Fix: Use .closest() to ensure we get the active page's scroll container, 
                     // not a stale one from a page currently animating out
                     const scrollContainer = containerRef.current.closest('[data-scroll-container]');
@@ -434,7 +465,7 @@ const MilitaryHistoryGlobe = () => {
                     if (sections.length === 0 || !scrollContainer) {
                         retryCount++;
                         if (retryCount < MAX_RETRIES) {
-                            requestAnimationFrame(initScrollTriggers);
+                            retryFrame = requestAnimationFrame(initScrollTriggers);
                         } else {
                             console.warn('MilitaryHistoryGlobe: Could not find scroll sections or container after max retries.');
                         }
@@ -445,7 +476,7 @@ const MilitaryHistoryGlobe = () => {
                         const section = sections[i];
                         if (!section) return;
 
-                        ScrollTrigger.create({
+                        scrollTriggers.push(ScrollTrigger.create({
                             trigger: section,
                             scroller: scrollContainer,
                             start: 'top 60%',
@@ -458,12 +489,12 @@ const MilitaryHistoryGlobe = () => {
                             onLeaveBack: () => {
                                 if (i === 0) deactivate();
                             }
-                        });
+                        }));
                     });
 
                     // Refresh ScrollTrigger slightly after initialization to ensure page transition animations
                     // haven't messed up the layout geometry.
-                    setTimeout(() => {
+                    refreshTimer = setTimeout(() => {
                         ScrollTrigger.refresh();
                     }, 500);
                 };
@@ -472,16 +503,17 @@ const MilitaryHistoryGlobe = () => {
 
             // --- Animation Loop ---
             function animate() {
+                if (disposed || !sceneVisible) return;
                 const elapsed = performance.now() * 0.001;
                 // Rotate clouds
-                if (cloudsRef) {
+                if (cloudsRef && !pausedRef.current) {
                     cloudsRef.rotation.y += CLOUDS_ROTATION_SPEED * Math.PI / 180;
                 }
                 decorativeObjects.forEach((obj) => {
-                    if (obj.userData.pulse && obj.material) {
-                        obj.material.opacity = 0.105 + Math.sin(elapsed * 0.72) * 0.026;
+                    if (obj.userData.pulse && obj.material && !pausedRef.current) {
+                        obj.material.opacity = 0.055 + Math.sin(elapsed * 0.72) * 0.008;
                     }
-                    if (obj.userData.drift && !prefersReducedMotion) {
+                    if (obj.userData.drift && !pausedRef.current) {
                         obj.rotation.y += 0.00022;
                         obj.rotation.x += 0.00005;
                     }
@@ -499,14 +531,31 @@ const MilitaryHistoryGlobe = () => {
                 if (containerRef.current) {
                     safeApply(globeInstance, 'width', containerRef.current.clientWidth);
                     safeApply(globeInstance, 'height', containerRef.current.clientHeight);
+                    controls.enableRotate = container.clientWidth >= 600;
+                    globeInstance.pointOfView({ ...globeInstance.pointOfView(), altitude: cameraAltitude(globeInstance._activeIdx >= 0) }, 0);
                 }
             };
-            window.addEventListener('resize', handleResize);
+            resizeObserver = new ResizeObserver(handleResize);
+            resizeObserver.observe(container);
+            visibilityObserver = new IntersectionObserver(([entry]) => {
+                sceneVisible = entry.isIntersecting;
+                if (animationFrameId) cancelAnimationFrame(animationFrameId);
+                if (sceneVisible) { globeInstance.resumeAnimation(); animate(); }
+                else globeInstance.pauseAnimation();
+            });
+            visibilityObserver.observe(container.closest('.about-globe-story') || container);
 
             // Store cleanups
             return () => {
                 if (animationFrameId) cancelAnimationFrame(animationFrameId);
-                window.removeEventListener('resize', handleResize);
+                disposed = true;
+                clearTimeout(refreshTimer);
+                if (retryFrame) cancelAnimationFrame(retryFrame);
+                visibilityObserver?.disconnect();
+                resizeObserver?.disconnect();
+                gsap.killTweensOf(controls);
+                actionsRef.current = {};
+                scrollTriggers.forEach(trigger => trigger.kill());
                 ctx.revert(); // Cleanup GSAP
                 container.innerHTML = '';
 
@@ -535,13 +584,30 @@ const MilitaryHistoryGlobe = () => {
 
         } catch (error) {
             console.error("Globe Initialization Failed:", error);
-            container.innerHTML = `<div style="color: red; padding: 20px;">Globe Error: ${error.message}</div>`;
+            setGlobeError(true);
+            if (animationFrameId) cancelAnimationFrame(animationFrameId);
+            globeInstance?._destructor?.();
+            globeRef.current = null;
         }
     }, []);
 
+    const current = DESTINATIONS[activeIndexState];
     return (
-        <div className="w-full h-full min-h-[600px] relative cursor-crosshair overflow-hidden">
-            <div ref={containerRef} className="w-full h-full" />
+        <div className="globe-experience" data-active-location={current?.name || 'overview'}>
+            <div className="globe-orbital-halo" aria-hidden="true" />
+            <div ref={containerRef} className="globe-viewport" role="img" aria-label="Interactive Earth showing the locations in Isaac's career. Scroll the stories or use the location controls." />
+            <div className="globe-toolbar" aria-label="Globe controls">
+                <div className="globe-route-summary">
+                    <span>{current ? `${activeIndexState + 1} / ${DESTINATIONS.length}` : 'Explore the route'}</span>
+                    <strong>{current?.city || 'A world of experience'}</strong>
+                </div>
+                <div className="globe-toolbar-actions">
+                    <button type="button" aria-label="Previous location" disabled={activeIndexState <= 0 || globeError} onClick={() => actionsRef.current.visit?.(activeIndexState - 1)}><ChevronLeft size={18} /></button>
+                    <button type="button" aria-label="Next location" disabled={activeIndexState === DESTINATIONS.length - 1 || globeError} onClick={() => actionsRef.current.visit?.(activeIndexState + 1)}><ChevronRight size={18} /></button>
+                    <button type="button" aria-label={motionPaused ? 'Resume globe motion' : 'Pause globe motion'} aria-pressed={motionPaused} disabled={globeError} onClick={() => actionsRef.current.pause?.(!motionPaused)}>{motionPaused ? <Play size={16} /> : <Pause size={16} />}</button>
+                </div>
+            </div>
+            {globeError && <p className="globe-render-notice" role="status">The interactive globe is unavailable. You can still explore every location in the stories below.</p>}
         </div>
     );
 };

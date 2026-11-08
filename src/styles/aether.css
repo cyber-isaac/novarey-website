@@ -1,0 +1,59 @@
+.aether-page { flex: 1; min-height: 0; height: 100%; overflow-y: auto; overflow-x: hidden; background: #030305; color: #f1f5f9; }
+.aether-stage { position: relative; isolation: isolate; height: 100%; min-height: 560px; overflow: hidden; background: #030305; }
+.aether-stage:fullscreen { height: 100dvh; min-height: 0; }
+.aether-canvas, .aether-stage-shade { position: absolute; inset: 0; }
+.aether-canvas canvas { display: block; width: 100%; height: 100%; }
+.aether-stage-shade { pointer-events: none; background: linear-gradient(180deg,rgba(3,3,5,.58),transparent 32%,transparent 62%,rgba(3,3,5,.9)); }
+.aether-introduction { position: relative; z-index: 1; padding: clamp(24px,4vw,56px); padding-right: 120px; pointer-events: none; }
+.aether-eyebrow { color: #a5c9cf; font: 10px/1.7 var(--font-mono); letter-spacing: .16em; text-transform: uppercase; }
+.aether-introduction h1 { margin: 12px 0; font-size: clamp(58px,8.5vw,132px); font-weight: 600; line-height: .95; letter-spacing: -.065em; }
+.aether-introduction h1 span { color: #67e8f9; font-weight: 300; }
+.aether-intro-copy { color: #cbd5e1; font-size: clamp(14px,1.4vw,18px); line-height: 1.55; }
+.aether-stage-actions { position: absolute; top: 28px; right: 24px; z-index: 2; display: flex; gap: 8px; }
+.aether-page button { min-height: 44px; border: 1px solid #ffffff26; border-radius: 10px; background: #111722b8; color: #e2e8f0; display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 10px 14px; font-size: 12px; transition: background .2s,border-color .2s; }
+.aether-page button:hover { border-color: #67e8f980; background: #1b2a38; }
+.aether-page button:disabled { opacity: .4; cursor: not-allowed; }
+.aether-page :is(button,select,input):focus-visible { outline: 2px solid #67e8f9; outline-offset: 4px; }
+.aether-stage-actions button { width: 44px; padding: 0; }
+.aether-stage-bottom { position: absolute; z-index: 2; bottom: 0; left: 0; right: 0; padding: clamp(24px,4vw,48px); display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; pointer-events: none; }
+.aether-scene-caption h2 { font-size: clamp(28px,3vw,44px); margin: 7px 0; font-weight: 500; animation: aether-caption-enter .7s ease both; }
+.aether-scene-caption p { font-size: 12px; color: #94a3b8; }
+.aether-stage-buttons { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; max-width: 420px; pointer-events: auto; }
+.aether-stage-sound-status { flex-basis: 100%; color: #cbd5e1; font-size: 12px; }
+.aether-page .aether-primary-button { background: #c6f4f7; color: #11232b; border-color: #c6f4f7; }
+.aether-controls { scroll-margin-top: 16px; padding: 40px clamp(20px,4vw,48px) 48px; border-top: 1px solid #ffffff1a; background: #090c12; }
+.aether-controls-heading { display: flex; justify-content: space-between; gap: 24px; align-items: flex-end; margin-bottom: 28px; }
+.aether-controls-heading h2 { font-size: clamp(25px,3vw,38px); margin-top: 8px; font-weight: 600; }
+.aether-controls-heading > p { font-size: 12px; color: #94a3b8; max-width: 240px; line-height: 1.7; }
+.aether-control-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(min(100%,260px),1fr)); gap: 20px; }
+.aether-control-card { min-width: 0; border: 1px solid #ffffff26; border-radius: 16px; padding: 22px; background: #10151d; }
+.aether-control-card legend { padding: 0 8px; font-size: 12px; font-weight: 600; color: #c6f4f7; }
+.aether-control-card p { font-size: 12px; color: #94a3b8; line-height: 1.7; margin-bottom: 18px; }
+.aether-control-card label { display: block; font-size: 12px; color: #cbd5e1; margin-bottom: 10px; }
+.aether-mode-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.aether-mode-grid button { justify-content: flex-start; }
+.aether-mode-grid button span { color: #64748b; font: 10px var(--font-mono); }
+.aether-page button[aria-pressed=true] { background: #67e8f914; border-color: #67e8f966; color: #e6fcff; }
+.aether-control-card select { width: 100%; min-height: 44px; border: 1px solid #ffffff26; border-radius: 8px; background: #070b11; color: #e2e8f0; padding: 10px; font-size: 12px; margin-bottom: 16px; }
+.aether-control-card .aether-range-label { display: flex; justify-content: space-between; margin-top: 22px; }
+.aether-control-card input[type=range] { width: 100%; height: 24px; accent-color: #67e8f9; cursor: pointer; }
+.aether-audio-button { width: 100%; }
+.aether-control-card .aether-audio-status { margin: 0; color: #cbd5e1; }
+.aether-audio-status:not(:empty) { padding-top: 10px; }
+.aether-palettes { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 22px; }
+.aether-palettes button { justify-content: flex-start; padding: 8px; }
+.aether-palettes button span { width: 18px; height: 18px; border-radius: 50%; flex-shrink: 0; }
+.aether-footnote { margin-top: 28px; color: #64748b; font-size: 11px; }
+.aether-render-error { position: absolute; top: 50%; left: 10%; right: 10%; padding: 20px; background: #111722; border: 1px solid #ffffff26; border-radius: 12px; z-index: 3; }
+.aether-control-error { padding: 12px 0; color: #fbbf24; font-size: 13px; }
+@keyframes aether-caption-enter { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+@media(max-width: 700px) {
+  .aether-stage { height: 100%; min-height: 560px; }
+  .aether-introduction { padding: 76px 24px 24px; }
+  .aether-introduction h1 { font-size: clamp(56px,15vw,90px); }
+  .aether-stage-actions { top: 16px; right: 16px; }
+  .aether-stage-bottom { flex-direction: column; align-items: flex-start; gap: 18px; padding: 24px; }
+  .aether-stage-buttons { justify-content: flex-start; }
+  .aether-controls-heading { flex-direction: column; align-items: flex-start; gap: 14px; }
+}
+@media(prefers-reduced-motion: reduce) { .aether-scene-caption h2 { animation: none; } .aether-page button { transition: none; } }

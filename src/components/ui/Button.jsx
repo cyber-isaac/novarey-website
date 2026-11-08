@@ -33,7 +33,7 @@ const Button = ({
             {...(isAnchor ? { href, target, rel: safeRel } : {})}
             onClick={onClick}
             {...rest}
-            className={`btn-beam inline-flex items-center justify-center gap-2 tracking-tight font-sans transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] ${disabled ? 'pointer-events-none opacity-50' : ''} ${floating ? 'animate-float' : ''} ${className}`}
+            className={`btn-beam inline-flex items-center justify-center gap-2 tracking-tight font-sans transition-[color,background-color,border-color,box-shadow,transform] duration-300 motion-reduce:transition-none motion-reduce:transform-none hover:scale-[1.02] active:scale-[0.98] ${disabled ? 'pointer-events-none opacity-50' : ''} ${floating ? 'animate-float' : ''} ${className}`}
             style={{
                 '--btn-color': color,
                 '--btn-color-soft': soft,

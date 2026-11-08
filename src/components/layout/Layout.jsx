@@ -26,16 +26,16 @@ const PAGE_ACCENTS = {
 
 const Layout = ({ children }) => {
     const location = useLocation();
-    const [theme, setTheme] = useState('dark');
+    const [theme, setTheme] = useState(() => {
+        if (typeof window === 'undefined') return 'dark';
+        try {
+            const stored = window.localStorage.getItem('novarey-theme');
+            return ['dark', 'light', 'amber'].includes(stored) ? stored : 'dark';
+        } catch { return 'dark'; }
+    });
 
     useEffect(() => {
-        const stored = localStorage.getItem('novarey-theme');
-        if (stored) {
-            setTheme(stored);
-        }
-    }, []);
-
-    useEffect(() => {
+        window.scrollTo(0, 0);
         const match = Object.keys(PAGE_ACCENTS).find((path) =>
             location.pathname === path || (path !== '/' && location.pathname.startsWith(path))
         );
@@ -50,16 +50,16 @@ const Layout = ({ children }) => {
     }, [location.pathname]);
 
     useEffect(() => {
-        localStorage.setItem('novarey-theme', theme);
+        try { window.localStorage.setItem('novarey-theme', theme); } catch { /* Theme switching still works when storage is unavailable. */ }
     }, [theme]);
 
     return (
-        <div className={`theme-${theme} app-shell text-slate-300 w-full h-screen overflow-hidden flex selection:bg-neon/30 selection:text-neon-200`}>
+        <div className={`theme-${theme} app-shell ${location.pathname === '/' ? 'home-document-scroll' : ''} text-slate-300 w-full h-screen overflow-hidden flex selection:bg-neon/30 selection:text-neon-200`}>
             <Suspense fallback={<div className="fixed inset-0 bg-black -z-10" />}>
                 <ParticleBackground />
             </Suspense>
-            <Sidebar />
-            <main className="relative z-10 flex h-full min-w-0 flex-1 flex-col overflow-hidden">
+            <Sidebar theme={theme} />
+            <main className="site-content relative z-10 flex h-full min-w-0 flex-1 flex-col overflow-hidden">
                 <Header theme={theme} onThemeChange={setTheme} />
                 {children}
                 <Footer />

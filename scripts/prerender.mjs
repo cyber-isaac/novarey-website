@@ -7,7 +7,7 @@ import { join } from 'node:path';
 import { gzipSync, brotliCompressSync } from 'node:zlib';
 
 // Render the actual React pages at build time; there is no server to run in production.
-const routes = ['/', '/work', '/portfolio', '/about', '/contact', '/idrive', '/ai-strategy', '/services', '/services/web', '/services/brand', '/services/marketing', '/services/ai'];
+const routes = ['/', '/work', '/about', '/contact', '/idrive', '/ai-strategy', '/services', '/services/web', '/services/brand', '/services/marketing', '/services/ai'];
 const env = loadEnv('production', process.cwd(), 'VITE_');
 await mkdir('node_modules/.cache', { recursive: true });
 const serverPath = resolve('node_modules/.cache/novarey-ssr.cjs');

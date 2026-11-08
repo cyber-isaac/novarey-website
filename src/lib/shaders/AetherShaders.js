@@ -2,6 +2,7 @@
 export function getVertexShader(particleCount) {
     return `
         uniform float uTime;
+        uniform float uPixelRatio;
         uniform float uMode;
         uniform float uAudio;
         uniform float uBass;
@@ -516,12 +517,12 @@ export function getVertexShader(particleCount) {
             }
 
             vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
-            gl_PointSize = (1.25 + aRandom.y * 2.2 + uBass * 5.5 + uTreble * 3.0) * (30.0 / -mvPosition.z);
+            gl_PointSize = (1.6 + aRandom.y * 2.2 + uBass * 5.5 + uTreble * 3.0) * uPixelRatio * (30.0 / -mvPosition.z);
             gl_Position = projectionMatrix * mvPosition;
 
             vDist = length(pos);
-            float depthFade = smoothstep(60.0, 10.0, -mvPosition.z);
-            vAlpha = depthFade * (0.2 + aRandom.z * 0.58 + uTreble * 0.22);
+            float depthFade = 1.0 - smoothstep(10.0, 70.0, -mvPosition.z);
+            vAlpha = depthFade * (0.3 + aRandom.z * 0.58 + uTreble * 0.22);
             vColor = pos;
 
             // Make the Cross much brighter

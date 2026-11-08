@@ -1,0 +1,30 @@
+.studio-artwork { min-width:0; margin:0; border:1px solid #b3c7dd33; border-radius:20px; overflow:hidden; background:#10151e; box-shadow:0 12px 30px #00000020; }
+.studio-artwork-toolbar { display:flex; justify-content:space-between; gap:16px; padding:16px 20px; border-bottom:1px solid #ffffff15; font:10px/1.5 var(--font-mono); color:#97aabd; text-transform:uppercase; letter-spacing:.1em; }
+.studio-artwork-stage { position:relative; aspect-ratio:4/5; background:radial-gradient(ellipse at center,#233345,#0c1119 80%); padding:20px; }
+.studio-artwork-stage.studio-artwork-web { aspect-ratio:4/3; }
+.studio-artwork-images { display:grid; grid-template-columns:minmax(0,1fr); gap:16px; height:100%; width:100%; }
+.studio-artwork-web .studio-artwork-images { grid-template-columns:repeat(2,minmax(0,1fr)); align-items:center; }
+.studio-artwork-images img { display:block; width:100%; height:100%; min-height:0; object-fit:contain; border-radius:8px; }
+.studio-artwork-web img { background:#f5f5f5; padding:6px; box-shadow:0 10px 24px #00000035; }
+.studio-artwork-caption { padding:24px; border-top:1px solid #ffffff18; }
+.studio-artwork-category { font:10px/1.6 var(--font-mono); text-transform:uppercase; letter-spacing:.12em; color:#9fcbd4; }
+.studio-artwork-caption h3 { margin:10px 0 12px; font-size:clamp(26px,3vw,38px); line-height:1.15; font-weight:600; letter-spacing:-.03em; }
+.studio-artwork-caption > p:last-child { color:#a8b7c9; font-size:13px; line-height:1.8; max-width:44ch; }
+.studio-service-button { min-width:0; }
+.studio-service-button:focus-visible { outline:2px solid #a7c7e7; outline-offset:4px; }
+@container site-content (min-width:951px) { .studio-artwork { position:sticky; top:100px; } }
+@container site-content (max-width:600px) {
+  .studio-artwork-toolbar { padding:14px 16px; }
+  .studio-artwork-stage { padding:14px; }
+  .studio-artwork-web .studio-artwork-images { gap:10px; }
+  .studio-artwork-caption { padding:20px; }
+  .studio-service-button p,.studio-service-button .pl-16 { padding-left:0; }
+  .studio-service-button h3 { font-size:17px; }
+}
+
+.theme-light .studio-artwork { background: #fff; border-color: #cbd5e1; box-shadow: 0 8px 24px rgb(15 23 42 / 6%); }
+.theme-light .studio-artwork-toolbar { color: #475569; border-color: #cbd5e1; }
+.theme-light .studio-artwork-stage { background: #f1f5f9; }
+.theme-light .studio-artwork-caption { border-color: #cbd5e1; }
+.theme-light .studio-artwork-category { color: #155e75; }
+.theme-light .studio-artwork-caption > p:last-child { color: #475569; }

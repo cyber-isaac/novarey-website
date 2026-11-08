@@ -3,6 +3,11 @@
 @import './styles/effects.css';
 @import './styles/ui.css';
 @import './styles/themes.css';
+@import './styles/information-cards.css';
+@import './styles/responsive-layout.css';
+@import './styles/home-editorial.css';
+@import './styles/light-mode.css';
+@import './styles/cleanup.css';
 
 @tailwind base;
 @tailwind components;
@@ -12,7 +17,7 @@ body {
   font-family: 'Inter', sans-serif;
   background-color: #050505;
   color: white;
-  overflow-x: hidden;
+  overflow-x: clip;
   font-size: 16px;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
@@ -39,3 +44,57 @@ button,
 .contact-intake > * { min-width: 0; }
 .contact-title { font-family: var(--font-display, Inter, sans-serif); font-weight: 800; font-size: clamp(2.4rem, 5cqi, 4.5rem); line-height: 1.05; overflow-wrap: break-word; }
 @media (min-width: 1440px) { .contact-intake { grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr); } }
+
+/* Let the homepage use the document scrollbar, including keyboard navigation.
+   Other application-style routes retain their contained scroll panels. */
+.home-document-scroll {
+  height: auto;
+  min-height: 100dvh;
+  overflow: visible;
+  align-items: flex-start;
+}
+.home-document-scroll > main {
+  height: auto;
+  min-height: 100dvh;
+  overflow: visible;
+}
+@media (min-width: 1024px) {
+  .home-document-scroll > .sidebar-panel {
+    position: sticky;
+    top: 0;
+    height: 100dvh;
+  }
+}
+
+/* Keep navigation overflow discoverable without widening the sidebar. */
+.sidebar-nav-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: #64748b transparent;
+}
+.sidebar-nav-scroll::-webkit-scrollbar { width: 6px; }
+.sidebar-nav-scroll::-webkit-scrollbar-thumb { background: #64748b; border-radius: 8px; }
+
+/* Size card grids against the actual content area beside the sidebar. */
+.home-card-grid,
+.home-artwork-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr));
+  gap: 20px;
+  align-items: stretch;
+}
+.home-artwork-grid {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+}
+.home-card {
+  min-width: 0;
+  padding: clamp(20px, 2vw, 24px);
+  border: 1px solid var(--border-1);
+  border-radius: 16px;
+  background: var(--surface-2);
+}
+.home-card h3 { font-size: 1.125rem; line-height: 1.4; }
+.home-card p { line-height: 1.65; }
+.home-artwork-card { min-width: 0; display: flex; flex-direction: column; }
+.home-artwork-card .btn-beam { max-width: 100%; padding-inline: 1.25rem !important; }
+.home-card > div:first-child { min-height: 20px; }
+.home-artwork-card p { margin-bottom: 20px; }

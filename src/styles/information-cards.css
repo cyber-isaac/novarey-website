@@ -1,0 +1,55 @@
+/* Shared, opt-in surfaces for information; media stages retain their own styling. */
+.info-card.info-card {
+  min-width:0;
+  border:1px solid var(--info-border,rgba(179,199,221,.2));
+  border-radius:18px;
+  background-color:var(--info-background,rgba(18,23,32,.88));
+  box-shadow:var(--info-shadow,inset 0 1px 0 rgba(255,255,255,.045),0 8px 24px rgba(0,0,0,.12));
+  backdrop-filter:none;
+  -webkit-backdrop-filter:none;
+  overflow-wrap:anywhere;
+}
+.info-card.info-card--body { padding:clamp(20px,2.2vw,28px); }
+.info-card.info-card--compact { border-radius:12px; }
+.info-card.info-card :is(h3,h4) { text-wrap:balance; line-height:1.25; }
+.info-card.info-card p { line-height:1.8; }
+.info-card.info-card--interactive { transition:border-color .2s,background-color .2s; }
+.info-card.info-card--interactive:hover { border-color:var(--info-hover-border,rgba(179,199,221,.4)); background-color:var(--info-hover-background,rgba(25,32,43,.95)); }
+.info-card.info-card--interactive:focus-within { border-color:#a7c7e7; }
+.info-card-grid.info-card-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr)); gap:20px; align-items:stretch; }
+.home-card.info-card { display:flex; flex-direction:column; }
+.home-card.info-card > p { margin-top:8px; color:var(--text-2); }
+.ai-card.info-card { display:flex; flex-direction:column; }
+.ai-card.info-card .ai-card-examples { margin-top:auto; padding-top:18px; }
+.ai-card.info-card > p { margin-bottom:22px; }
+.ai-demo.info-card { background-image:radial-gradient(ellipse at top right,#26364955,transparent 65%); }
+.ai-workflow-step.info-card,.ai-workflow-result.info-card { background-color:#0d131c; }
+.ai-workflow-result.info-card { background-color:#182d38; border-color:#9fcbd445; }
+.portfolio-info-card.info-card { min-height:0; border-radius:20px; }
+.contact-form-card.info-card { padding:clamp(20px,2.5vw,32px); }
+.contact-form-card :is(input,select,textarea) { border-radius:9px; }
+.contact-form-card button[type=submit] { border-radius:10px; }
+.theme-light .home-card.info-card { background:#fff; border-color:rgba(25,45,70,.18); box-shadow:0 6px 20px rgba(25,45,70,.05); }
+.theme-amber .home-card.info-card { background:#15120d; border-color:rgba(225,209,181,.2); }
+@media(prefers-reduced-motion:reduce) { .info-card.info-card--interactive { transition:none; } }
+/* Aether's information controls share the finish while the particle stage keeps its design. */
+.aether-controls .aether-control-card {
+  border:1px solid rgba(179,199,221,.22);
+  border-radius:18px;
+  padding:24px;
+  box-shadow:var(--info-shadow,inset 0 1px 0 rgba(255,255,255,.045),0 8px 24px rgba(0,0,0,.12));
+}
+.aether-controls .aether-control-grid { gap:24px; }
+.aether-controls .aether-control-card legend { padding-inline:10px; }
+
+/* Shared content surfaces inherit their palette with the active theme. */
+.theme-light {
+  --info-background: #ffffff;
+  --info-border: #cbd5e1;
+  --info-shadow: 0 6px 20px rgb(15 23 42 / 6%);
+  --info-hover-background: #f1f5f9;
+  --info-hover-border: #64748b;
+}
+.theme-light .info-card.info-card--interactive:focus-within { border-color: #334155; }
+.theme-light :is(.ai-workflow-step.info-card,.ai-workflow-result.info-card) { background-color: #f1f5f9; border-color: #cbd5e1; }
+.theme-light .ai-demo.info-card { background-image: none; }

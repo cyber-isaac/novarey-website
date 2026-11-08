@@ -1,0 +1,84 @@
+/* Complete the shared light palette without changing media or WebGL scenes. */
+.service-page { --service-accent: var(--service-accent-base); }
+.theme-light.app-shell,
+.theme-light .page-transition-layer,
+.theme-light .site-content { background-color: #f8fafc; }
+.theme-light .site-footer { background: #eef3f8; color: #334155; }
+.theme-light :is(.text-white\/20,.text-white\/25,.text-slate-600) { color: #475569; }
+.theme-light .strategy-process-card { background-color: #fff; border-color: #cbd5e1; }
+.theme-light .strategy-image-index { color: #334155; padding: 5px 8px; background: #fff; border-radius: 6px; }
+.theme-light .portfolio-hero-shade { background: linear-gradient(90deg,#f8fafc,#f8fafce8 62%,#f8fafc66); }
+.theme-light .portfolio-hero-vignette { background: linear-gradient(180deg,#f8fafc33,transparent 40%,#f8fafc); }
+.theme-light .portfolio-hero-fade { background: linear-gradient(0deg,#f8fafc,transparent); }
+.theme-light .service-page { --service-accent: #1e40af; }
+.theme-light .service-page[data-service=brand] { --service-accent: #9d174d; }
+.theme-light .service-page[data-service=marketing] { --service-accent: #9a3412; }
+.theme-light .service-media-caption { padding: 18px; border-radius: 12px; background: #fffffff5; border: 1px solid #cbd5e1; }
+.theme-light .mind-palace-heading { padding: 12px 16px; border-radius: 12px; background: #fffffff5; border: 1px solid #cbd5e1; }
+.theme-light #mp-room-label { color: #334155 !important; }
+/* Custom AI service components previously bypassed the shared utility palette. */
+.theme-light .ai-solutions { background: #f8fafc; color: #0f172a; }
+.theme-light .ai-hero h1 span { color: #475569; }
+.theme-light :is(.ai-kicker,.ai-card > svg,.ai-delivery-list svg,.ai-cta > svg,.ai-flow-connector) { color: #155e75; }
+.theme-light :is(.ai-lead,.ai-text-link,.ai-card p,.ai-delivery-list p,.ai-faq details p,.ai-cta p,.ai-section-heading > p:last-child,.ai-workflow p,.ai-workflow .ai-input) { color: #334155; }
+.theme-light :is(.ai-hero-note,.ai-demo-note,.ai-example-label,.ai-step-label,.ai-card-examples,.ai-process-number,.ai-other-services,.ai-other-services > span) { color: #475569; }
+.theme-light .ai-demo { background: #fff; border-color: #cbd5e1; box-shadow: 0 12px 32px #0f172a10; }
+.theme-light .ai-example-picker button { color: #334155; background: #fff; border-color: #94a3b8; }
+.theme-light .ai-example-picker button[aria-pressed=true] { color: #164e63; background: #cffafe; border-color: #0e7490; }
+.theme-light .ai-workflow-result .ai-step-label { color: #155e75; }
+.theme-light :is(.ai-section,.ai-delivery-list > div,.ai-faq details,.ai-card-examples) { border-color: #cbd5e1; }
+.theme-light .ai-cta { background: #fff; border-color: #cbd5e1; }
+.theme-light .ai-button { color: #fff; background: #155e75; border-color: #155e75; }
+.theme-light .ai-button:hover { background: #164e63; }
+.theme-light .ai-solutions :is(a,button,summary):focus-visible { outline-color: #155e75; }
+/* The particle stage stays cinematic; its controls follow the page theme. */
+.theme-light .aether-controls { color: #0f172a; background: #f8fafc; border-color: #cbd5e1; }
+.theme-light .aether-controls .aether-control-card { color: #0f172a; background: #fff; border-color: #cbd5e1; box-shadow: 0 6px 20px #0f172a0a; }
+.theme-light .aether-controls :is(p,label,.aether-footnote,.aether-mode-grid button span) { color: #475569; }
+.theme-light .aether-controls legend { color: #155e75; }
+.theme-light .aether-controls button { color: #334155; background: #fff; border-color: #94a3b8; }
+.theme-light .aether-controls button:hover { background: #f1f5f9; border-color: #475569; }
+.theme-light .aether-controls button[aria-pressed=true] { background: #cffafe; border-color: #0e7490; color: #164e63; }
+.theme-light .aether-controls select { background: #fff; border-color: #94a3b8; color: #0f172a; }
+.theme-light .aether-controls input[type=range] { accent-color: #0e7490; }
+.theme-light .aether-controls :is(button,select,input):focus-visible { outline-color: #155e75; }
+.theme-light .aether-controls .aether-control-error { color: #9a3412; }
+
+/* Pale dark-theme accent utilities need opaque ink on light surfaces. */
+.theme-light :is(.text-blue-200,.text-blue-300,.text-blue-400,.text-blue-500) { color: #1e40af; }
+.theme-light :is(.text-sky-300) { color: #075985; }
+.theme-light :is(.text-cyan-100,.text-cyan-200,.text-cyan-300) { color: #155e75; }
+.theme-light :is(.text-emerald-200,.text-emerald-300,.text-emerald-300\/80,.text-emerald-400,.text-emerald-400\/80,.text-emerald-500,.text-emerald-500\/50,.text-emerald-500\/60) { color: #166534; }
+.theme-light :is(.text-orange-100,.text-orange-200,.text-orange-200\/80,.text-orange-300,.text-orange-300\/80,.text-orange-400,.text-orange-400\/80,.text-orange-400\/90,.text-orange-500,.text-orange-500\/10,.text-orange-500\/60,.text-orange-500\/80) { color: #9a3412; }
+.theme-light :is(.text-yellow-200,.text-yellow-500) { color: #854d0e; }
+.theme-light :is(.text-red-300,.text-red-500) { color: #991b1b; }
+.theme-light :is(.text-rose-400) { color: #9f1239; }
+.theme-light :is(.text-pink-400) { color: #9d174d; }
+.theme-light :is(.text-purple-300,.text-purple-400) { color: #6b21a8; }
+
+/* Correct Tailwind opacity suffixes on content panels and sticky toolbars. */
+.theme-light .bg-\[\#07080d\]\/82 { background-color: rgb(255 255 255 / 96%); }
+.theme-light .bg-\[\#071017\]\/80 { background-color: rgb(255 255 255 / 96%); }
+.theme-light .bg-\[\#0D0C12\]\/50 { background-color: rgb(255 255 255 / 96%); }
+.theme-light .bg-\[\#0D0C12\]\/80 { background-color: rgb(255 255 255 / 96%); }
+.theme-light .bg-\[\#12111A\]\/80 { background-color: rgb(255 255 255 / 96%); }
+.theme-light .bg-\[\#14121D\]\/70 { background-color: rgb(255 255 255 / 96%); }
+
+.theme-light :is(.text-white\/55,.text-white\/85) { color: #475569; }
+.theme-light .bg-clip-text.text-transparent { color: #0f172a; background-image: none; -webkit-text-fill-color: #0f172a; }
+.theme-light .home-video-hero .home-hero-mark { color: var(--home-film-ink); }
+.theme-light .site-content :is(a,button,input,select,textarea,summary):focus-visible { outline: 2px solid #155e75; outline-offset: 4px; }
+
+.theme-light .chat-widget .text-gray-200 { color: #334155; }
+.theme-light .home-floating-audio { background: #fff; color: #334155; border-color: #94a3b8; }
+
+.theme-light button[aria-controls=site-navigation] { background: #fff; color: #334155; border-color: #94a3b8; }
+.theme-light .site-video-dialog { background: #fff; color: #0f172a; border-color: #94a3b8; }
+/* Captions need a predictable backing independent of the image beneath them. */
+.theme-light :is(.bg-black\/35,.bg-black\/40,.bg-black\/45,.bg-black\/50,.bg-black\/55,.bg-black\/60) { background-color: rgb(255 255 255 / 96%); }
+.theme-light .work-page .work-media-caption { background: #0f172ae8; padding: 10px 12px; border-radius: 9px; }
+.theme-light .site-content .aether-stage :is(button,select,input):focus-visible { outline-color: #a5edf5; }
+.theme-light .site-content .home-video-hero :is(a,button):focus-visible { outline-color: #fff; }
+.theme-light .home-floating-audio:focus-visible { outline-color: #155e75; }
+.theme-light .sidebar-panel :is(a,button):focus-visible { outline-color: #155e75; }
+.theme-light .site-video-dialog button:focus-visible { outline: 2px solid #155e75; outline-offset: 4px; }

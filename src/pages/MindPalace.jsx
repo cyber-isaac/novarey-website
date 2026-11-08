@@ -706,7 +706,7 @@ const MindPalace = () => {
             <div className="absolute inset-0 z-10 pointer-events-none flex flex-col justify-between p-5">
                 {/* Top bar */}
                 <div className="flex justify-between items-start w-full">
-                    <div className="flex flex-col gap-1 pointer-events-auto">
+                    <div className="mind-palace-heading flex flex-col gap-1 pointer-events-auto">
                         <div className="flex items-center gap-2">
                             <div className="w-1.5 h-1.5 rounded-full bg-purple-500 animate-pulse" />
                             <h1 className="hero-kicker text-white">

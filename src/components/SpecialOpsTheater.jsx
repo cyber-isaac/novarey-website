@@ -12,7 +12,7 @@ const SpecialOpsTheater = () => {
             initial="hidden"
             whileInView="visible"
             viewport={viewportConfig}
-            className="relative py-24 px-6 md:px-12 overflow-hidden"
+            className="relative py-2 overflow-hidden"
         >
             {/* Background elements */}
             <div className="absolute inset-0 z-0 pointer-events-none">
@@ -21,7 +21,7 @@ const SpecialOpsTheater = () => {
             </div>
 
             <div className="max-w-7xl mx-auto relative z-10">
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-center">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 xl:gap-10 items-center">
 
                     {/* Left Side: Content */}
                     <div className="lg:col-span-12 xl:col-span-5 space-y-8">
@@ -115,10 +115,6 @@ const SpecialOpsTheater = () => {
                                 </div>
 
                                 {/* Tech Corner Brackets */}
-                                <div className="absolute top-4 left-4 w-8 h-8 border-t-2 border-l-2 border-orange-500/40 rounded-tl-xl pointer-events-none"></div>
-                                <div className="absolute top-4 right-4 w-8 h-8 border-t-2 border-r-2 border-orange-500/40 rounded-tr-xl pointer-events-none"></div>
-                                <div className="absolute bottom-4 left-4 w-8 h-8 border-b-2 border-l-2 border-orange-500/40 rounded-bl-xl pointer-events-none"></div>
-                                <div className="absolute bottom-4 right-4 w-8 h-8 border-b-2 border-r-2 border-orange-500/40 rounded-br-xl pointer-events-none"></div>
                             </div>
                         </div>
                     </div>

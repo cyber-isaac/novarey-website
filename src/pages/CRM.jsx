@@ -87,7 +87,7 @@ const CRM = () => {
             <motion.div className="h-16 border-b border-white/5 flex items-center justify-between px-8 bg-[#0D0C12]/50 backdrop-blur" variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig}>
                 <h1 className="hero-title-compact !text-xl text-white flex items-center gap-3">
                     Deal Flow
-                    <span className="text-xs font-normal text-slate-500 border-l border-white/10 pl-3">Internal CRM</span>
+                    <span className="text-xs font-normal text-slate-500 ml-1">Internal CRM</span>
                     {loading && <RefreshCw className="w-3 h-3 animate-spin text-slate-500" />}
                 </h1>
                 <div className="flex gap-3">

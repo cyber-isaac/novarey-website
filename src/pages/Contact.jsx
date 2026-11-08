@@ -12,7 +12,6 @@ import {
     MessageSquare,
     Send,
     Shield,
-    Sparkles,
 } from 'lucide-react';
 import { fadeInUp, scrollReveal, staggerContainer, viewportConfig } from '../lib/animations';
 import { CONTACT_EMAIL, GENERAL_EMAIL_URL, LINKEDIN_URL, STRATEGY_CALL_URL, makeMailto } from '../lib/contactLinks';
@@ -116,10 +115,7 @@ const Contact = () => {
     };
 
     return (
-        <main className="flex-1 h-full overflow-y-auto bg-[#050506] text-white selection:bg-orange-500/30" data-scroll-container>
-            <div className="contact-grid-overlay pointer-events-none fixed inset-0 opacity-[0.055] bg-[linear-gradient(90deg,rgba(255,255,255,0.16)_1px,transparent_1px),linear-gradient(rgba(255,255,255,0.16)_1px,transparent_1px)] bg-[size:52px_52px]" />
-            <div className="contact-ambient-overlay pointer-events-none fixed inset-0 bg-[radial-gradient(circle_at_12%_12%,rgba(249,115,22,0.16),transparent_30%),radial-gradient(circle_at_84%_16%,rgba(14,165,233,0.12),transparent_28%),linear-gradient(180deg,rgba(5,5,6,0)_0%,#050506_86%)]" />
-
+        <main className="contact-cleanup flex-1 h-full overflow-y-auto bg-[#050506] text-white selection:bg-orange-500/30" data-scroll-container>
             <section className="relative px-5 pb-12 pt-10 md:px-10 md:pb-16 md:pt-14">
                 <div className="mx-auto max-w-7xl">
                     <motion.div
@@ -130,10 +126,6 @@ const Contact = () => {
                     >
                         <motion.div variants={fadeInUp} className="flex flex-col justify-between">
                             <div>
-                                <div className="hero-chip-text mb-5 inline-flex items-center gap-2 border border-orange-300/25 bg-orange-500/10 px-3 py-2 font-black text-orange-100">
-                                    <MessageSquare className="h-3.5 w-3.5" />
-                                    Project intake
-                                </div>
                                 <h1 className="contact-title text-white">
                                     Let’s build something that works.
                                 </h1>
@@ -142,27 +134,10 @@ const Contact = () => {
                                 </p>
                             </div>
 
-                            <div className="mt-6 grid grid-cols-3 gap-2">
-                                {SIGNALS.map((signal) => (
-                                    <div key={signal.label} className="border border-white/10 bg-white/[0.035] p-3">
-                                        <signal.icon className="mb-3 h-5 w-5 text-orange-300" />
-                                        <div className="text-[10px] font-black uppercase tracking-[0.18em] text-slate-500">{signal.label}</div>
-                                        <div className="mt-1 text-sm font-bold text-white">{signal.value}</div>
-                                    </div>
-                                ))}
-                            </div>
+                            <p className="mt-5 text-sm text-slate-300">Based in the United States · Typical reply within 24–48 hours.</p>
                         </motion.div>
 
-                        <motion.div variants={fadeInUp} className="border border-white/10 bg-black/45 p-4 shadow-2xl shadow-orange-950/20 backdrop-blur-xl md:p-5">
-                            <div className="mb-5 flex items-center justify-between border-b border-white/10 pb-4">
-                                <div>
-                                    <div className="text-xs font-black uppercase tracking-[0.18em] text-orange-200">Start a brief</div>
-                                    <h2 className="mt-1 text-2xl font-black tracking-tight text-white">Tell me what you need built.</h2>
-                                </div>
-                                <FileText className="hidden h-8 w-8 text-orange-300 sm:block" />
-                            </div>
-
-                            <form id="project-brief" name="project-inquiry" method="POST" data-netlify="true" netlify-honeypot="bot-field" onSubmit={handleSubmit} className="grid gap-4 scroll-mt-6">
+                        <form id="project-brief" name="project-inquiry" method="POST" data-netlify="true" netlify-honeypot="bot-field" onSubmit={handleSubmit} className="grid gap-4 scroll-mt-6">
                                 <input type="hidden" name="form-name" value="project-inquiry" />
                                 <p hidden><label>Leave this empty <input name="bot-field" tabIndex={-1} autoComplete="off" /></label></p>
                                 <div className="grid gap-4 sm:grid-cols-2">
@@ -204,22 +179,20 @@ const Contact = () => {
                                 {status === 'error' && <p role="alert" className="text-sm leading-6 text-orange-200">Your brief wasn’t sent. Your answers are still here; please retry or use the email option below.</p>}
                                 <p className="text-xs leading-6 text-slate-400">Your details are used to respond to this inquiry. Prefer email? <a href={mailtoHref} className="text-orange-200 underline">Send this brief by email</a>.</p>
                             </form>
-                        </motion.div>
                     </motion.div>
                 </div>
             </section>
 
             <section className="relative px-5 py-10 md:px-10 md:py-14">
-                <div className="mx-auto grid max-w-7xl gap-5 lg:grid-cols-[1fr_1.15fr]">
+                <div className="responsive-split mx-auto grid max-w-7xl gap-5 lg:grid-cols-[1fr_1.15fr]">
                     <motion.div
                         variants={scrollReveal}
                         initial="hidden"
                         whileInView="visible"
                         viewport={viewportConfig}
-                        className="border border-white/10 bg-white/[0.035] p-5 md:p-6"
+                        className="info-card info-card--body border border-white/10 bg-white/[0.035] p-5 md:p-6"
                     >
                         <div className="mb-4 flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.24em] text-orange-200">
-                            <Sparkles className="h-4 w-4" />
                             Strong brief checklist
                         </div>
                         <h2 className="text-3xl font-black tracking-tight text-white md:text-5xl">Send enough context to make the first reply useful.</h2>
@@ -247,7 +220,7 @@ const Contact = () => {
                                 href={channel.href}
                                 target={channel.href.startsWith('http') ? '_blank' : undefined}
                                 rel={channel.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                                className="group grid gap-4 border border-white/10 bg-white/[0.035] p-5 transition hover:-translate-y-0.5 hover:border-orange-300/40 hover:bg-white/[0.06] sm:grid-cols-[56px_1fr_auto] sm:items-center"
+                                className="info-card info-card--interactive group grid gap-4 border border-white/10 bg-white/[0.035] p-5 transition hover:-translate-y-0.5 hover:border-orange-300/40 hover:bg-white/[0.06] sm:grid-cols-[56px_1fr_auto] sm:items-center"
                             >
                                 <div className="flex h-12 w-12 items-center justify-center bg-orange-500/12 text-orange-200">
                                     <channel.icon className="h-5 w-5" />
@@ -266,7 +239,7 @@ const Contact = () => {
 
             <section className="relative px-5 pb-16 pt-8 md:px-10 md:pb-24">
                 <div className="mx-auto max-w-7xl border border-white/10 bg-white/[0.04] p-5 md:p-8">
-                    <div className="grid gap-6 lg:grid-cols-[1fr_0.9fr] lg:items-end">
+                    <div className="responsive-split grid gap-6 lg:grid-cols-[1fr_0.9fr] lg:items-end">
                         <div>
                             <div className="mb-3 text-[10px] font-black uppercase tracking-[0.24em] text-orange-200">How the first conversation works</div>
                             <h2 className="text-3xl font-black tracking-tight text-white md:text-5xl">Clear scope before production starts.</h2>

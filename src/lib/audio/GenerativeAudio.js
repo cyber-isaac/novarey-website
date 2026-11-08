@@ -7,6 +7,8 @@ export class GenerativeAudio {
         this.nodes = []; // all stoppable nodes
         this.timers = []; // scheduled timeouts
         this.playing = false;
+        this.playbackId = 0;
+        this.volume = 0.3;
         this.audioEl = null; // <audio> element for URL-based tracks
         this.mediaSource = null; // MediaElementSourceNode
     }
@@ -47,6 +49,7 @@ export class GenerativeAudio {
     }
 
     stopAll() {
+        this.playbackId += 1;
         this.nodes.forEach(n => { try { n.stop(); } catch (e) { } });
         this.nodes = [];
         this.timers.forEach(t => clearTimeout(t));
@@ -55,11 +58,16 @@ export class GenerativeAudio {
         if (this.gainNode && this.ctx) {
             this._fadeMaster(0, 0.45);
         }
-        // Stop any playing audio element
+        // Release the old source, including any pending load or play request.
         if (this.audioEl) {
+            this.audioEl.onerror = null;
             this.audioEl.pause();
-            this.audioEl.currentTime = 0;
+            this.audioEl.removeAttribute('src');
+            this.audioEl.load();
+            this.audioEl = null;
         }
+        this.mediaSource?.disconnect();
+        this.mediaSource = null;
     }
 
     // Helper: play a single note with attack/release envelope
@@ -148,18 +156,14 @@ export class GenerativeAudio {
         this.timers.push(tid);
     }
 
-    playTrack(trackId, volume = 0.3) {
-        this.init();
+    async playTrack(trackId) {
         this.stopAll();
+        const playbackId = this.playbackId;
+        await this.resume();
+        if (playbackId !== this.playbackId) return false;
         this.playing = true;
 
-        if (this.ctx.state === 'suspended') {
-            this.ctx.resume();
-        }
-
-        const now = this.ctx.currentTime;
-        this.gainNode.gain.setValueAtTime(0, now);
-        this.gainNode.gain.linearRampToValueAtTime(volume, now + 2.0);
+        this._fadeMaster(this.volume, 2);
 
         const presets = {
             'ethereal-drift': () => {
@@ -266,64 +270,51 @@ export class GenerativeAudio {
             },
         };
 
-        if (presets[trackId]) {
-            presets[trackId]();
-        }
+        presets[trackId]();
+        return true;
     }
 
-    // Play audio from a local file URL (e.g. /audio/siren.mp3)
-    playUrl(fileUrl, volume = 0.3) {
-        this.init();
-        // Stop generative nodes but don't touch audioEl yet
-        this.nodes.forEach(n => { try { n.stop(); } catch (e) { } });
-        this.nodes = [];
-        this.timers.forEach(t => clearTimeout(t));
-        this.timers = [];
-        this.playing = true;
-
-        this._fadeMaster(0, 0.12);
-
-        // Resume AudioContext (required after user gesture)
-        if (this.ctx.state === 'suspended') {
-            this.ctx.resume();
-        }
-
-        // Reuse existing <audio> element or create a new one
-        if (!this.audioEl) {
-            this.audioEl = new Audio();
-            this.audioEl.crossOrigin = 'anonymous';
-            this.audioEl.loop = true;
-            // Create MediaElementSource only once per element
-            this.mediaSource = this.ctx.createMediaElementSource(this.audioEl);
-            this.mediaSource.connect(this.gainNode);
-        }
-
-        this.audioEl.src = fileUrl;
-        this.audioEl.volume = 1; // volume is controlled by gainNode
-        this.audioEl.oncanplay = () => this._fadeMaster(volume, 0.8);
-        this.audioEl.onerror = () => {
-            this.playing = false;
-            console.warn('Audio failed to load:', fileUrl);
-        };
-        this.audioEl.play().then(() => {
-            this._fadeMaster(volume, 0.8);
-        }).catch(err => {
-            this.playing = false;
-            console.warn('Audio playback failed:', err);
-        });
-    }
-
-    // Used for iframe tracks where audio plays natively in the DOM
-    playSilence() {
-        this.init();
+    async playUrl(fileUrl, onPlaybackError) {
         this.stopAll();
+        const playbackId = this.playbackId;
+        this.init();
+
+        const audio = new Audio();
+        this.audioEl = audio;
+        audio.crossOrigin = 'anonymous';
+        audio.loop = true;
+        this.mediaSource = this.ctx.createMediaElementSource(audio);
+        this.mediaSource.connect(this.gainNode);
+        audio.onerror = () => {
+            // play() rejects during startup. Handle errors that occur after it resolves.
+            if (playbackId !== this.playbackId || !this.playing) return;
+            this.stopAll();
+            onPlaybackError();
+        };
+        audio.src = fileUrl;
+
+        let startTimeout;
+        try {
+            // Ask the browser to start both in the same user gesture.
+            await Promise.race([
+                Promise.all([this.resume(), audio.play()]),
+                new Promise((_, reject) => {
+                    startTimeout = setTimeout(() => reject(new Error('Audio start timed out')), 20000);
+                }),
+            ]);
+        } finally {
+            clearTimeout(startTimeout);
+        }
+
+        if (playbackId !== this.playbackId) return false;
         this.playing = true;
+        this._fadeMaster(this.volume, 0.8);
+        return true;
     }
 
     setVolume(v) {
-        if (this.gainNode && this.ctx) {
-            this._fadeMaster(v, 0.18);
-        }
+        this.volume = v;
+        if (this.playing) this._fadeMaster(v, 0.18);
     }
 
     getAnalyser() {
@@ -332,12 +323,6 @@ export class GenerativeAudio {
 
     destroy() {
         this.stopAll();
-        if (this.audioEl) {
-            this.audioEl.pause();
-            this.audioEl.src = '';
-            this.audioEl = null;
-            this.mediaSource = null;
-        }
         if (this.ctx) {
             this.ctx.close().catch(() => { });
             this.ctx = null;

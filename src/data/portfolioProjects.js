@@ -1,14 +1,5 @@
-export const AE_PROJECTS = [
-    { id: 'ae-1', title: 'Cosmic Drift Showreel', year: '2024', tech: 'After Effects + Element 3D', src: 'https://assets.mixkit.co/videos/preview/mixkit-stars-in-space-1610-large.mp4' },
-    { id: 'ae-2', title: 'Neon Pulse Identity', year: '2023', tech: 'AE + Stardust', src: 'https://assets.mixkit.co/videos/preview/mixkit-software-developer-working-on-code-screen-in-light-4841-large.mp4' },
-    { id: 'ae-3', title: 'Future UI Glitch', year: '2024', tech: 'Motion Graphics', src: 'https://assets.mixkit.co/videos/preview/mixkit-abstract-flow-of-particles-in-purple-and-blue-colors-4831-large.mp4' }
-];
-
-export const WEB_PROJECTS = [
-    { id: 'web-1', title: 'Lumiere Photography', type: 'Portfolio', url: 'lumiere.design' },
-    { id: 'web-2', title: 'NovaRey V1', type: 'Agency', url: 'novarey.ventures' },
-    { id: 'web-3', title: 'Skunkworks OS', type: 'SaaS', url: 'skunkworks.ai' }
-];
+export const AE_PROJECTS = [];
+export const WEB_PROJECTS = [];
 
 export const FEATURED_PROJECTS = [
     {

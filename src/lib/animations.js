@@ -4,22 +4,11 @@
  */
 
 export const staggerContainer = (staggerChildren = 0.1, delayChildren = 0) => ({
-    hidden: { opacity: 0 },
-    visible: {
-        opacity: 1,
-        transition: {
-            staggerChildren,
-            delayChildren,
-        },
-    },
+    hidden: { opacity: 1, x: 0, y: 0, scale: 1 },
 });
 
 export const fadeInUp = {
-    hidden: {
-        opacity: 0,
-        y: 30,
-        scale: 0.98
-    },
+    hidden: { opacity: 1, x: 0, y: 0, scale: 1 },
     visible: {
         opacity: 1,
         y: 0,
@@ -32,10 +21,7 @@ export const fadeInUp = {
 };
 
 export const fadeInRight = {
-    hidden: {
-        opacity: 0,
-        x: -40
-    },
+    hidden: { opacity: 1, x: 0, y: 0, scale: 1 },
     visible: {
         opacity: 1,
         x: 0,
@@ -47,10 +33,7 @@ export const fadeInRight = {
 };
 
 export const fadeInLeft = {
-    hidden: {
-        opacity: 0,
-        x: 40
-    },
+    hidden: { opacity: 1, x: 0, y: 0, scale: 1 },
     visible: {
         opacity: 1,
         x: 0,
@@ -62,10 +45,7 @@ export const fadeInLeft = {
 };
 
 export const scaleUp = {
-    hidden: {
-        opacity: 0,
-        scale: 0.9
-    },
+    hidden: { opacity: 1, x: 0, y: 0, scale: 1 },
     visible: {
         opacity: 1,
         scale: 1,
@@ -93,10 +73,7 @@ export const spotlightHover = {
 // ===== Scroll-reveal variants (replaces CSS .animate-on-scroll) =====
 
 export const scrollReveal = {
-    hidden: {
-        opacity: 0,
-        y: 18,
-    },
+    hidden: { opacity: 1, x: 0, y: 0, scale: 1 },
     visible: {
         opacity: 1,
         y: 0,
@@ -108,10 +85,7 @@ export const scrollReveal = {
 };
 
 export const revealScale = {
-    hidden: {
-        opacity: 0,
-        scale: 0.92,
-    },
+    hidden: { opacity: 1, x: 0, y: 0, scale: 1 },
     visible: {
         opacity: 1,
         scale: 1,
@@ -123,10 +97,7 @@ export const revealScale = {
 };
 
 export const revealLeft = {
-    hidden: {
-        opacity: 0,
-        x: -40,
-    },
+    hidden: { opacity: 1, x: 0, y: 0, scale: 1 },
     visible: {
         opacity: 1,
         x: 0,
@@ -138,10 +109,7 @@ export const revealLeft = {
 };
 
 export const revealRight = {
-    hidden: {
-        opacity: 0,
-        x: 40,
-    },
+    hidden: { opacity: 1, x: 0, y: 0, scale: 1 },
     visible: {
         opacity: 1,
         x: 0,

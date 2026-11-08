@@ -55,8 +55,6 @@ const AIStudioBrief = () => {
         <section className="relative py-24 px-6 md:px-12 overflow-hidden">
             {/* Background HUD elements */}
             <div className="absolute top-0 left-0 w-full h-full pointer-events-none opacity-20">
-                <div className="absolute top-10 left-10 w-40 h-40 border-t border-l border-white/20"></div>
-                <div className="absolute bottom-10 right-10 w-40 h-40 border-b border-r border-white/20"></div>
                 <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:40px_40px]"></div>
             </div>
 
@@ -64,13 +62,13 @@ const AIStudioBrief = () => {
                 <div className="flex flex-col lg:flex-row gap-16 items-start">
 
                     {/* Left: Interactive Controls */}
-                    <div className="w-full lg:w-1/2 space-y-12">
+                    <div className="w-full lg:w-1/2 space-y-6">
                         <div>
                             <div className="flex items-center gap-3 text-[10px] uppercase font-bold tracking-[0.4em] text-white/40 mb-4">
                                 <Shield className="w-3 h-3 text-orange-500" />
                                 Service Sectors // OPERATIONS BRIEF
                             </div>
-                            <h2 className="text-4xl md:text-6xl font-black text-white italic uppercase leading-[0.95]">
+                            <h2 className="text-3xl xl:text-5xl font-black text-white italic uppercase leading-[0.95]">
                                 Mission-Grade <br />
                                 <span className="text-orange-500/80">Execution</span>
                             </h2>
@@ -84,9 +82,9 @@ const AIStudioBrief = () => {
                                 <button
                                     key={service.id}
                                     onClick={() => setActiveId(service.id)}
-                                    className={`group relative text-left p-6 rounded-2xl border transition-all duration-500 ${activeId === service.id
-                                        ? 'bg-white/10 border-white/20 backdrop-blur-xl translate-x-4'
-                                        : 'bg-transparent border-white/5 hover:border-white/10'
+                                    className={`group relative text-left p-5 sm:p-6 rounded-2xl border transition-all duration-500 ${activeId === service.id
+                                        ? 'bg-white/10 border-white/20 backdrop-blur-xl'
+                                        : 'bg-transparent border-white/15 hover:border-white/25'
                                         }`}
                                 >
                                     <div className="flex items-center justify-between">

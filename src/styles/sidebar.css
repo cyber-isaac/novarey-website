@@ -1,0 +1,107 @@
+/* Keep the dock's header, scrolling links, and footer in separate layout regions. */
+.sidebar-panel { min-height:0; max-width:100vw; }
+.sidebar-panel .sidebar-brand-area { padding-inline:14px; padding-bottom:10px; }
+.sidebar-panel .sidebar-brand { min-height:64px; padding:10px 12px; gap:12px; border-radius:16px; overflow:hidden; }
+.sidebar-panel .sidebar-logo-shell { width:40px; height:40px; padding:8px; border-radius:12px; }
+.sidebar-panel .sidebar-brand-area .min-w-0 { white-space:nowrap; }
+.sidebar-panel .sidebar-nav-scroll { padding:0 10px 12px 14px; scrollbar-gutter:stable; scroll-padding-block:12px; }
+.sidebar-panel .sidebar-section { margin-top:16px; }
+.sidebar-panel .sidebar-section:first-child { margin-top:4px; }
+.sidebar-panel .sidebar-section h3 { margin-bottom:8px; padding-inline:10px; line-height:1.5; white-space:nowrap; }
+.sidebar-panel .nav-item { gap:12px; padding-inline:10px; border-radius:12px; }
+.sidebar-panel .nav-icon { width:32px; height:32px; border-radius:9px; }
+.sidebar-panel .nav-item .nav-icon,
+.sidebar-panel .nav-item:hover .nav-icon,
+.sidebar-panel .nav-item:focus-visible .nav-icon,
+.sidebar-panel .nav-item.nav-item-active .nav-icon,
+.sidebar-panel .nav-item:hover .nav-label,
+.sidebar-panel .nav-item:focus-visible .nav-label { transform:none; filter:none; }
+.sidebar-panel .nav-status-dot { flex-shrink:0; }
+.sidebar-panel .sidebar-active-glass { border-radius:12px; box-shadow:inset 0 1px 0 #ffffff12; }
+.sidebar-panel .sidebar-active-glass::before,
+.sidebar-panel .sidebar-brand::before,
+.sidebar-panel .sidebar-cta::before,
+.sidebar-panel .sidebar-cta-mini::before { animation:none; }
+.sidebar-panel .sidebar-footer { padding:12px 14px 16px; border-top:1px solid #ffffff12; }
+.sidebar-panel .sidebar-cta { border-radius:14px; padding:12px; }
+.sidebar-panel .sidebar-cta .text-xs { font-size:11px; }
+.sidebar-panel :is(a,button):focus-visible { outline:2px solid #bfe5ff; outline-offset:-3px; }
+/* The compact rail needs its own geometry, rather than expanded card padding. */
+.sidebar-panel[data-collapsed=true] .sidebar-brand-area { padding-inline:12px; }
+.sidebar-panel[data-collapsed=true] .sidebar-brand { width:60px; min-height:60px; padding:0; gap:0; background:transparent; box-shadow:none; border-color:transparent; }
+.sidebar-panel[data-collapsed=true] .sidebar-brand::before,
+.sidebar-panel[data-collapsed=true] .sidebar-brand::after { display:none; }
+.sidebar-panel[data-collapsed=true] .sidebar-nav-scroll { padding-inline:10px 4px; }
+.sidebar-panel[data-collapsed=true] .nav-item { padding:0; gap:0; width:56px; margin-inline:auto; }
+.sidebar-panel[data-collapsed=true] .nav-icon { background:transparent; border-color:transparent; box-shadow:none; }
+.sidebar-panel[data-collapsed=true] .sidebar-section + .sidebar-section { padding-top:12px; margin-top:12px; border-top:1px solid #ffffff14; }
+.sidebar-panel[data-collapsed=true] .sidebar-footer { padding:12px 14px 16px; }
+.sidebar-panel[data-collapsed=true] .sidebar-toggle-btn { right:20px; }
+.sidebar-panel .sidebar-toggle-btn { width:44px; height:36px; }
+.theme-light .sidebar-toggle-btn { color:#334155; background:#fff; border-color:#cbd5e1; box-shadow:0 4px 12px rgb(15 23 42 / 8%); }
+.theme-light .sidebar-toggle-btn:hover { color:#0f172a; background:#e2e8f0; }
+.sidebar-panel[data-mobile=true] { height:100dvh; max-width:calc(100vw - 16px); }
+/* A single icon language: crisp glyphs, a persistent selection, one interaction scan. */
+.sidebar-panel .nav-item .nav-icon {
+  position:relative;
+  overflow:hidden;
+  color:#afbfce;
+  background:transparent;
+  border-color:transparent;
+  box-shadow:none;
+}
+.sidebar-panel .nav-icon .nav-glyph { width:20px; height:20px; flex-shrink:0; }
+.sidebar-panel .nav-item.nav-item-active .nav-icon {
+  color:var(--nav-accent);
+  background:rgb(var(--nav-accent-rgb) / .10);
+  border-color:rgb(var(--nav-accent-rgb) / .3);
+}
+.sidebar-panel .sidebar-active-glass {
+  background:rgb(var(--nav-accent-rgb) / .09);
+  border:1px solid rgb(var(--nav-accent-rgb) / .18);
+  border-left:3px solid var(--nav-accent);
+  box-shadow:none;
+}
+.sidebar-panel .sidebar-active-glass::before { display:none; }
+.sidebar-panel .nav-status-dot { display:none; }
+.sidebar-panel .nav-item:hover { box-shadow:none; }
+.sidebar-panel .nav-item:focus-visible .nav-icon { color:var(--nav-accent); background:rgb(var(--nav-accent-rgb) / .10); }
+.sidebar-panel .nav-icon::after {
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  opacity:0;
+  background:linear-gradient(180deg,transparent 30%,currentColor 49%,transparent 68%);
+  transform:translateY(-110%);
+}
+.sidebar-panel .nav-item:focus-visible .nav-icon::after { animation:nav-raster-pass .55s ease-out 1; }
+@media(hover:hover) {
+  .sidebar-panel .nav-item:hover .nav-icon { color:var(--nav-accent); background:rgb(var(--nav-accent-rgb) / .10); }
+  .sidebar-panel .nav-item:hover .nav-icon::after { animation:nav-raster-pass .55s ease-out 1; }
+}
+@keyframes nav-raster-pass {
+  0% { transform:translateY(-110%); opacity:0; }
+  35% { opacity:.28; }
+  100% { transform:translateY(110%); opacity:0; }
+}
+.theme-light .sidebar-panel .nav-item .nav-icon { color:#475569; background:transparent; border-color:transparent; box-shadow:none; }
+.theme-light .sidebar-panel .nav-item:is(:hover,:focus-visible,.nav-item-active) .nav-icon {
+  color:var(--nav-accent-ink,#155e75);
+  background:rgb(var(--nav-accent-rgb) / .10);
+  border-color:rgb(var(--nav-accent-rgb) / .25);
+}
+.theme-light .sidebar-panel .sidebar-active-glass { background:rgb(var(--nav-accent-rgb) / .09); border-left-color:var(--nav-accent-ink,#155e75); box-shadow:none; }
+.theme-light .sidebar-panel .nav-item.nav-item-active { color:#101827; }
+@media(prefers-reduced-motion:reduce) {
+  .sidebar-panel .nav-item .nav-icon::after,
+  .sidebar-panel .nav-item:is(:hover,:focus-visible) .nav-icon::after { animation:none; display:none; }
+  .sidebar-panel .nav-item .nav-icon { transition:none; }
+}
+@media(max-height:700px) {
+  .sidebar-panel .sidebar-brand-area { padding-bottom:6px; }
+  .sidebar-panel .sidebar-footer { padding-block:8px; }
+  .sidebar-panel .sidebar-cta .text-xs { display:none; }
+  .sidebar-panel .sidebar-cta { padding:9px 12px; }
+  .sidebar-panel .sidebar-section { margin-top:12px; }
+}

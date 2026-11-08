@@ -2,7 +2,18 @@
   publish = "dist"
   command = "npm run build"
 
-# Redirect all routes to index.html for SPA
+[[redirects]]
+  from = "/portfolio"
+  to = "/work"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/portfolio/"
+  to = "/work"
+  status = 301
+  force = true
+
 [[redirects]]
   from = "/*"
   to = "/app.html"

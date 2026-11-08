@@ -1,0 +1,46 @@
+/* Break layouts against the content beside the dock, rather than the window. */
+.app-shell.app-shell { min-height:100dvh; }
+.app-shell:not(.home-document-scroll) { height:100dvh; }
+.site-content { container:site-content / inline-size; }
+.site-header.site-header { flex-shrink:0; gap:16px; }
+.site-footer.site-footer { flex-shrink:0; padding-bottom:max(12px,env(safe-area-inset-bottom)); }
+.theme-select { display:none; }
+.theme-toggle-button.theme-toggle-button { min-width:44px; min-height:44px; display:flex; justify-content:center; align-items:center; }
+@container site-content (max-width:950px) {
+  .responsive-split.responsive-split { grid-template-columns:minmax(0,1fr); gap:28px; }
+  .service-story-visual.service-story-visual { position:relative; top:auto; height:auto; }
+  .service-story-image.service-story-image { height:360px; }
+  .site-footer-description.site-footer-description { display:none; }
+}
+@container site-content (max-width:600px) {
+  .info-card-grid.info-card-grid { grid-template-columns:minmax(0,1fr); gap:16px; }
+  .responsive-split.responsive-split { gap:24px; }
+  .service-story-image.service-story-image { height:280px; }
+  .contact-form-card :is(input,select,textarea) { font-size:16px; }
+}
+@media(max-width:1023px) {
+  .site-header.site-header { padding:12px 16px 12px 68px; gap:12px; }
+  .site-header .site-header-actions { margin-left:0; gap:10px; }
+  .site-header .site-search { max-width:none; }
+}
+@media(max-width:600px) {
+  .site-header.site-header { padding:12px 12px 12px 64px; gap:8px; }
+  .site-header .site-header-actions { gap:0; }
+  .theme-controls .theme-buttons { display:none; }
+  .theme-select { display:block; width:84px; min-height:44px; border:1px solid var(--border-1); border-radius:10px; padding:8px; color:var(--text-1); background:var(--surface-1); font-size:16px; }
+  .site-header input[type=search] { font-size:16px; min-height:44px; padding-right:12px; padding-left:34px; }
+  .site-header .site-search .absolute.left-4 { left:12px; }
+  .site-footer.site-footer { padding-inline:16px; padding-top:10px; }
+  .site-footer .tracking-\[0\.3em\] { font-size:10px; letter-spacing:.18em; }
+  .info-card.info-card--body { padding:20px; }
+  .ai-wrap { padding-inline:20px; }
+  .ai-hero { padding-top:32px; }
+}
+@media(min-width:601px) and (max-width:1023px) {
+  .info-card.info-card--body { padding:24px; }
+}
+
+@container site-content (min-width:700px) and (max-width:950px) {
+  .ai-card-grid.ai-card-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:20px; }
+  .ai-card-grid.ai-card-grid > :last-child:nth-child(odd) { grid-column:1 / -1; }
+}

@@ -12,16 +12,10 @@ export const searchIndex = [
         tags: ['about', 'isaac reyes', 'green beret', 'special forces', 'design', 'methodology']
     },
     {
-        title: 'Work Playground',
-        description: 'Apps, design systems, merch drops, and roadmap plans.',
+        title: 'Selected work',
+        description: 'Website design, graphic design, motion, and heritage artwork by Isaac Reyes.',
         href: '/work',
-        tags: ['work', 'apps', 'design systems', 'merch', 'roadmap', 'command console', 'signal pipeline']
-    },
-    {
-        title: 'Portfolio',
-        description: 'Featured work, motion studio, web archive, and results.',
-        href: '/portfolio',
-        tags: ['portfolio', 'case studies', 'motion', 'after effects', 'web', 'branding']
+        tags: ['work', 'apps', 'design systems', 'merch', 'roadmap', 'portfolio', 'artwork']
     },
     {
         title: 'AI Strategy',

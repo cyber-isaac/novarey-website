@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
-import { Sparkles, ArrowRight } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Button from '../ui/Button';
 
@@ -18,7 +18,7 @@ const ParallaxHero = ({
 
     return (
         <section
-            className="relative overflow-hidden min-h-[620px] max-h-[900px]"
+            className="portfolio-hero relative overflow-hidden min-h-[620px] max-h-[900px]"
             style={{ height }}
         >
             <motion.div
@@ -31,12 +31,11 @@ const ParallaxHero = ({
                     className="absolute inset-0 bg-contain bg-no-repeat bg-right-bottom md:bg-right"
                     style={{ backgroundImage: `url(${backgroundImage})` }}
                 />
-                <div className="absolute inset-0 bg-gradient-to-r from-[#0D0C12] via-[#0D0C12]/78 to-[#0D0C12]/10" />
-                <div className="absolute inset-0 bg-gradient-to-b from-black/35 via-transparent to-[#0D0C12]" />
+                <div className="portfolio-hero-shade absolute inset-0 bg-gradient-to-r from-[#0D0C12] via-[#0D0C12]/78 to-[#0D0C12]/10" />
+                <div className="portfolio-hero-vignette absolute inset-0 bg-gradient-to-b from-black/35 via-transparent to-[#0D0C12]" />
             </motion.div>
 
-            <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#0D0C12] to-transparent" />
-
+            <div className="portfolio-hero-fade absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#0D0C12] to-transparent" />
             <motion.div
                 className="relative z-10 flex h-full items-end p-6 pb-12 sm:p-8 md:p-14 lg:p-20"
                 initial={reduceMotion ? false : { opacity: 0, y: 20 }}
@@ -45,7 +44,6 @@ const ParallaxHero = ({
             >
                 <div className="max-w-4xl">
                     <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-4 py-2 backdrop-blur-md">
-                        <Sparkles className="h-4 w-4 text-orange-400" />
                         <span className="hero-chip-text text-white/80">
                             {tagline}
                         </span>

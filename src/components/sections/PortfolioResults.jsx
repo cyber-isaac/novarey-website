@@ -53,7 +53,7 @@ const PortfolioResults = () => {
                                 Successful projects delivered with <span className="text-orange-500 font-bold">clear creative</span> precision across diverse industries.
                             </p>
                             <div className="flex -space-x-3 mb-6">
-                                {[Palette, Layout, TrendingUp].map((Icon, i) => (
+                                {[Palette, Layout, BarChart3].map((Icon, i) => (
                                     <div key={i} className="w-10 h-10 rounded-full bg-[#1A1825] border border-white/10 flex items-center justify-center text-slate-400">
                                         <Icon className="w-4 h-4" />
                                     </div>

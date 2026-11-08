@@ -232,7 +232,7 @@ const FileViewer = () => {
                         </div>
                     </motion.div>
 
-                    <motion.footer className="mt-20 pt-10 border-t border-white/5 text-center" variants={scrollReveal} initial="hidden" whileInView="visible" viewport={viewportConfig}>
+                    <motion.footer className="mt-20 pt-10 border-t border-white/5 text-center" variants={scrollReveal} initial={false} whileInView="visible" viewport={viewportConfig}>
                         <div className="text-[10px] font-mono text-slate-600 uppercase tracking-[0.5em]">
                             End of Transmission // Novarey Ventures Declassified
                         </div>
